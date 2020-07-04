@@ -97,35 +97,35 @@
 
 
   
-  <meta name="keywords" content="Hive,Hive 优化," />
+  <meta name="keywords" content="Presto," />
 
 
-<meta name="description" content="1. Join如何运行首先，让我们讨论一下 Join 如何在Hive中运行。Common Join 操作如图1所示被编译为 MapReduce 任务。Common Join 任务涉及 Map 阶段和 Reduce 阶段。Mapper 从连接表中读取数据并将连接的 key 和连接的 value 键值对输出到中间文件中。Hadoop 在所谓的 shuffle 阶段对这些键值对进行排序和合并。Reduc">
-<meta name="keywords" content="Hive,Hive 优化">
+<meta name="description" content="在 Presto 中，我们需要了解一些非常重要的数据结构，例如，Slice，Block 以及 Page，下面将介绍这些数据结构。 1. Slice从用户的角度来看，Slice 是一个对开发人员更友好的虚拟内存，它定义了一组 getter 和 setter 方法，因此我们可以像使用结构化数据一样使用内存：  Slice 常用来表示一个字符串：// use it as utf8 encoded str">
+<meta name="keywords" content="Presto">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hive Map Join 原理">
-<meta property="og:url" content="http://smartsi.club/hive-optimization-how-to-use-map-join.html">
+<meta property="og:title" content="Presto 核心数据结构：Slice、Page、Block">
+<meta property="og:url" content="http://smartsi.club/presto-core-data-structures-slice-block-and-page.html">
 <meta property="og:site_name" content="SmartSi">
-<meta property="og:description" content="1. Join如何运行首先，让我们讨论一下 Join 如何在Hive中运行。Common Join 操作如图1所示被编译为 MapReduce 任务。Common Join 任务涉及 Map 阶段和 Reduce 阶段。Mapper 从连接表中读取数据并将连接的 key 和连接的 value 键值对输出到中间文件中。Hadoop 在所谓的 shuffle 阶段对这些键值对进行排序和合并。Reduc">
+<meta property="og:description" content="在 Presto 中，我们需要了解一些非常重要的数据结构，例如，Slice，Block 以及 Page，下面将介绍这些数据结构。 1. Slice从用户的角度来看，Slice 是一个对开发人员更友好的虚拟内存，它定义了一组 getter 和 setter 方法，因此我们可以像使用结构化数据一样使用内存：  Slice 常用来表示一个字符串：// use it as utf8 encoded str">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hive/hive-optimization-how-to-use-map-join-1.jpg?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hive/hive-optimization-how-to-use-map-join-2.jpg?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hive/hive-optimization-how-to-use-map-join-3.jpg?raw=true">
-<meta property="og:updated_time" content="2019-10-26T03:57:13.000Z">
+<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Presto/presto-core-data-structures-slice-block-and-page-1.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Presto/presto-core-data-structures-slice-block-and-page-2.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Presto/presto-core-data-structures-slice-block-and-page-3.png?raw=true">
+<meta property="og:updated_time" content="2020-07-04T06:16:54.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hive Map Join 原理">
-<meta name="twitter:description" content="1. Join如何运行首先，让我们讨论一下 Join 如何在Hive中运行。Common Join 操作如图1所示被编译为 MapReduce 任务。Common Join 任务涉及 Map 阶段和 Reduce 阶段。Mapper 从连接表中读取数据并将连接的 key 和连接的 value 键值对输出到中间文件中。Hadoop 在所谓的 shuffle 阶段对这些键值对进行排序和合并。Reduc">
-<meta name="twitter:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hive/hive-optimization-how-to-use-map-join-1.jpg?raw=true">
+<meta name="twitter:title" content="Presto 核心数据结构：Slice、Page、Block">
+<meta name="twitter:description" content="在 Presto 中，我们需要了解一些非常重要的数据结构，例如，Slice，Block 以及 Page，下面将介绍这些数据结构。 1. Slice从用户的角度来看，Slice 是一个对开发人员更友好的虚拟内存，它定义了一组 getter 和 setter 方法，因此我们可以像使用结构化数据一样使用内存：  Slice 常用来表示一个字符串：// use it as utf8 encoded str">
+<meta name="twitter:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Presto/presto-core-data-structures-slice-block-and-page-1.png?raw=true">
 
 
 
 
 
 
-  <link rel="canonical" href="http://smartsi.club/hive-optimization-how-to-use-map-join.html"/>
+  <link rel="canonical" href="http://smartsi.club/presto-core-data-structures-slice-block-and-page.html"/>
 
 
-  <title>Hive Map Join 原理 | SmartSi</title>
+  <title>Presto 核心数据结构：Slice、Page、Block | SmartSi</title>
   
 
 
@@ -306,7 +306,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://smartsi.club/hive-optimization-how-to-use-map-join.html">
+    <link itemprop="mainEntityOfPage" href="http://smartsi.club/presto-core-data-structures-slice-block-and-page.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="sjf0115">
@@ -323,7 +323,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">Hive Map Join 原理</h2>
+          <h2 class="post-title" itemprop="name headline">Presto 核心数据结构：Slice、Page、Block</h2>
         
 
         <div class="post-meta">
@@ -335,7 +335,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-02T20:30:01+08:00">2017-11-02</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-26T23:09:01+08:00">2020-02-26</time>
             
 
             
@@ -355,7 +355,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Hive/" itemprop="url" rel="index"><span itemprop="name">Hive</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Presto/" itemprop="url" rel="index"><span itemprop="name">Presto</span></a></span>
 
                 
                 
@@ -370,8 +370,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/hive-optimization-how-to-use-map-join.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/hive-optimization-how-to-use-map-join.html" itemprop="commentCount"></span>
+                <a href="/presto-core-data-structures-slice-block-and-page.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/presto-core-data-structures-slice-block-and-page.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -379,7 +379,7 @@
 
           
           
-             <span id="/hive-optimization-how-to-use-map-join.html" class="leancloud_visitors" data-flag-title="Hive Map Join 原理">
+             <span id="/presto-core-data-structures-slice-block-and-page.html" class="leancloud_visitors" data-flag-title="Presto 核心数据结构：Slice、Page、Block">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -410,22 +410,37 @@
       
 
       
-        <h3 id="1-Join如何运行"><a href="#1-Join如何运行" class="headerlink" title="1. Join如何运行"></a>1. Join如何运行</h3><p>首先，让我们讨论一下 Join 如何在Hive中运行。Common Join 操作如图1所示被编译为 MapReduce 任务。Common Join 任务涉及 Map 阶段和 Reduce 阶段。Mapper 从连接表中读取数据并将连接的 key 和连接的 value 键值对输出到中间文件中。Hadoop 在所谓的 shuffle 阶段对这些键值对进行排序和合并。Reducer 将排序结果作为输入，并进行实Join。Shuffle 阶段代价非常昂贵，因为它需要排序和合并。减少 Shuffle 和 Reduce 阶段的代价可以提高任务性能。</p>
-<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hive/hive-optimization-how-to-use-map-join-1.jpg?raw=true" alt=""></p>
-<p>Map Join 的目的是减少 Shuffle 和 Reducer 阶段的代价，并仅在 Map 阶段进行 Join。通过这样做，当其中一个连接表足够小可以装进内存时，所有 Mapper 都可以将数据保存在内存中并完成 Join。因此，所有 Join 操作都可以在 Mapper 阶段完成。但是，这种类型的 Map Join 存在一些扩展问题。当成千上万个 Mapper 同时从 HDFS 将小的连接表读入内存时，连接表很容易成为性能瓶颈，导致 Mapper 在读取操作期间超时。</p>
-<h3 id="2-使用分布式缓存"><a href="#2-使用分布式缓存" class="headerlink" title="2. 使用分布式缓存"></a>2. 使用分布式缓存</h3><p><a href="https://issues.apache.org/jira/browse/HIVE-1641" target="_blank" rel="noopener">Hive-1641</a> 解决了这个扩展问题。优化的基本思想是在原始 Join 的 MapReduce 任务之前创建一个新的 MapReduce 本地任务。这个新任务是将小表数据从 HDFS 上读取到内存中的哈希表中。读完后，将内存中的哈希表序列化为哈希表文件。在下一阶段，当 MapReduce 任务启动时，会将这个哈希表文件上传到 Hadoop 分布式缓存中，该缓存会将这些文件发送到每个 Mapper 的本地磁盘上。因此，所有 Mapper 都可以将此持久化的哈希表文件加载回内存，并像之前一样进行 Join。优化的 Map Join 的执行流程如下图所示。优化后，小表只需要读取一次。此外，如果多个 Mapper 在同一台机器上运行，则分布式缓存只需将哈希表文件的一个副本发送到这台机器上。</p>
-<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hive/hive-optimization-how-to-use-map-join-2.jpg?raw=true" alt=""></p>
-<p>由于 Map Join 比 Common Join 更快，因此最好尽可能运行 Map Join。以前，Hive用户需要在查询中给出提示来指定哪一个是小表。例如：<br><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span>　<span class="comment">/*+MAPJOIN（a）*/</span> <span class="keyword">FROM</span> src1 x <span class="keyword">JOIN</span> src2 y <span class="keyword">ON</span> x.key = y.key;。</span><br></pre></td></tr></table></figure></p>
-<p>这种方式用户体验不好，因为有时用户可能会提供错误的提示或者根本不提供任何提示。在没有用户提示的情况下将 Common Join 转换为 Map Join 用户体验会更好。</p>
-<h3 id="3-根据文件大小将Join转换为MapJoin"><a href="#3-根据文件大小将Join转换为MapJoin" class="headerlink" title="3. 根据文件大小将Join转换为MapJoin"></a>3. 根据文件大小将Join转换为MapJoin</h3><p><a href="https://issues.apache.org/jira/browse/HIVE-1642" target="_blank" rel="noopener">Hive-1642</a> 通过自动将 Common Join 转换为 Map Join 来解决此问题。对于 Map Join，查询处理器应该知道哪个输入表是大表。其他输入表在执行阶段被识别为小表，并将这些表保存在内存中。然而，查询处理器在编译时不知道输入文件大小，因为一些表可能是从子查询生成的中间表。因此查询处理器只能在执行期间计算出输入文件的大小。</p>
-<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hive/hive-optimization-how-to-use-map-join-3.jpg?raw=true" alt=""></p>
-<p>如上图所示，左侧流程显示了先前的 Common Join 执行流程，这非常简单。另一方面，右侧流程是新的 Common Join 执行流程。在编译期间，查询处理器生成一个包含任务列表的 Conditional Task。在执行期间运行其中一个任务。首先，应将原始的 Common Join 任务放入任务列表中。然后，查询处理器通过假设每个输入表可能是大表来生成一系列的 Map Join 任务。例如，<code>select * from src1 x join src2 y on x.key=y.key</code>。因为表 src2 和 src1 都可以是大表，所以处理器生成两个 Map Join 任务，其中一个假设 src1 是大表，另一个假设 src2 是大表。</p>
-<p>在执行阶段，Conditional Task 知道每个输入表的确切文件大小，即使该表是中间表。如果所有表都太大而无法转换为 Map Join，那么只能像以前一样运行 Common Join 任务。如果其中一个表很大而其他表足够小可以运行 Map Join，则将 Conditional Task 选择相应 Map Join 本地任务来运行。通过这种机制，可以自动和动态地将 Common Join 转换为 Map Join。</p>
-<p>目前，如果小表的总大小大于25MB，Conditional Task 会选择原始 Common Join 来运行。25MB是一个非常保守的数字，你可以使用 <code>set hive.smalltable.filesize</code> 来修改。</p>
-<h3 id="4-Example"><a href="#4-Example" class="headerlink" title="4. Example"></a>4. Example</h3><p>我们具体看一个 Map Join:<br><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> active.md5KeyId, active.active_time, click.click_time</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">(</span><br><span class="line">  <span class="keyword">SELECT</span> md5KeyId, active_time</span><br><span class="line">  <span class="keyword">FROM</span> adv_push_active</span><br><span class="line">  <span class="keyword">WHERE</span> <span class="keyword">month</span> = <span class="string">'201711'</span> <span class="keyword">AND</span> <span class="keyword">substr</span>(activeTime, <span class="number">1</span>, <span class="number">10</span>) = <span class="string">'2017-11-02'</span></span><br><span class="line">) active</span><br><span class="line"><span class="keyword">JOIN</span></span><br><span class="line">(</span><br><span class="line">  <span class="keyword">SELECT</span> md5KeyId, click_time</span><br><span class="line">  <span class="keyword">FROM</span> adv_push_click</span><br><span class="line">  <span class="keyword">WHERE</span> dt = <span class="string">'20171102'</span></span><br><span class="line">) click</span><br><span class="line"><span class="keyword">ON</span> <span class="keyword">upper</span>(active.md5KeyId) = <span class="keyword">upper</span>(click.md5KeyId);</span><br></pre></td></tr></table></figure></p>
-<p>输出信息如下：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">2017-11-02 17:32:55  Starting to launch local task to process map join; maximum memory = 514850816</span><br><span class="line">2017-11-02 17:33:01  Dump the side-table for tag: 0 with group count: 162 into file: file:/tmp/smartsi/xxx/hive_2017-11-02_17-32-16_498_230990327610539360-1/-local-10004/HashTable-Stage-3/MapJoin-mapfile70--.hashtable</span><br><span class="line">2017-11-02 17:33:01  Uploaded 1 File to: file:/tmp/smartsi/xxx/hive_2017-11-02_17-32-16_498_230990327610539360-1/-local-10004/HashTable-Stage-3/MapJoin-mapfile70--.hashtable (17191 bytes)</span><br><span class="line">2017-11-02 17:33:01  End of local task; Time Taken: 5.852 sec.</span><br><span class="line">Execution completed successfully</span><br><span class="line">MapredLocal task succeeded</span><br><span class="line">Launching Job 1 out of 1</span><br><span class="line">Number of reduce tasks is set to 0 since there no reduce operator</span><br><span class="line">...</span><br><span class="line">Hadoop job information for Stage-3: number of mappers: 789; number of reducers: 0</span><br><span class="line">2017-11-02 17:33:13,789 Stage-3 map = 0%,  reduce = 0%</span><br><span class="line">2017-11-02 17:34:14,076 Stage-3 map = 0%,  reduce = 0%, Cumulative CPU 3229.1 sec</span><br></pre></td></tr></table></figure></p>
-<p>我们可以看到在原始 Join 的 MapReduce 任务之前创建了一个 MapReduce Local Task。这个新任务是将小表数据从 HDFS 上读取到内存中的哈希表中，并列化为哈希表文件。后面会将这个哈希表文件上传到 Hadoop 分布式缓存中。该缓存会将这些文件发送到每个 Mapper 的本地磁盘上。这些完成之后才会启动一个只有 Map Task 的 MapReduce 作业来完成 Join。</p>
-<p>原文：<a href="https://www.facebook.com/note.php?note_id=470667928919" target="_blank" rel="noopener">https://www.facebook.com/note.php?note_id=470667928919</a></p>
+        <p>在 Presto 中，我们需要了解一些非常重要的数据结构，例如，Slice，Block 以及 Page，下面将介绍这些数据结构。</p>
+<h3 id="1-Slice"><a href="#1-Slice" class="headerlink" title="1. Slice"></a>1. Slice</h3><p>从用户的角度来看，Slice 是一个对开发人员更友好的虚拟内存，它定义了一组 getter 和 setter 方法，因此我们可以像使用结构化数据一样使用内存：</p>
+<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Presto/presto-core-data-structures-slice-block-and-page-1.png?raw=true" alt=""></p>
+<p>Slice 常用来表示一个字符串：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// use it as utf8 encoded string</span></span><br><span class="line">Slice slice = Slices.utf8Slice(<span class="string">"hello"</span>);</span><br><span class="line">Slice subSlice = SliceUtf8.substring(slice, <span class="number">1</span>, <span class="number">2</span>);</span><br></pre></td></tr></table></figure></p>
+<p>我们可以像使用字符串一样使用 Slice，Presto 为什么选择 Slice 而不是 String：</p>
+<ul>
+<li>字符串创建代价昂贵（字符串拼接，StringBuilder等）。</li>
+<li>Slice 是可变的，而 String 是不可变的，因此当我们需要进行字符串计算时，效率更高。</li>
+<li>字符串在内存中编码为 UTF16，而 Slice 使用 UTF8，这样可以提高内存效率。UTF16 最少使用两个字节来表示一个字符，而 UTF8 最少使用一个字节，因此，如果 String 内容主要是 ASCII 字符，则 UTF8 可以节省大量内存。</li>
+</ul>
+<p>Slice（在 Presto 中）的另一种用法是表示原始字节（SQL中的 VARBINARY 类型）：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// use it as raw bytes</span></span><br><span class="line">block.getSlice().getBytes()</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-Block"><a href="#2-Block" class="headerlink" title="2. Block"></a>2. Block</h3><p>由于 Page 由 Block 组成，因此我们首先介绍 Block。Block 可以认为是同一类数据（int，long，Slice等）的数组。每个数据项都有一个 <code>position</code>，总位置个数代表 Block 中数据的总行数（Block 仅保存这些行中的一列）。</p>
+<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Presto/presto-core-data-structures-slice-block-and-page-2.png?raw=true" alt=""></p>
+<p>Block 定义了好几套 API，其中一个是 getXXX 方法，让我们以 getInt 为例：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Gets a little endian int at &#123;<span class="doctag">@code</span> offset&#125; in the value at &#123;<span class="doctag">@code</span> position&#125;.</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line"><span class="function"><span class="keyword">default</span> <span class="keyword">int</span> <span class="title">getInt</span><span class="params">(<span class="keyword">int</span> position, <span class="keyword">int</span> offset)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> UnsupportedOperationException(getClass().getName());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>通常，一个 Block 仅支持一种 getXxx 方法，因为一个 Block 中的数据都来自同一列，并且具有相同的类型。</p>
+<p>Block 定义的另一个方法是 copyPositions，来代替从 Block 中获取某个值，通过返回一个新的 Block 来从指定的位置列表获取一组值：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Returns a block containing the specified positions.</span></span><br><span class="line"><span class="comment"> * All specified positions must be valid for this block.</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> * The returned block must be a compact representation of the original block.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function">Block <span class="title">copyPositions</span><span class="params">(List&lt;Integer&gt; positions)</span></span>;</span><br></pre></td></tr></table></figure></p>
+<p>Presto 还定义了 BlockEncoding，定义了如何对 Block 进行序列化和反序列化：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BlockEncoding</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Read a block from the specified input.  The returned</span></span><br><span class="line"><span class="comment">     * block should begin at the specified position.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">Block <span class="title">readBlock</span><span class="params">(SliceInput input)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Write the specified block to the specified output</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">writeBlock</span><span class="params">(SliceOutput sliceOutput, Block block)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们以最简单的 BlockEncoding：IntArrayBlockEncoding 为例，其 readBlock 如下所示：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> positionCount = block.getPositionCount();</span><br><span class="line">sliceOutput.appendInt(positionCount);</span><br><span class="line"></span><br><span class="line">encodeNullsAsBits(sliceOutput, block);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> position = <span class="number">0</span>; position &lt; positionCount; position++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!block.isNull(position)) &#123;</span><br><span class="line">        sliceOutput.writeInt(block.getInt(position, <span class="number">0</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="3-Page"><a href="#3-Page" class="headerlink" title="3. Page"></a>3. Page</h3><p>Page 由不同的 Block 组成:<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Page</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Block[] blocks;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> positionCount;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>除 Block 外，Page 还有另一个称为 Channel 的概念：每个 Block 都是该 Page 的 Channel，Block 的总数就是 Channel 数。因此，让我们在这里总结一下数据是如何结构化的，当要发送一些行时，Presto 将:</p>
+<ul>
+<li>将每一列放入单独的 Block 中。</li>
+<li>将这些 Block 放入一个 Page 中。</li>
+<li>发送 Page。</li>
+</ul>
+<p>Page 是保存数据并在 Presto 物理执行算子之间传输的数据结构：上游算子通过 getOutput() 产生输出：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Gets an output page from the operator.  If no output data is currently</span></span><br><span class="line"><span class="comment"> * available, return null.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function">Page <span class="title">getOutput</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure></p>
+<p>下游算子通过 addInput() 方法获取输入：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Adds an input page to the operator.  This method will only be called if</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@code</span> needsInput()&#125; returns true.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">addInput</span><span class="params">(Page page)</span></span>;</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Presto/presto-core-data-structures-slice-block-and-page-3.png?raw=true" alt=""></p>
+<p>就像 Block 一样，Page 也需要序列化和反序列化，序列化发生在工作进程之间传输数据时。Page 进行序列化时，首先使用相应的 BlockEncoding 对 Block 进行编码。如果有压缩器，将尝试对编码的块数据进行压缩，如果压缩效果良好（编码率低于0.8），将使用压缩数据，否则使用未压缩的数据。编码后的块数据将与一些统计信息(压缩前后页面的字节大小)一起放入名为 SerializedPage 的类中。</p>
+<h3 id="4-总结"><a href="#4-总结" class="headerlink" title="4. 总结"></a>4. 总结</h3><p>我们介绍了 Presto 中三个核心数据结构：Slice，Block 和 Page。简而言之，Slice 是对开发人员更友好的虚拟内存，Block 代表列，Page 代表行组。</p>
+<p><a href="https://zhuanlan.zhihu.com/p/60813087" target="_blank" rel="noopener">原文</a></p>
 
       
     </div>
@@ -475,7 +490,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://smartsi.club/hive-optimization-how-to-use-map-join.html" title="Hive Map Join 原理">http://smartsi.club/hive-optimization-how-to-use-map-join.html</a>
+    <a href="http://smartsi.club/presto-core-data-structures-slice-block-and-page.html" title="Presto 核心数据结构：Slice、Page、Block">http://smartsi.club/presto-core-data-structures-slice-block-and-page.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -490,9 +505,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Hive/" rel="tag"># Hive</a>
-          
-            <a href="/tags/Hive-优化/" rel="tag"># Hive 优化</a>
+            <a href="/tags/Presto/" rel="tag"># Presto</a>
           
         </div>
       
@@ -505,8 +518,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/hadoop-base-multiple-output-format.html" rel="next" title="Hadoop 多文件输出MultipleOutputFormat">
-                <i class="fa fa-chevron-left"></i> Hadoop 多文件输出MultipleOutputFormat
+              <a href="/how-install-and-startup-presto.html" rel="next" title="Presto 安装与部署">
+                <i class="fa fa-chevron-left"></i> Presto 安装与部署
               </a>
             
           </div>
@@ -514,10 +527,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/hexo_generate_blog.html" rel="prev" title="Hexo 搭建静态博客">
-                Hexo 搭建静态博客 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -733,7 +742,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Join如何运行"><span class="nav-number">1.</span> <span class="nav-text">1. Join如何运行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-使用分布式缓存"><span class="nav-number">2.</span> <span class="nav-text">2. 使用分布式缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-根据文件大小将Join转换为MapJoin"><span class="nav-number">3.</span> <span class="nav-text">3. 根据文件大小将Join转换为MapJoin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Example"><span class="nav-number">4.</span> <span class="nav-text">4. Example</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Slice"><span class="nav-number">1.</span> <span class="nav-text">1. Slice</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Block"><span class="nav-number">2.</span> <span class="nav-text">2. Block</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Page"><span class="nav-number">3.</span> <span class="nav-text">3. Page</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-总结"><span class="nav-number">4.</span> <span class="nav-text">4. 总结</span></a></li></ol></div>
             
 
           </div>
