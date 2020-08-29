@@ -97,33 +97,38 @@
 
 
   
-  <meta name="keywords" content="HBase," />
+  <meta name="keywords" content="Docker,ZooKeeper," />
 
 
-<meta name="description" content="1. 简介命名空间是表的逻辑分组，类似于关系数据库系统中的数据库。这种抽象为多租户相关功能奠定了基础：  配额管理(HBASE-8410）：限制一个命名空间可以使用的资源(Region或者Table等)。 命名空间安全管理(HBASE-9206)：为多租户提供另一级别的安全管理。 RegionServer组(HBASE-6721)：一个命名空间或一张表，可以被固定到一组 RegionServer">
-<meta name="keywords" content="HBase">
+<meta name="description" content="这篇文章中我们将使用 Docker 创建 Zookeeper 镜像，包括如何将 Zookeeper 安装到容器，如何配置 ZooKeeper 应用程序以及如何在宿主机和容器之间共享数据卷。 本教程利用 Dockerfile 来指定容器的内容。如果您需要有关编写 Dockerfile 的更多信息，请参阅官方文档。 1. 指定基础镜像Docker 容器基于基础 Linux 映像构建而成。这些镜像提供了">
+<meta name="keywords" content="Docker,ZooKeeper">
 <meta property="og:type" content="article">
-<meta property="og:title" content="HBase 命名空间 Namespace">
-<meta property="og:url" content="http://smartsi.club/hbase-namespace-commands-examples.html">
+<meta property="og:title" content="使用Docker构建ZooKeeper镜像">
+<meta property="og:url" content="http://smartsi.club/build-zookeeper-image-with-docker.html">
 <meta property="og:site_name" content="SmartSi">
-<meta property="og:description" content="1. 简介命名空间是表的逻辑分组，类似于关系数据库系统中的数据库。这种抽象为多租户相关功能奠定了基础：  配额管理(HBASE-8410）：限制一个命名空间可以使用的资源(Region或者Table等)。 命名空间安全管理(HBASE-9206)：为多租户提供另一级别的安全管理。 RegionServer组(HBASE-6721)：一个命名空间或一张表，可以被固定到一组 RegionServer">
+<meta property="og:description" content="这篇文章中我们将使用 Docker 创建 Zookeeper 镜像，包括如何将 Zookeeper 安装到容器，如何配置 ZooKeeper 应用程序以及如何在宿主机和容器之间共享数据卷。 本教程利用 Dockerfile 来指定容器的内容。如果您需要有关编写 Dockerfile 的更多信息，请参阅官方文档。 1. 指定基础镜像Docker 容器基于基础 Linux 映像构建而成。这些镜像提供了">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/docker/build-zookeeper-image-with-docker-1.jpg?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/docker/build-zookeeper-image-with-docker-2.jpg?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/docker/build-zookeeper-image-with-docker-3.jpg?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/docker/build-zookeeper-image-with-docker-4.jpg?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/ZooKeeper/zookeeper-study.jpg?raw=true">
 <meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Other/smartsi.jpg?raw=true">
-<meta property="og:updated_time" content="2019-11-16T10:48:39.000Z">
+<meta property="og:updated_time" content="2020-08-29T08:36:05.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="HBase 命名空间 Namespace">
-<meta name="twitter:description" content="1. 简介命名空间是表的逻辑分组，类似于关系数据库系统中的数据库。这种抽象为多租户相关功能奠定了基础：  配额管理(HBASE-8410）：限制一个命名空间可以使用的资源(Region或者Table等)。 命名空间安全管理(HBASE-9206)：为多租户提供另一级别的安全管理。 RegionServer组(HBASE-6721)：一个命名空间或一张表，可以被固定到一组 RegionServer">
-<meta name="twitter:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Other/smartsi.jpg?raw=true">
+<meta name="twitter:title" content="使用Docker构建ZooKeeper镜像">
+<meta name="twitter:description" content="这篇文章中我们将使用 Docker 创建 Zookeeper 镜像，包括如何将 Zookeeper 安装到容器，如何配置 ZooKeeper 应用程序以及如何在宿主机和容器之间共享数据卷。 本教程利用 Dockerfile 来指定容器的内容。如果您需要有关编写 Dockerfile 的更多信息，请参阅官方文档。 1. 指定基础镜像Docker 容器基于基础 Linux 映像构建而成。这些镜像提供了">
+<meta name="twitter:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/docker/build-zookeeper-image-with-docker-1.jpg?raw=true">
 
 
 
 
 
 
-  <link rel="canonical" href="http://smartsi.club/hbase-namespace-commands-examples.html"/>
+  <link rel="canonical" href="http://smartsi.club/build-zookeeper-image-with-docker.html"/>
 
 
-  <title>HBase 命名空间 Namespace | SmartSi</title>
+  <title>使用Docker构建ZooKeeper镜像 | SmartSi</title>
   
 
 
@@ -304,7 +309,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://smartsi.club/hbase-namespace-commands-examples.html">
+    <link itemprop="mainEntityOfPage" href="http://smartsi.club/build-zookeeper-image-with-docker.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="sjf0115">
@@ -321,7 +326,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">HBase 命名空间 Namespace</h2>
+          <h2 class="post-title" itemprop="name headline">使用Docker构建ZooKeeper镜像</h2>
         
 
         <div class="post-meta">
@@ -333,7 +338,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-16T13:55:01+08:00">2019-11-16</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-24T15:37:43+08:00">2020-08-24</time>
             
 
             
@@ -353,7 +358,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/HBase/" itemprop="url" rel="index"><span itemprop="name">HBase</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a></span>
 
                 
                 
@@ -368,8 +373,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/hbase-namespace-commands-examples.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/hbase-namespace-commands-examples.html" itemprop="commentCount"></span>
+                <a href="/build-zookeeper-image-with-docker.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/build-zookeeper-image-with-docker.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -377,7 +382,7 @@
 
           
           
-             <span id="/hbase-namespace-commands-examples.html" class="leancloud_visitors" data-flag-title="HBase 命名空间 Namespace">
+             <span id="/build-zookeeper-image-with-docker.html" class="leancloud_visitors" data-flag-title="使用Docker构建ZooKeeper镜像">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -408,46 +413,43 @@
       
 
       
-        <h3 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h3><p>命名空间是表的逻辑分组，类似于关系数据库系统中的数据库。这种抽象为多租户相关功能奠定了基础：</p>
-<ul>
-<li>配额管理(<a href="https://issues.apache.org/jira/browse/HBASE-8410" target="_blank" rel="noopener">HBASE-8410</a>）：限制一个命名空间可以使用的资源(Region或者Table等)。</li>
-<li>命名空间安全管理(<a href="https://issues.apache.org/jira/browse/HBASE-9206" target="_blank" rel="noopener">HBASE-9206</a>)：为多租户提供另一级别的安全管理。</li>
-<li>RegionServer组(<a href="https://issues.apache.org/jira/browse/HBASE-6721" target="_blank" rel="noopener">HBASE-6721</a>)：一个命名空间或一张表，可以被固定到一组 RegionServer 上，从而保证了数据隔离性。</li>
-</ul>
-<h3 id="2-命名空间管理"><a href="#2-命名空间管理" class="headerlink" title="2. 命名空间管理"></a>2. 命名空间管理</h3><p>可以创建，删除或修改命名空间。命名空间成员是在表创建期间通过指定完全限定表名来确定：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;table namespace&gt;:&lt;table qualifier&gt;</span><br></pre></td></tr></table></figure></p>
-<p>有如下常用的命名空间命令：</p>
-<ul>
-<li><code>create_namespace</code></li>
-<li><code>describe_namespace</code></li>
-<li><code>list_namespace</code></li>
-<li><code>alter_namespace</code></li>
-<li><code>list_namespace_tables</code></li>
-<li><code>drop_namespace</code></li>
-</ul>
-<h4 id="2-1-创建命名空间"><a href="#2-1-创建命名空间" class="headerlink" title="2.1 创建命名空间"></a>2.1 创建命名空间</h4><p>可以使用 <code>create_namespace</code> 命令创建命名空间：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hbase&gt; create_namespace &apos;ns1&apos;</span><br></pre></td></tr></table></figure></p>
-<p>也可以通过可选的配置字典来创建命名空间：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hbase&gt; create_namespace &apos;ns1&apos;, &#123;&apos;PROPERTY_NAME&apos;=&gt;&apos;PROPERTY_VALUE&apos;&#125;</span><br></pre></td></tr></table></figure></p>
-<h4 id="2-2-查看命名空间"><a href="#2-2-查看命名空间" class="headerlink" title="2.2 查看命名空间"></a>2.2 查看命名空间</h4><p>可以使用 <code>describe_namespace</code> 命令查看命名空间：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hbase(main):017:0&gt; describe_namespace &apos;ns1&apos;</span><br><span class="line">DESCRIPTION</span><br><span class="line">&#123;NAME =&gt; &apos;ns1&apos;&#125;</span><br><span class="line">Took 0.0033 seconds</span><br><span class="line">=&gt; 1</span><br></pre></td></tr></table></figure></p>
-<h4 id="2-3-查看所有命名空间"><a href="#2-3-查看所有命名空间" class="headerlink" title="2.3 查看所有命名空间"></a>2.3 查看所有命名空间</h4><p>可以使用 <code>list_namespace</code> 命令列出所有可用的名称空间：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hbase(main):019:0&gt; list_namespace</span><br><span class="line">NAMESPACE</span><br><span class="line">default</span><br><span class="line">hbase</span><br><span class="line">ns1</span><br><span class="line">3 row(s)</span><br><span class="line">hbase(main):022:0&gt; list_namespace &apos;ns*&apos;</span><br><span class="line">NAMESPACE</span><br><span class="line">ns1</span><br><span class="line">1 row(s)</span><br></pre></td></tr></table></figure></p>
+        <p>这篇文章中我们将使用 Docker 创建 Zookeeper 镜像，包括如何将 Zookeeper 安装到容器，如何配置 ZooKeeper 应用程序以及如何在宿主机和容器之间共享数据卷。</p>
+<p>本教程利用 Dockerfile 来指定容器的内容。如果您需要有关编写 Dockerfile 的更多信息，请参阅<a href="https://docs.docker.com/engine/reference/builder/" target="_blank" rel="noopener">官方文档</a>。</p>
+<h3 id="1-指定基础镜像"><a href="#1-指定基础镜像" class="headerlink" title="1. 指定基础镜像"></a>1. 指定基础镜像</h3><p>Docker 容器基于基础 Linux 映像构建而成。这些镜像提供了容器的核心功能，并使用 FROM 命令来指定。FROM 命令允许我们同时指定镜像以及 Tag，其中 Tag 标记了镜像的版本。在下面 Dockerfile 中，我们使用 openjdk 镜像构建容器：<br><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">FROM openjdk:8-jre-alpine</span><br></pre></td></tr></table></figure></p>
 <blockquote>
-<p>支持正则表达式</p>
+<p>使用jdk镜像就不用我们自己安装jdk，操作比较方便。</p>
 </blockquote>
-<h4 id="2-4-修改命名空间"><a href="#2-4-修改命名空间" class="headerlink" title="2.4 修改命名空间"></a>2.4 修改命名空间</h4><p>可以使用 <code>alter_namespace</code> 命令修改已经创建的命名空间。</p>
-<p>(1) 添加或者修改命名空间属性：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">alter_namespace &apos;ns1&apos;, &#123;METHOD =&gt; &apos;set&apos;, &apos;PROPERTY_NAME&apos; =&gt; &apos;PROPERTY_VALUE&apos;&#125;</span><br></pre></td></tr></table></figure></p>
-<p>(2) 删除命名空间属性：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">alter_namespace &apos;ns1&apos;, &#123;METHOD =&gt; &apos;unset&apos;, NAME=&gt;&apos;PROPERTY_NAME&apos;&#125;</span><br></pre></td></tr></table></figure></p>
-<h4 id="2-5-在命名空间中创建表"><a href="#2-5-在命名空间中创建表" class="headerlink" title="2.5 在命名空间中创建表"></a>2.5 在命名空间中创建表</h4><p>创建命名空间后，我们可以在该命名空间上创建表。就像任何其他 RDBMS Scheme 一样，我们必须在命名空间名称后附加表名称。如果不指定命名空间，默认在 <code>default</code> 命名空间下创建表。</p>
-<p>如下示例在 <code>ns1</code> 命名空间中创建表 <code>test</code>：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hbase(main):008:0&gt; create &apos;ns1:test&apos;, &apos;f1&apos;, &apos;f2&apos;</span><br><span class="line">Created table ns1:test</span><br><span class="line">Took 0.9023 seconds</span><br><span class="line">=&gt; Hbase::Table - ns1:test</span><br></pre></td></tr></table></figure></p>
-<h4 id="2-6-查看给定命名空间所有可用的表"><a href="#2-6-查看给定命名空间所有可用的表" class="headerlink" title="2.6 查看给定命名空间所有可用的表"></a>2.6 查看给定命名空间所有可用的表</h4><p>可以使用 <code>list_namespace_tables</code> 命令列出给定命名空间下所有可用的表：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hbase(main):011:0&gt; list_namespace_tables &apos;ns1&apos;</span><br><span class="line">TABLE</span><br><span class="line">test</span><br><span class="line">1 row(s)</span><br><span class="line">Took 0.0078 seconds</span><br><span class="line">=&gt; [&quot;test&quot;]</span><br></pre></td></tr></table></figure></p>
-<h4 id="2-7-删除命名空间"><a href="#2-7-删除命名空间" class="headerlink" title="2.7 删除命名空间"></a>2.7 删除命名空间</h4><p>可以使用 <code>drop_namespace</code> 命令删除表中存在的命名空间。我们只能删除空的命名空间。如果删除包含表的命名空间，必须先把该命名空间下创建的表删除。</p>
-<p>如下所示删除包含表的命名空间：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">hbase(main):<span class="number">013</span>:<span class="number">0</span>&gt; drop_namespace <span class="string">'ns1'</span></span><br><span class="line"></span><br><span class="line">ERROR: org.apache.hadoop.hbase.constraint.ConstraintException: Only empty namespaces can be removed. Namespace ns1 has <span class="number">1</span> tables</span><br><span class="line">	at org.apache.hadoop.hbase.master.procedure.DeleteNamespaceProcedure.prepareDelete(DeleteNamespaceProcedure.java:<span class="number">217</span>)</span><br><span class="line">	at org.apache.hadoop.hbase.master.procedure.DeleteNamespaceProcedure.executeFromState(DeleteNamespaceProcedure.java:<span class="number">78</span>)</span><br><span class="line">	at org.apache.hadoop.hbase.master.procedure.DeleteNamespaceProcedure.executeFromState(DeleteNamespaceProcedure.java:<span class="number">45</span>)</span><br><span class="line">	at org.apache.hadoop.hbase.procedure2.StateMachineProcedure.execute(StateMachineProcedure.java:<span class="number">189</span>)</span><br><span class="line">	at org.apache.hadoop.hbase.procedure2.Procedure.doExecute(Procedure.java:<span class="number">965</span>)</span><br><span class="line">	at org.apache.hadoop.hbase.procedure2.ProcedureExecutor.execProcedure(ProcedureExecutor.java:<span class="number">1723</span>)</span><br><span class="line">	at org.apache.hadoop.hbase.procedure2.ProcedureExecutor.executeProcedure(ProcedureExecutor.java:<span class="number">1462</span>)</span><br><span class="line">	at org.apache.hadoop.hbase.procedure2.ProcedureExecutor.access$<span class="number">1200</span>(ProcedureExecutor.java:<span class="number">78</span>)</span><br><span class="line">	at org.apache.hadoop.hbase.procedure2.ProcedureExecutor$WorkerThread.run(ProcedureExecutor.java:<span class="number">2039</span>)</span><br></pre></td></tr></table></figure></p>
-<p>如下所示删除一个空的命名空间：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hbase(main):014:0&gt; create_namespace &apos;ns2&apos;</span><br><span class="line">Took 0.2518 seconds</span><br><span class="line">hbase(main):015:0&gt; drop_namespace &apos;ns2&apos;</span><br><span class="line">Took 0.2303 second</span><br></pre></td></tr></table></figure></p>
-<h3 id="3-内置命名空间"><a href="#3-内置命名空间" class="headerlink" title="3. 内置命名空间"></a>3. 内置命名空间</h3><p>HBase 中有两个内置的特殊命名空间：</p>
-<ul>
-<li><code>hbase</code>：系统命名空间，包含 HBase 内部表。</li>
-<li><code>default</code>：如果在创建表时没有显式指定命名空间，默认会在此命名空间创建表。</li>
-</ul>
+<p>上述命令足以构建我们的 Docker 镜像，使用如下命令构建 docker-zookeeper 镜像：<br><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">wy:Dockerfile wy$ docker build -f Dockerfile-jdk -t smartsi/docker-jdk .</span><br><span class="line">Sending build context to Docker daemon  10.24kB</span><br><span class="line">Step 1/1 : FROM openjdk:8-jre-alpine</span><br><span class="line">8-jre-alpine: Pulling from library/openjdk</span><br><span class="line">e7c96db7181b: Already exists</span><br><span class="line">f910a506b6cb: Already exists</span><br><span class="line">b6abafe80f63: Already exists</span><br><span class="line">Digest: sha256:f362b165b870ef129cbe730f29065ff37399c0aa8bcab3e44b51c302938c9193</span><br><span class="line">Status: Downloaded newer image for openjdk:8-jre-alpine</span><br><span class="line"><span class="meta"> ---&gt;</span> f7a292bbb70c</span><br><span class="line">Successfully built f7a292bbb70c</span><br><span class="line">Successfully tagged smartsi/docker-jdk:latest</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-安装ZooKeeper"><a href="#2-安装ZooKeeper" class="headerlink" title="2. 安装ZooKeeper"></a>2. 安装ZooKeeper</h3><p>现在我们有了基础镜像，我们可以使用 RUN 命令在镜像上安装 Zookeeper。RUN 允许我们在镜像上执行任意命令。在此示例中，我们将 3.5.8 版本的 Zookeeper 安装到 <code>/opt/zookeeper</code> 目录下：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">FROM openjdk:8-jre-alpine</span><br><span class="line"></span><br><span class="line"># 安装bash</span><br><span class="line">RUN apk add --no-cache wget bash</span><br><span class="line"></span><br><span class="line"># 安装zookeeper</span><br><span class="line">RUN wget -q -O - https://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper/zookeeper-3.5.8/apache-zookeeper-3.5.8-bin.tar.gz</span><br><span class="line">RUN tar -xzf - -C /opt</span><br><span class="line">RUN mv /opt/apache-zookeeper-3.5.8-bin /opt/zookeeper \</span><br><span class="line">RUN cp /opt/zookeeper/conf/zoo_sample.cfg /opt/zookeeper/conf/zoo.cfg</span><br></pre></td></tr></table></figure></p>
+<p>在 Dockerfile 中执行的每个命令都会创建一个额外的镜像层。每层都复制它前一层的内容，因此每一层都会增加 Docker 镜像的大小。因此，通过组合 Dockerfile 中的语句来最大程度地减少层数被认为是最佳实践。我们需要在可读性和性能之间取得一个平衡，并根据需要调整 Dockerfile。<br><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">FROM openjdk:8-jre-alpine</span><br><span class="line"></span><br><span class="line">RUN apk add --no-cache wget bash \</span><br><span class="line">    &amp;&amp; wget -q -O - https://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper/zookeeper-3.5.8/apache-zookeeper-3.5.8-bin.tar.gz | tar -xzf - -C /opt \</span><br><span class="line">    &amp;&amp; mv /opt/apache-zookeeper-3.5.8-bin /opt/zookeeper \</span><br><span class="line">    &amp;&amp; cp /opt/zookeeper/conf/zoo_sample.cfg /opt/zookeeper/conf/zoo.cfg</span><br></pre></td></tr></table></figure></p>
+<h3 id="3-公开端口"><a href="#3-公开端口" class="headerlink" title="3. 公开端口"></a>3. 公开端口</h3><p>Zookeeper 需要打开多个端口才能与其他 Zookeeper 节点和客户端进行通信。我们可以使用 EXPOSE 关键字告诉容器需要侦听的网络端口：<br><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">FROM openjdk:8-jre-alpine</span><br><span class="line"></span><br><span class="line">RUN apk add --no-cache wget bash \</span><br><span class="line">    &amp;&amp; wget -q -O - https://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper/zookeeper-3.5.8/apache-zookeeper-3.5.8-bin.tar.gz | tar -xzf - -C /opt \</span><br><span class="line">    &amp;&amp; mv /opt/apache-zookeeper-3.5.8-bin /opt/zookeeper \</span><br><span class="line">    &amp;&amp; cp /opt/zookeeper/conf/zoo_sample.cfg /opt/zookeeper/conf/zoo.cfg</span><br><span class="line"></span><br><span class="line">EXPOSE 2181 2888 3888</span><br></pre></td></tr></table></figure></p>
+<p>如果要将主机端口映射到容器的端口上，可以使用 -p 命令运行容器。例如，公开容器中的端口并将宿主机端口映射到容器的端口上，我们可以指定要绑定到的多个端口：<br><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run -d -p 2181:2181 -p 2888:2888 -p 3888:3888 smartsi/docker-zookeeper:test</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-设置工作目录"><a href="#4-设置工作目录" class="headerlink" title="4. 设置工作目录"></a>4. 设置工作目录</h3><p>我们将 Zookeeper 安装到 <code>/opt/zookeeper</code> 目录下。由于我们在这个容器上仅运行 Zookeeper，因此将我们的安装目录 <code>/opt/zookeeper</code> 设置为工作目录是最便捷的。这可以通过 WORKDIR 关键字来完成：<br><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">FROM openjdk:8-jre-alpine</span><br><span class="line"></span><br><span class="line">RUN apk add --no-cache wget bash \</span><br><span class="line">    &amp;&amp; wget -q -O - https://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper/zookeeper-3.5.8/apache-zookeeper-3.5.8-bin.tar.gz | tar -xzf - -C /opt \</span><br><span class="line">    &amp;&amp; mv /opt/apache-zookeeper-3.5.8-bin /opt/zookeeper \</span><br><span class="line">    &amp;&amp; cp /opt/zookeeper/conf/zoo_sample.cfg /opt/zookeeper/conf/zoo.cfg</span><br><span class="line"></span><br><span class="line">EXPOSE 2181 2888 3888</span><br><span class="line"></span><br><span class="line">WORKDIR /opt/zookeeper</span><br></pre></td></tr></table></figure></p>
+<h3 id="5-设置配置文件"><a href="#5-设置配置文件" class="headerlink" title="5. 设置配置文件"></a>5. 设置配置文件</h3><p>VOLUME 关键字可以将数据挂载到 Docker 容器上。如果要配置 Zookeeper 实例，我们可以在本地声明我们的配置文件，并让 Docker 使用 VOLUME 命令指定的挂载数据卷读取这些配置文件：<br><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">FROM openjdk:8-jre-alpine</span><br><span class="line"></span><br><span class="line">RUN apk add --no-cache wget bash \</span><br><span class="line">    &amp;&amp; wget -q -O - https://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper/zookeeper-3.5.8/apache-zookeeper-3.5.8-bin.tar.gz | tar -xzf - -C /opt \</span><br><span class="line">    &amp;&amp; mv /opt/apache-zookeeper-3.5.8-bin /opt/zookeeper \</span><br><span class="line">    &amp;&amp; cp /opt/zookeeper/conf/zoo_sample.cfg /opt/zookeeper/conf/zoo.cfg</span><br><span class="line"></span><br><span class="line">EXPOSE 2181 2888 3888</span><br><span class="line"></span><br><span class="line">WORKDIR /opt/zookeeper</span><br><span class="line"></span><br><span class="line">VOLUME ["/opt/zookeeper/conf"]</span><br></pre></td></tr></table></figure></p>
+<p>如果要将本地目录映射到我们创建的数据卷上，可以使用 docker run 命令的 -v 选项运行容器。在以下示例中，<code>./conf</code> 目录中的所有文件都被映射到容器上的 <code>/opt/zookeeper/conf</code> 目录中：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker run -it -v conf:/opt/zookeeper/conf smartsi/docker-zookeeper:test /bin/bash</span><br></pre></td></tr></table></figure></p>
+<p>OS X 用户需要使用完整路径而不是相对目录来限定本地目录。</p>
+<h3 id="6-共享数据"><a href="#6-共享数据" class="headerlink" title="6. 共享数据"></a>6. 共享数据</h3><p>Zookeeper 数据默认保存在 <code>/tmp/zookeeper</code> 目录下。我们可以通过 Docker 挂载数据卷将数据保存在宿主机上，从而达到宿主机与容器共享数据：<br><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">FROM openjdk:8-jre-alpine</span><br><span class="line"></span><br><span class="line">RUN apk add --no-cache wget bash \</span><br><span class="line">    &amp;&amp; wget -q -O - https://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper/zookeeper-3.5.8/apache-zookeeper-3.5.8-bin.tar.gz | tar -xzf - -C /opt \</span><br><span class="line">    &amp;&amp; mv /opt/apache-zookeeper-3.5.8-bin /opt/zookeeper \</span><br><span class="line">    &amp;&amp; cp /opt/zookeeper/conf/zoo_sample.cfg /opt/zookeeper/conf/zoo.cfg</span><br><span class="line"></span><br><span class="line">EXPOSE 2181 2888 3888</span><br><span class="line"></span><br><span class="line">WORKDIR /opt/zookeeper</span><br><span class="line"></span><br><span class="line">VOLUME ["/opt/zookeeper/conf", "/tmp/zookeeper"]</span><br></pre></td></tr></table></figure></p>
+<p>如果我们的 Zookeeper 配置与默认配置不同，请为数据卷使用恰当的挂载点。</p>
+<h3 id="7-运行Zookeeper"><a href="#7-运行Zookeeper" class="headerlink" title="7. 运行Zookeeper"></a>7. 运行Zookeeper</h3><p>此时，我们的 Dockerfile 将会安装 Zookeeper，将端口暴露给宿主机，并为配置和数据文件进行挂载。我们需要的做的最后一件事就是运行 Zookeeper。为此，我们使用 ENTRYPOINT 和 CMD 关键字：<br><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">FROM openjdk:8-jre-alpine</span><br><span class="line"></span><br><span class="line">RUN apk add --no-cache wget bash \</span><br><span class="line">    &amp;&amp; wget -q -O - https://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper/zookeeper-3.5.8/apache-zookeeper-3.5.8-bin.tar.gz | tar -xzf - -C /opt \</span><br><span class="line">    &amp;&amp; mv /opt/apache-zookeeper-3.5.8-bin /opt/zookeeper \</span><br><span class="line">    &amp;&amp; cp /opt/zookeeper/conf/zoo_sample.cfg /opt/zookeeper/conf/zoo.cfg</span><br><span class="line"></span><br><span class="line">EXPOSE 2181 2888 3888</span><br><span class="line"></span><br><span class="line">WORKDIR /opt/zookeeper</span><br><span class="line"></span><br><span class="line">VOLUME ["/opt/zookeeper/conf", "/tmp/zookeeper"]</span><br><span class="line"></span><br><span class="line">ENTRYPOINT ["/opt/zookeeper/bin/zkServer.sh"]</span><br><span class="line">CMD ["start-foreground"]</span><br></pre></td></tr></table></figure></p>
+<p>ENTRYPOINT 和 CMD 关键字提供了默认可执行文件，默认可执行文件在启动容器时会执行。在此示例中，我们以前台方式启动 Zookeeper 服务器。</p>
+<h3 id="8-构建容器"><a href="#8-构建容器" class="headerlink" title="8. 构建容器"></a>8. 构建容器</h3><p>至此，我们有了一个有效的 Dockerfile，用于构建 Docker 镜像来运行 Zookeeper 实例。要构建 Docker 镜像，需要运行如下命令：<br><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker build -t smartsi/docker-zookeeper:3.5.8 .</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>使用默认Dockerfile文件</p>
+</blockquote>
+<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/docker/build-zookeeper-image-with-docker-1.jpg?raw=true" alt=""></p>
+<h3 id="9-运行"><a href="#9-运行" class="headerlink" title="9. 运行"></a>9. 运行</h3><p>构建镜像之后运行如下命令启动容器以及 Zookeeper：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker run -p 2181:2818 -p 2888:2888 -p 3888:3888 --name standalone-zookeeper  smartsi/docker-zookeeper:3.5.8</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/docker/build-zookeeper-image-with-docker-2.jpg?raw=true" alt=""></p>
+<p>上述命令启动一个名为 <code>standalone-zookeeper</code> 的容器。通过 <code>docker ps</code> 命令查看运行中的 Zookeeper 容器：</p>
+<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/docker/build-zookeeper-image-with-docker-3.jpg?raw=true" alt=""></p>
+<p>通过如下命令进入容器：<br><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker exec -it standalone-zookeeper /bin/bash</span><br></pre></td></tr></table></figure></p>
+<p>可以通过 <code>zkServer.sh status</code> 命令查看 ZooKeeper 服务状态：<br><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">bash-4.4# ./bin/zkServer.sh status</span><br><span class="line">ZooKeeper JMX enabled by default</span><br><span class="line">Using config: /opt/zookeeper/bin/../conf/zoo.cfg</span><br><span class="line">Client port found: 2181. Client address: localhost.</span><br><span class="line">Mode: standalone</span><br></pre></td></tr></table></figure></p>
+<p>通过如下命令连接 ZooKeeper 服务：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">./bin/zkCli.sh -server localhost:2181</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/docker/build-zookeeper-image-with-docker-4.jpg?raw=true" alt=""></p>
+<p>给大家推荐一个ZooKeeper课程：</p>
+<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/ZooKeeper/zookeeper-study.jpg?raw=true" alt=""></p>
 <p>欢迎关注我的公众号和博客：</p>
 <p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Other/smartsi.jpg?raw=true" alt=""></p>
-<p>参考:<a href="http://dwgeek.com/hbase-namespace-commands-examples.html/" target="_blank" rel="noopener">Hbase Namespace Commands and Examples</a></p>
+<p>参考：<a href="https://sookocheff.com/post/docker/containerizing-zookeeper-a-guided-tour/" target="_blank" rel="noopener">Docker Step By Step: Containerizing Zookeeper</a></p>
 
       
     </div>
@@ -497,7 +499,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://smartsi.club/hbase-namespace-commands-examples.html" title="HBase 命名空间 Namespace">http://smartsi.club/hbase-namespace-commands-examples.html</a>
+    <a href="http://smartsi.club/build-zookeeper-image-with-docker.html" title="使用Docker构建ZooKeeper镜像">http://smartsi.club/build-zookeeper-image-with-docker.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -512,7 +514,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/HBase/" rel="tag"># HBase</a>
+            <a href="/tags/Docker/" rel="tag"># Docker</a>
+          
+            <a href="/tags/ZooKeeper/" rel="tag"># ZooKeeper</a>
           
         </div>
       
@@ -525,8 +529,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/sql-queries-dont-start-with-select.html" rel="next" title="SQL查询并不总是以SELECT开始">
-                <i class="fa fa-chevron-left"></i> SQL查询并不总是以SELECT开始
+              <a href="/practice-of-user-grouping-on-bitmap-in-beike-dmp.html" rel="next" title="Bitmap用户分群在贝壳DMP的实践和应用">
+                <i class="fa fa-chevron-left"></i> Bitmap用户分群在贝壳DMP的实践和应用
               </a>
             
           </div>
@@ -534,10 +538,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/hive-lateral-view.html" rel="prev" title="Hive Lateral View">
-                Hive Lateral View <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -753,7 +753,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-简介"><span class="nav-number">1.</span> <span class="nav-text">1. 简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-命名空间管理"><span class="nav-number">2.</span> <span class="nav-text">2. 命名空间管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-创建命名空间"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 创建命名空间</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-查看命名空间"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 查看命名空间</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-查看所有命名空间"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 查看所有命名空间</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-修改命名空间"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 修改命名空间</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-在命名空间中创建表"><span class="nav-number">2.5.</span> <span class="nav-text">2.5 在命名空间中创建表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-查看给定命名空间所有可用的表"><span class="nav-number">2.6.</span> <span class="nav-text">2.6 查看给定命名空间所有可用的表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-7-删除命名空间"><span class="nav-number">2.7.</span> <span class="nav-text">2.7 删除命名空间</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-内置命名空间"><span class="nav-number">3.</span> <span class="nav-text">3. 内置命名空间</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-指定基础镜像"><span class="nav-number">1.</span> <span class="nav-text">1. 指定基础镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-安装ZooKeeper"><span class="nav-number">2.</span> <span class="nav-text">2. 安装ZooKeeper</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-公开端口"><span class="nav-number">3.</span> <span class="nav-text">3. 公开端口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-设置工作目录"><span class="nav-number">4.</span> <span class="nav-text">4. 设置工作目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-设置配置文件"><span class="nav-number">5.</span> <span class="nav-text">5. 设置配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-共享数据"><span class="nav-number">6.</span> <span class="nav-text">6. 共享数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-运行Zookeeper"><span class="nav-number">7.</span> <span class="nav-text">7. 运行Zookeeper</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-构建容器"><span class="nav-number">8.</span> <span class="nav-text">8. 构建容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-运行"><span class="nav-number">9.</span> <span class="nav-text">9. 运行</span></a></li></ol></div>
             
 
           </div>
