@@ -100,32 +100,31 @@
   <meta name="keywords" content="Hive," />
 
 
-<meta name="description" content="HiveServer2 是一种可选的 Hive 内置服务，可以允许远程客户端使用不同编程语言向 Hive 提交请求并返回结果。HiveServer2 是 HiveServer1 的改进版，主要解决了无法处理来自多个客户端的并发请求以及身份验证问题。具体可以参阅 一起了解一下HiveServer2。下面我们具体看一下如何配置 HiveServer2。 1. Thrift服务配置假设我们已经成功安装了">
+<meta name="description" content="Hive 版本：2.3.7  1. 配置如果想通过 JDBC 来访问 HiveServer2，需要开启 HiveServer2 服务，具体请参阅 如何启动HiveServer2。 2. URL格式JDBC客户端允许使用 Java 代码连接到 HiveServer2。可以在远程，嵌入式或 HTTP 模式下建立 JDBC 连接。以下是不同模式的配置：  远程模式下 Url 格式为 jdbc:hive">
 <meta name="keywords" content="Hive">
 <meta property="og:type" content="article">
-<meta property="og:title" content="如何启动HiveServer2">
-<meta property="og:url" content="http://smartsi.club/how-to-config-and-start-hiveserver2.html">
+<meta property="og:title" content="Hive通过Jdbc连接HiveServer2">
+<meta property="og:url" content="http://smartsi.club/hiveserver2-client-jdbc.html">
 <meta property="og:site_name" content="SmartSi">
-<meta property="og:description" content="HiveServer2 是一种可选的 Hive 内置服务，可以允许远程客户端使用不同编程语言向 Hive 提交请求并返回结果。HiveServer2 是 HiveServer1 的改进版，主要解决了无法处理来自多个客户端的并发请求以及身份验证问题。具体可以参阅 一起了解一下HiveServer2。下面我们具体看一下如何配置 HiveServer2。 1. Thrift服务配置假设我们已经成功安装了">
+<meta property="og:description" content="Hive 版本：2.3.7  1. 配置如果想通过 JDBC 来访问 HiveServer2，需要开启 HiveServer2 服务，具体请参阅 如何启动HiveServer2。 2. URL格式JDBC客户端允许使用 Java 代码连接到 HiveServer2。可以在远程，嵌入式或 HTTP 模式下建立 JDBC 连接。以下是不同模式的配置：  远程模式下 Url 格式为 jdbc:hive">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hive/how-to-config-and-start-hiveserver2-1.jpg?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hive/how-to-config-and-start-hiveserver2-2.jpg?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hive/hiveserver2-client-jdbc-1.jpg?raw=true">
 <meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Other/smartsi.jpg?raw=true">
-<meta property="og:updated_time" content="2020-09-12T15:38:56.000Z">
+<meta property="og:updated_time" content="2020-09-13T14:04:41.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="如何启动HiveServer2">
-<meta name="twitter:description" content="HiveServer2 是一种可选的 Hive 内置服务，可以允许远程客户端使用不同编程语言向 Hive 提交请求并返回结果。HiveServer2 是 HiveServer1 的改进版，主要解决了无法处理来自多个客户端的并发请求以及身份验证问题。具体可以参阅 一起了解一下HiveServer2。下面我们具体看一下如何配置 HiveServer2。 1. Thrift服务配置假设我们已经成功安装了">
-<meta name="twitter:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hive/how-to-config-and-start-hiveserver2-1.jpg?raw=true">
+<meta name="twitter:title" content="Hive通过Jdbc连接HiveServer2">
+<meta name="twitter:description" content="Hive 版本：2.3.7  1. 配置如果想通过 JDBC 来访问 HiveServer2，需要开启 HiveServer2 服务，具体请参阅 如何启动HiveServer2。 2. URL格式JDBC客户端允许使用 Java 代码连接到 HiveServer2。可以在远程，嵌入式或 HTTP 模式下建立 JDBC 连接。以下是不同模式的配置：  远程模式下 Url 格式为 jdbc:hive">
+<meta name="twitter:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hive/hiveserver2-client-jdbc-1.jpg?raw=true">
 
 
 
 
 
 
-  <link rel="canonical" href="http://smartsi.club/how-to-config-and-start-hiveserver2.html"/>
+  <link rel="canonical" href="http://smartsi.club/hiveserver2-client-jdbc.html"/>
 
 
-  <title>如何启动HiveServer2 | SmartSi</title>
+  <title>Hive通过Jdbc连接HiveServer2 | SmartSi</title>
   
 
 
@@ -306,7 +305,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://smartsi.club/how-to-config-and-start-hiveserver2.html">
+    <link itemprop="mainEntityOfPage" href="http://smartsi.club/hiveserver2-client-jdbc.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="sjf0115">
@@ -323,7 +322,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">如何启动HiveServer2</h2>
+          <h2 class="post-title" itemprop="name headline">Hive通过Jdbc连接HiveServer2</h2>
         
 
         <div class="post-meta">
@@ -335,7 +334,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-09-12T15:15:01+08:00">2020-09-12</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-09-13T21:57:01+08:00">2020-09-13</time>
             
 
             
@@ -370,8 +369,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/how-to-config-and-start-hiveserver2.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/how-to-config-and-start-hiveserver2.html" itemprop="commentCount"></span>
+                <a href="/hiveserver2-client-jdbc.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/hiveserver2-client-jdbc.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -379,7 +378,7 @@
 
           
           
-             <span id="/how-to-config-and-start-hiveserver2.html" class="leancloud_visitors" data-flag-title="如何启动HiveServer2">
+             <span id="/hiveserver2-client-jdbc.html" class="leancloud_visitors" data-flag-title="Hive通过Jdbc连接HiveServer2">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -410,79 +409,27 @@
       
 
       
-        <p>HiveServer2 是一种可选的 Hive 内置服务，可以允许远程客户端使用不同编程语言向 Hive 提交请求并返回结果。HiveServer2 是 HiveServer1 的改进版，主要解决了无法处理来自多个客户端的并发请求以及身份验证问题。具体可以参阅 <a href="http://smartsi.club/hiveserver2-overview.html">一起了解一下HiveServer2</a>。下面我们具体看一下如何配置 HiveServer2。</p>
-<h3 id="1-Thrift服务配置"><a href="#1-Thrift服务配置" class="headerlink" title="1. Thrift服务配置"></a>1. Thrift服务配置</h3><p>假设我们已经成功安装了 Hive，如果没有安装，可以参阅 <a href="http://smartsi.club/hive-install-and-config.html">Hive 安装与配置</a>。在启动 HiveServer2 之前，我们需要先进行一些配置：<br><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.server2.transport.mode<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>binary<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">description</span>&gt;</span></span><br><span class="line">    Expects one of [binary, http]. Transport mode of HiveServer2.</span><br><span class="line">  <span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.server2.thrift.port<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>10000<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Port number of HiveServer2 Thrift interface when hive.server2.transport.mode is 'binary'.<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>默认情况下，HiveServer2 启动使用的是默认配置。这些配置主要是服务启动的 Host 和端口号以及客户端和后台操作运行的线程数。我们可以重写 hive-site.xml 配置文件中的配置项来修改 HiveServer2 的默认配置：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">配置项</th>
-<th style="text-align:left">默认值</th>
-<th style="text-align:left">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">hive.server2.transport.mode</td>
-<td style="text-align:left">binary</td>
-<td style="text-align:left">HiveServer2 的传输模式，binary或者http</td>
-</tr>
-<tr>
-<td style="text-align:left">hive.server2.thrift.port</td>
-<td style="text-align:left">10000</td>
-<td style="text-align:left">HiveServer2 传输模式设置为 binary 时，Thrift 接口的端口号</td>
-</tr>
-<tr>
-<td style="text-align:left">hive.server2.thrift.http.port</td>
-<td style="text-align:left">10001</td>
-<td style="text-align:left">HiveServer2 传输模式设置为 http 时，Thrift 接口的端口号</td>
-</tr>
-<tr>
-<td style="text-align:left">hive.server2.thrift.bind.host</td>
-<td style="text-align:left">localhost</td>
-<td style="text-align:left">Thrift服务绑定的主机</td>
-</tr>
-<tr>
-<td style="text-align:left">hive.server2.thrift.min.worker.threads</td>
-<td style="text-align:left">5</td>
-<td style="text-align:left">Thrift最小工作线程数</td>
-</tr>
-<tr>
-<td style="text-align:left">hive.server2.thrift.max.worker.threads</td>
-<td style="text-align:left">500</td>
-<td style="text-align:left">Thrift最大工作线程数</td>
-</tr>
-<tr>
-<td style="text-align:left">hive.server2.authentication</td>
-<td style="text-align:left">NONE</td>
-<td style="text-align:left">客户端认证类型，NONE、LDAP、KERBEROS、CUSTOM、PAM、NOSASL</td>
-</tr>
-<tr>
-<td style="text-align:left">hive.server2.thrift.client.user</td>
-<td style="text-align:left">anonymous</td>
-<td style="text-align:left">Thrift 客户端用户名</td>
-</tr>
-<tr>
-<td style="text-align:left">hive.server2.thrift.client.password</td>
-<td style="text-align:left">anonymous</td>
-<td style="text-align:left">Thrift 客户端密码</td>
-</tr>
-</tbody>
-</table>
-<h3 id="2-启动"><a href="#2-启动" class="headerlink" title="2. 启动"></a>2. 启动</h3><p>启动 HiveServer2 非常简单，我们需要做的只是运行如下命令即可：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$HIVE_HOME/bin/hiveserver2 &amp;</span><br></pre></td></tr></table></figure></p>
-<p>或者<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$HIVE_HOME/bin/hive --service hiveserver2 &amp;</span><br></pre></td></tr></table></figure></p>
-<p>检查 HiveServer2 是否启动成功的最快捷的办法就是使用 netstat 命令查看 10000 端口是否打开并监听连接：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">netstat -nl | grep 10000</span><br></pre></td></tr></table></figure></p>
-<h3 id="3-验证"><a href="#3-验证" class="headerlink" title="3. 验证"></a>3. 验证</h3><p>可以通过如下 Beeline 命令连接到 HiveServer2 来验证我们的 HiveServer2 是否成功：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">`beeline -u  &lt;url&gt; -n &lt;username&gt; -p &lt;Password&gt;`</span><br></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hive/how-to-config-and-start-hiveserver2-1.jpg?raw=true" alt=""></p>
-<h3 id="4-Web-UI"><a href="#4-Web-UI" class="headerlink" title="4. Web UI"></a>4. Web UI</h3><p>Hive 从 2.0.0 版本开始，为 HiveServer2 提供了一个简单的 WEB UI 页面，在页面中我们可以直观的看到当前链接的会话、历史日志、配置参数以及度量信息。默认情况下，Web UI 端口为 10002。</p>
-<p>如果要开启 Web UI 需要在 <code>hive-site.xml</code> 配置文件中修改配置：</p>
+        <blockquote>
+<p>Hive 版本：2.3.7</p>
+</blockquote>
+<h3 id="1-配置"><a href="#1-配置" class="headerlink" title="1. 配置"></a>1. 配置</h3><p>如果想通过 JDBC 来访问 HiveServer2，需要开启 HiveServer2 服务，具体请参阅 <a href="http://smartsi.club/how-to-config-and-start-hiveserver2.html">如何启动HiveServer2</a>。</p>
+<h3 id="2-URL格式"><a href="#2-URL格式" class="headerlink" title="2. URL格式"></a>2. URL格式</h3><p>JDBC客户端允许使用 Java 代码连接到 HiveServer2。可以在远程，嵌入式或 HTTP 模式下建立 JDBC 连接。以下是不同模式的配置：</p>
 <ul>
-<li>hive.server2.webui.host</li>
-<li>hive.server2.webui.port</li>
+<li>远程模式下 Url 格式为 <code>jdbc:hive2://&lt;host&gt;:&lt;port&gt;/&lt;database&gt;</code>，默认情况下 HiveServer2 的端口为 10000。</li>
+<li>内嵌模式下 Url 格式为 <code>jdbc:hive2://</code>，不需要提供主机与端口号。</li>
+<li>如果 HiveServer2 以 http 模式运行，Url 格式为 <code>jdbc:hive2://&lt;host&gt;:&lt;port&gt;/&lt;db&gt;?
+hive.server2.transport.mode=http;hive.server2.thrift.http.path=
+&lt;http_endpoint&gt;</code>，<http_endpoint> 在 hive-site.xml 配置文件中进行配置，默认值为 cliservice。HTTP 传输模式的默认端口为 10001。</http_endpoint></li>
 </ul>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.server2.webui.host<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>127.0.0.1<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.server2.webui.port<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>10002<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>配置完成之后启动 hiveserver2 通过 <code>http://localhost:10002/</code> 地址访问 Web UI：</p>
-<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hive/how-to-config-and-start-hiveserver2-2.jpg?raw=true" alt=""></p>
+<h3 id="3-Maven-依赖"><a href="#3-Maven-依赖" class="headerlink" title="3. Maven 依赖"></a>3. Maven 依赖</h3><p>如果你使用的是 Maven，需要在 pom.xml 中添加以下依赖项：<br><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hive<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hive-jdbc<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.7<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="4-开发"><a href="#4-开发" class="headerlink" title="4. 开发"></a>4. 开发</h3><p>第一步加载 JDBC 驱动类：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Class.forName(<span class="string">"org.apache.hive.jdbc.HiveDriver"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>第二步通过使用 JDBC 驱动创建 Connection 对象来连接到数据库：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Connection conn = DriverManager.getConnection(<span class="string">"jdbc:hive2://&lt;host&gt;:&lt;port&gt;/&lt;database&gt;"</span>,<span class="string">"&lt;user&gt;"</span>,<span class="string">"&lt;password&gt;"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>默认情况下端口为 10000，如果 HiveServer2 在非安全环境中运行，密码可以忽略不写：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Connection conn = DriverManager.getConnection(<span class="string">"jdbc:hive2://127.0.0.1:10000/default"</span>,<span class="string">"hadoop"</span>,<span class="string">""</span>);</span><br></pre></td></tr></table></figure></p>
+<p>第三步通过执行如下代码来执行查询：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Statement	stmt	=	conn.createStatement();</span><br><span class="line">ResultSet	resultSet	=	stmt.executeQuery(<span class="string">"SELECT	*	FROM tmp_table"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>最后一步处理 ResultSet 返回的结果：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> columns= resultSet.getMetaData().getColumnCount();</span><br><span class="line"><span class="keyword">int</span> rowIndex = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">while</span> (resultSet.next()) &#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>;i &lt;= columns; i++) &#123;</span><br><span class="line">        System.out.println(<span class="string">"RowIndex: "</span> + rowIndex + <span class="string">", ColumnIndex: "</span> + i + <span class="string">", ColumnValue: "</span> + resultSet.getString(i));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>详细代码请参阅：<a href="https://github.com/sjf0115/data-example/blob/master/hive-example/src/main/java/com/hive/example/JdbcExample.java" target="_blank" rel="noopener">JdbcExample</a></p>
+<h3 id="5-JDBC数据类型"><a href="#5-JDBC数据类型" class="headerlink" title="5. JDBC数据类型"></a>5. JDBC数据类型</h3><p>下表为 HiveServer2 列出了 Hive数据类型与 Java 数据类型之间的映射关系：</p>
+<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hive/hiveserver2-client-jdbc-1.jpg?raw=true" alt=""></p>
 <p>欢迎关注我的公众号和博客：</p>
 <p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Other/smartsi.jpg?raw=true" alt=""></p>
 
@@ -534,7 +481,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://smartsi.club/how-to-config-and-start-hiveserver2.html" title="如何启动HiveServer2">http://smartsi.club/how-to-config-and-start-hiveserver2.html</a>
+    <a href="http://smartsi.club/hiveserver2-client-jdbc.html" title="Hive通过Jdbc连接HiveServer2">http://smartsi.club/hiveserver2-client-jdbc.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -562,8 +509,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/hiveserver2-overview.html" rel="next" title="一起了解一下HiveServer2">
-                <i class="fa fa-chevron-left"></i> 一起了解一下HiveServer2
+              <a href="/how-to-config-and-start-hiveserver2.html" rel="next" title="如何启动HiveServer2">
+                <i class="fa fa-chevron-left"></i> 如何启动HiveServer2
               </a>
             
           </div>
@@ -571,10 +518,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/hiveserver2-client-jdbc.html" rel="prev" title="Hive通过Jdbc连接HiveServer2">
-                Hive通过Jdbc连接HiveServer2 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -790,7 +733,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Thrift服务配置"><span class="nav-number">1.</span> <span class="nav-text">1. Thrift服务配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-启动"><span class="nav-number">2.</span> <span class="nav-text">2. 启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-验证"><span class="nav-number">3.</span> <span class="nav-text">3. 验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Web-UI"><span class="nav-number">4.</span> <span class="nav-text">4. Web UI</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-配置"><span class="nav-number">1.</span> <span class="nav-text">1. 配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-URL格式"><span class="nav-number">2.</span> <span class="nav-text">2. URL格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Maven-依赖"><span class="nav-number">3.</span> <span class="nav-text">3. Maven 依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-开发"><span class="nav-number">4.</span> <span class="nav-text">4. 开发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-JDBC数据类型"><span class="nav-number">5.</span> <span class="nav-text">5. JDBC数据类型</span></a></li></ol></div>
             
 
           </div>
