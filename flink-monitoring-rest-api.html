@@ -97,31 +97,33 @@
 
 
   
-  <meta name="keywords" content="Scala," />
+  <meta name="keywords" content="Flink," />
 
 
-<meta name="description" content="Scala混合了面向对象和函数式的特性．在函数式编程语言中，函数可以像任何其他数据类型一样被传递和操作．如果想要给算法传入明细动作时，只需要将明细动作包在函数当中作为参数传入即可． 1. 作为值的函数在Scala中，函数就和数字一样，可以在变量中存放:import scala.math._val num = 3.14 // num: Double = 3.14val fun = ceil _  /">
-<meta name="keywords" content="Scala">
+<meta name="description" content="Flink版本：1.11.2  Flink具有监控 API，可用于查询正在运行的作业以及最近完成的作业的状态和统计信息。Flink 自己的仪表板也使用了这些监控 API，但监控 API 主要是为了自定义监视工具设计的。监控 API 是 REST-ful API，接受 HTTP 请求并返回 JSON 数据响应。 监控 API 由作为 Dispatcher 的一部的 Web 服务器提供。默认情况下，">
+<meta name="keywords" content="Flink">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Scala 学习笔记之高阶函数">
-<meta property="og:url" content="http://smartsi.club/scala-notes-higher-order-functions.html">
+<meta property="og:title" content="Flink监控 Rest API">
+<meta property="og:url" content="http://smartsi.club/flink-monitoring-rest-api.html">
 <meta property="og:site_name" content="SmartSi">
-<meta property="og:description" content="Scala混合了面向对象和函数式的特性．在函数式编程语言中，函数可以像任何其他数据类型一样被传递和操作．如果想要给算法传入明细动作时，只需要将明细动作包在函数当中作为参数传入即可． 1. 作为值的函数在Scala中，函数就和数字一样，可以在变量中存放:import scala.math._val num = 3.14 // num: Double = 3.14val fun = ceil _  /">
+<meta property="og:description" content="Flink版本：1.11.2  Flink具有监控 API，可用于查询正在运行的作业以及最近完成的作业的状态和统计信息。Flink 自己的仪表板也使用了这些监控 API，但监控 API 主要是为了自定义监视工具设计的。监控 API 是 REST-ful API，接受 HTTP 请求并返回 JSON 数据响应。 监控 API 由作为 Dispatcher 的一部的 Web 服务器提供。默认情况下，">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-26T03:57:13.000Z">
+<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Other/smartsi.jpg?raw=true">
+<meta property="og:updated_time" content="2020-11-14T08:04:02.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Scala 学习笔记之高阶函数">
-<meta name="twitter:description" content="Scala混合了面向对象和函数式的特性．在函数式编程语言中，函数可以像任何其他数据类型一样被传递和操作．如果想要给算法传入明细动作时，只需要将明细动作包在函数当中作为参数传入即可． 1. 作为值的函数在Scala中，函数就和数字一样，可以在变量中存放:import scala.math._val num = 3.14 // num: Double = 3.14val fun = ceil _  /">
+<meta name="twitter:title" content="Flink监控 Rest API">
+<meta name="twitter:description" content="Flink版本：1.11.2  Flink具有监控 API，可用于查询正在运行的作业以及最近完成的作业的状态和统计信息。Flink 自己的仪表板也使用了这些监控 API，但监控 API 主要是为了自定义监视工具设计的。监控 API 是 REST-ful API，接受 HTTP 请求并返回 JSON 数据响应。 监控 API 由作为 Dispatcher 的一部的 Web 服务器提供。默认情况下，">
+<meta name="twitter:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Other/smartsi.jpg?raw=true">
 
 
 
 
 
 
-  <link rel="canonical" href="http://smartsi.club/scala-notes-higher-order-functions.html"/>
+  <link rel="canonical" href="http://smartsi.club/flink-monitoring-rest-api.html"/>
 
 
-  <title>Scala 学习笔记之高阶函数 | SmartSi</title>
+  <title>Flink监控 Rest API | SmartSi</title>
   
 
 
@@ -302,7 +304,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://smartsi.club/scala-notes-higher-order-functions.html">
+    <link itemprop="mainEntityOfPage" href="http://smartsi.club/flink-monitoring-rest-api.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="sjf0115">
@@ -319,7 +321,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">Scala 学习笔记之高阶函数</h2>
+          <h2 class="post-title" itemprop="name headline">Flink监控 Rest API</h2>
         
 
         <div class="post-meta">
@@ -331,7 +333,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-27T09:55:01+08:00">2018-02-27</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-14T15:58:01+08:00">2020-11-14</time>
             
 
             
@@ -351,7 +353,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Scala/" itemprop="url" rel="index"><span itemprop="name">Scala</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Flink/" itemprop="url" rel="index"><span itemprop="name">Flink</span></a></span>
 
                 
                 
@@ -366,8 +368,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/scala-notes-higher-order-functions.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/scala-notes-higher-order-functions.html" itemprop="commentCount"></span>
+                <a href="/flink-monitoring-rest-api.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/flink-monitoring-rest-api.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -375,7 +377,7 @@
 
           
           
-             <span id="/scala-notes-higher-order-functions.html" class="leancloud_visitors" data-flag-title="Scala 学习笔记之高阶函数">
+             <span id="/flink-monitoring-rest-api.html" class="leancloud_visitors" data-flag-title="Flink监控 Rest API">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -406,50 +408,102 @@
       
 
       
-        <p>Scala混合了面向对象和函数式的特性．在函数式编程语言中，函数可以像任何其他数据类型一样被传递和操作．如果想要给算法传入明细动作时，只需要将明细动作包在函数当中作为参数传入即可．</p>
-<h3 id="1-作为值的函数"><a href="#1-作为值的函数" class="headerlink" title="1. 作为值的函数"></a>1. 作为值的函数</h3><p>在Scala中，函数就和数字一样，可以在变量中存放:<br><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> scala.math._</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> num = <span class="number">3.14</span> <span class="comment">// num: Double = 3.14</span></span><br><span class="line"><span class="keyword">val</span> fun = ceil _  <span class="comment">// fun: Double =&gt; Double = &lt;function1&gt;</span></span><br><span class="line">println(num) <span class="comment">// 3.14</span></span><br><span class="line">println(fun(num)) <span class="comment">// 4.0</span></span><br></pre></td></tr></table></figure></p>
-<p>上述代码将num设置为3.14，将fun设置为 <code>ceil</code> 函数．num的类型为 <code>Double</code>，fun的类型为 <code>(Double) =&gt; Double</code> (即接受并返回Double的函数)</p>
-<blockquote>
-<p>备注</p>
+        <blockquote>
+<p>Flink版本：1.11.2</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ceil函数后的 _ 表示确实指的是ceil这个函数，而不是碰巧忘记了给它传递参数</span><br></pre></td></tr></table></figure>
-<p>可以对函数做如下两件事:</p>
-<ul>
-<li>调用它</li>
-<li>传递它 存放在变量中，或者作为参数传递给另一个函数</li>
-</ul>
-<p>Example:<br><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 调用</span></span><br><span class="line">fun(num) <span class="comment">// 4.0</span></span><br><span class="line"><span class="comment">// 传递</span></span><br><span class="line"><span class="type">Array</span>(<span class="number">3.14</span>, <span class="number">2.14</span>, <span class="number">1.14</span>).map(fun) <span class="comment">// Array(4.0, 3.0, 2.0)</span></span><br></pre></td></tr></table></figure></p>
+<p>Flink具有监控 API，可用于查询正在运行的作业以及最近完成的作业的状态和统计信息。Flink 自己的仪表板也使用了这些监控 API，但监控 API 主要是为了自定义监视工具设计的。监控 API 是 REST-ful API，接受 HTTP 请求并返回 JSON 数据响应。</p>
+<p>监控 API 由作为 Dispatcher 的一部的 Web 服务器提供。默认情况下，服务器侦听 8081 的端口，可以通过 flink-conf.yaml 配置文件的 rest.port 配置对其修改。请注意，监控 API 的 Web 服务器和 Web 仪表盘的 Web 服务器目前是相同的，因此可以在同一端口上一起运行。但是，它们响应不同的 HTTP URL。<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># The port to which the REST client connects to. If rest.bind-port has</span><br><span class="line"># not been specified, then the server will bind to this port as well.</span><br><span class="line">#</span><br><span class="line">#rest.port: 8081</span><br><span class="line">rest.port: 8090</span><br></pre></td></tr></table></figure></p>
+<p>防止端口冲突，在这把端口号修改为 8090。</p>
+<p>REST API 已版本化，可以通过在 URL 前面加上版本前缀来查询特定版本。前缀始终采用 v [version_number] 的形式。例如，要访问 /foo/bar 的 v1 版本，需要查询 /v1/foo/bar。如果未指定版本，那么 Flink 默认请求最旧版本。如果查询不支持/不存在的版本将返回 404 错误。</p>
+<p>这些 API 中存在几种异步操作，例如，触发保存点，重新调整作业。他们会返回一个 triggerid 标识我们的 POST 操作，然后需要我们再使用该 triggerid 查询该操作的状态。</p>
+<h3 id="1-config"><a href="#1-config" class="headerlink" title="1. /config"></a>1. /config</h3><p>查看 Web UI 的配置信息：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http://localhost:8090/v1/config</span><br></pre></td></tr></table></figure></p>
+<p>返回信息：<br><figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"refresh-interval"</span>: <span class="number">3000</span>,</span><br><span class="line">  <span class="attr">"timezone-name"</span>: <span class="string">"中国时间"</span>,</span><br><span class="line">  <span class="attr">"timezone-offset"</span>: <span class="number">28800000</span>,</span><br><span class="line">  <span class="attr">"flink-version"</span>: <span class="string">"1.11.2"</span>,</span><br><span class="line">  <span class="attr">"flink-revision"</span>: <span class="string">"fe36135 @ 2020-09-09T16:19:03+02:00"</span>,</span><br><span class="line">  <span class="attr">"features"</span>: &#123;</span><br><span class="line">    <span class="attr">"web-submit"</span>: <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-jobmanager-config"><a href="#2-jobmanager-config" class="headerlink" title="2. /jobmanager/config"></a>2. /jobmanager/config</h3><p>查看集群配置信息：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http://localhost:8090/v1/jobmanager/config</span><br></pre></td></tr></table></figure></p>
+<p>返回信息：<br><figure class="highlight json"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">"key"</span>: <span class="string">"rest.port"</span>,</span><br><span class="line">    <span class="attr">"value"</span>: <span class="string">"8090"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">"key"</span>: <span class="string">"taskmanager.memory.process.size"</span>,</span><br><span class="line">    <span class="attr">"value"</span>: <span class="string">"1728m"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">"key"</span>: <span class="string">"parallelism.default"</span>,</span><br><span class="line">    <span class="attr">"value"</span>: <span class="string">"1"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">"key"</span>: <span class="string">"jobmanager.execution.failover-strategy"</span>,</span><br><span class="line">    <span class="attr">"value"</span>: <span class="string">"region"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">"key"</span>: <span class="string">"jobmanager.rpc.address"</span>,</span><br><span class="line">    <span class="attr">"value"</span>: <span class="string">"localhost"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">"key"</span>: <span class="string">"taskmanager.numberOfTaskSlots"</span>,</span><br><span class="line">    <span class="attr">"value"</span>: <span class="string">"1"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">"key"</span>: <span class="string">"jobmanager.memory.process.size"</span>,</span><br><span class="line">    <span class="attr">"value"</span>: <span class="string">"1600m"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">"key"</span>: <span class="string">"web.tmpdir"</span>,</span><br><span class="line">    <span class="attr">"value"</span>: <span class="string">"/var/folders/54/crgqfp1n52s6560cqcjp7y9h0000gn/T/flink-web-b1a630ec-38b6-45f9-b17d-7756c830311f"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">"key"</span>: <span class="string">"jobmanager.rpc.port"</span>,</span><br><span class="line">    <span class="attr">"value"</span>: <span class="string">"6123"</span></span><br><span class="line">  &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<h3 id="3-jobmanager-logs"><a href="#3-jobmanager-logs" class="headerlink" title="3. /jobmanager/logs"></a>3. /jobmanager/logs</h3><p>查看 JobManager 上所有日志文件列表：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http://localhost:8090/v1/jobmanager/logs</span><br></pre></td></tr></table></figure></p>
+<p>返回信息：<br><figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"logs"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"name"</span>: <span class="string">"flink-wy-client-wy.lan.log"</span>,</span><br><span class="line">      <span class="attr">"size"</span>: <span class="number">6763</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"name"</span>: <span class="string">"flink-wy-standalonesession-0-wy.lan.log"</span>,</span><br><span class="line">      <span class="attr">"size"</span>: <span class="number">20174</span></span><br><span class="line">    &#125;,</span><br><span class="line">    ...</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"name"</span>: <span class="string">"flink-wy-taskexecutor-0-wy.lan.out"</span>,</span><br><span class="line">      <span class="attr">"size"</span>: <span class="number">3749625</span></span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-jobmanager-metrics"><a href="#4-jobmanager-metrics" class="headerlink" title="4. /jobmanager/metrics"></a>4. /jobmanager/metrics</h3><p>查看 JobManager 的 Metrics 信息：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http://localhost:8090/v1/jobmanager/metrics</span><br></pre></td></tr></table></figure></p>
+<p>返回信息：<br><figure class="highlight json"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">"id"</span>: <span class="string">"taskSlotsAvailable"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  ...</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">"id"</span>: <span class="string">"Status.JVM.Memory.Heap.Used"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">"id"</span>: <span class="string">"Status.JVM.Memory.Heap.Max"</span></span><br><span class="line">  &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<h3 id="5-jobs"><a href="#5-jobs" class="headerlink" title="5. /jobs"></a>5. /jobs</h3><p>查看 Job 信息：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http://localhost:8090/v1/jobs</span><br></pre></td></tr></table></figure></p>
+<p>返回信息：<br><figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;<span class="attr">"jobs"</span>:[&#123;<span class="attr">"id"</span>:<span class="string">"a2848961b7e7768dcf2d9ac71405aacf"</span>,<span class="attr">"status"</span>:<span class="string">"RUNNING"</span>&#125;]&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="6-jobs-overview"><a href="#6-jobs-overview" class="headerlink" title="6. /jobs/overview"></a>6. /jobs/overview</h3><p>查看所有作业信息：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http://localhost:8090/v1/jobs/overview</span><br></pre></td></tr></table></figure></p>
+<p>返回信息：<br><figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"jobs"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"jid"</span>: <span class="string">"a2848961b7e7768dcf2d9ac71405aacf"</span>,</span><br><span class="line">      <span class="attr">"name"</span>: <span class="string">"flink-kafka-stream"</span>,</span><br><span class="line">      <span class="attr">"state"</span>: <span class="string">"RUNNING"</span>,</span><br><span class="line">      <span class="attr">"start-time"</span>: <span class="number">1604157862897</span>,</span><br><span class="line">      <span class="attr">"end-time"</span>: <span class="number">-1</span>,</span><br><span class="line">      <span class="attr">"duration"</span>: <span class="number">983781978</span>,</span><br><span class="line">      <span class="attr">"last-modification"</span>: <span class="number">1604157863753</span>,</span><br><span class="line">      <span class="attr">"tasks"</span>: &#123;</span><br><span class="line">        <span class="attr">"total"</span>: <span class="number">1</span>,</span><br><span class="line">        <span class="attr">"created"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="attr">"scheduled"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="attr">"deploying"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="attr">"running"</span>: <span class="number">1</span>,</span><br><span class="line">        <span class="attr">"finished"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="attr">"canceling"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="attr">"canceled"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="attr">"failed"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="attr">"reconciling"</span>: <span class="number">0</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="7-jobs-jobid"><a href="#7-jobs-jobid" class="headerlink" title="7. /jobs/:jobid"></a>7. /jobs/:jobid</h3><p>查看具体某个作业信息：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http://localhost:8090/v1/jobs/a2848961b7e7768dcf2d9ac71405aacf</span><br></pre></td></tr></table></figure></p>
 <blockquote>
-<p>备注<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">map方法接受一个函数参数，将它应用到数组中的所有值，然后返回结果的数组</span><br></pre></td></tr></table></figure></p>
+<p>:jobid 表示 Job Id</p>
 </blockquote>
-<h3 id="2-匿名函数"><a href="#2-匿名函数" class="headerlink" title="2. 匿名函数"></a>2. 匿名函数</h3><p>在Scala中，不需要给每一个函数命名，就像不用给每个数字命名一样:<br><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line">(x: <span class="type">Double</span>) =&gt; <span class="number">3</span> * x</span><br></pre></td></tr></table></figure></p>
-<p>上述代码表示该函数将传递给它的参数乘以3．</p>
-<p>对与上述匿名函数我们可以如下操作:</p>
-<p>(1) 可以将函数存放在变量中:<br><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> triple = (x: <span class="type">Double</span>) =&gt; <span class="number">3</span> * x</span><br><span class="line">triple(<span class="number">2</span>) <span class="comment">// 6.0</span></span><br></pre></td></tr></table></figure></p>
-<p>上述代码等价于:<br><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">triple</span></span>(x:<span class="type">Double</span>) = <span class="number">3</span> * x</span><br></pre></td></tr></table></figure></p>
-<p>(2) 可以不用命名直接将函数传递给另一个函数:<br><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="type">Array</span>(<span class="number">3.14</span>, <span class="number">2.14</span>, <span class="number">1.14</span>).map((x: <span class="type">Double</span>) =&gt; <span class="number">3</span> * x)</span><br></pre></td></tr></table></figure></p>
-<h3 id="3-带函数参数的函数"><a href="#3-带函数参数的函数" class="headerlink" title="3. 带函数参数的函数"></a>3. 带函数参数的函数</h3><p>下面是一个接受一个函数作为参数的函数:<br><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">valueAtOneQuarter</span></span>(fun: (<span class="type">Double</span>) =&gt; <span class="type">Double</span>) = fun(<span class="number">0.25</span>)</span><br><span class="line">valueAtOneQuarter(sqrt _) <span class="comment">// 0.5 即 sqrt(0.25)</span></span><br></pre></td></tr></table></figure></p>
-<p>上述函数的参数类型为 <code>(Double) =&gt; Double</code>，即接受任何 <code>Double</code> 并返回 <code>Double</code> 的函数．</p>
-<h3 id="4-参数类型推断"><a href="#4-参数类型推断" class="headerlink" title="4. 参数类型推断"></a>4. 参数类型推断</h3><p>当你将一个匿名函数传递给一个函数时，Scala会尽可能帮助你推断出类型信息．不需要将代码写成如下:<br><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line">valueAtOneQuarter( (x:<span class="type">Double</span>) =&gt; <span class="number">3</span> * x ) <span class="comment">// 0.75</span></span><br></pre></td></tr></table></figure></p>
-<p>由于valueAtOneQuarter方法知道你会传入一个类型为<code>(x:Double) =&gt; Double</code>的函数，可以将上述代码改为:<br><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line">valueAtOneQuarter( (x) =&gt; <span class="number">3</span> * x )</span><br></pre></td></tr></table></figure></p>
-<p>或者<br><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line">valueAtOneQuarter( x =&gt; <span class="number">3</span> * x ) <span class="comment">// 只有一个参数的函数　可以省略括号</span></span><br></pre></td></tr></table></figure></p>
-<p>如果参数在=&gt;右侧只出现一次，可以使用 <code>_</code> 替换，因此进一步改写:<br><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line">valueAtOneQuarter(<span class="number">3</span> * _)</span><br></pre></td></tr></table></figure></p>
-<h3 id="5-柯里化"><a href="#5-柯里化" class="headerlink" title="5. 柯里化"></a>5. 柯里化</h3><p>柯里化是指将原来接受两个参数的函数变成一个新的接受一个参数的函数的过程．新的函数返回一个以原有第二个参数作为参数的函数．<br><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mul</span> </span>(x: <span class="type">Int</span>, y: <span class="type">Int</span>) = x * y</span><br></pre></td></tr></table></figure></p>
-<p>以下函数接受一个参数，生成另一个接受单个参数的函数:<br><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mulOneAtATime</span></span>(x: <span class="type">Int</span>) = (y: <span class="type">Int</span>) =&gt; x * y</span><br></pre></td></tr></table></figure></p>
-<p>要计算两个数的乘积，需要调用:<br><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line">mulOneAtATime(<span class="number">6</span>)(<span class="number">7</span>)</span><br></pre></td></tr></table></figure></p>
-<p>细分说明一下，mulOneAtATime(6)返回的是一个函数 <code>(y: Int) =&gt; 6 * y</code>．而这个函数又被应用到7，因此最终的结果为42．</p>
-<p>Scala支持如下简写来定义柯里化函数:<br><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mulOneAtATime</span></span>(x: <span class="type">Int</span>) (y: <span class="type">Int</span>) = x * y</span><br></pre></td></tr></table></figure></p>
-<p>我们可以看到多参数只是个虚饰，不是什么编程语言的特质．</p>
-<h3 id="6-控制抽象"><a href="#6-控制抽象" class="headerlink" title="6. 控制抽象"></a>6. 控制抽象</h3><p>在Scala中，我们可以将一系列语句组成<code>不带参数也没有返回值</code>的函数．如下函数在线程中执行某段代码:<br><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">runInThread</span></span>(block: ()=&gt;<span class="type">Unit</span>)&#123;</span><br><span class="line">  <span class="keyword">new</span> <span class="type">Thread</span>&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">run</span></span>()&#123; block() &#125;</span><br><span class="line">  &#125;.start()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>上述函数为带函数参数的函数，函数参数类型为<code>()=&gt;Unit</code>(表示没有参数也没有返回值)．但是如此一来，当你调用该函数时，需要写不美观的<code>()=&gt;</code>:<br><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line">runInThread&#123; () =&gt; println(<span class="string">"Hello"</span>);<span class="type">Thread</span>.sleep(<span class="number">10000</span>);println(<span class="string">"Bye"</span>);  &#125;</span><br></pre></td></tr></table></figure></p>
-<p>要想在调用中省掉<code>()=&gt;</code>，可以使用<code>换名调用</code>表示法：在参数声明和调用该函数参数的地方略去<code>()</code>，但保留<code>=</code>:<br><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">runInThread</span></span>(block: =&gt; <span class="type">Unit</span>)&#123; <span class="comment">// (1)</span></span><br><span class="line">  <span class="keyword">new</span> <span class="type">Thread</span>&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">run</span></span>() &#123; block &#125; <span class="comment">// (2)</span></span><br><span class="line">  &#125;.start()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这样，我们如下调用:<br><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line">runInThread&#123; println(<span class="string">"Hello"</span>);<span class="type">Thread</span>.sleep(<span class="number">10000</span>);println(<span class="string">"Bye"</span>); &#125;</span><br></pre></td></tr></table></figure></p>
-<p>Scala程序员可以构建控制抽象:看上去像编程语言的关键字的函数．例如，下面我们定一个until语句，工作原理类似while，只不过把条件反过来用:<br><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">until</span> </span>(condition: =&gt; <span class="type">Boolean</span>) (block: =&gt; <span class="type">Unit</span>) &#123;</span><br><span class="line">  <span class="keyword">if</span>(!condition)&#123;</span><br><span class="line">    block</span><br><span class="line">    until (condition) (block)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>使用:<br><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> x = <span class="number">4</span></span><br><span class="line">until (x == <span class="number">0</span>) &#123;</span><br><span class="line">  println(x)</span><br><span class="line">  x = x <span class="number">-1</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 4</span></span><br><span class="line"><span class="comment">// 3</span></span><br><span class="line"><span class="comment">// 2</span></span><br><span class="line"><span class="comment">// 1</span></span><br><span class="line"><span class="keyword">var</span> x = <span class="number">0</span></span><br><span class="line">until (x == <span class="number">0</span>) &#123;</span><br><span class="line">  println(x)</span><br><span class="line">  x = x <span class="number">-1</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 无输出</span></span><br></pre></td></tr></table></figure></p>
-<p>这样的函数参数有一个专业术语:换名调用参数．和常规的参数不同，函数被调用时，参数表达式不会被求值．毕竟，在调用until时，不希望<code>x == 0</code>被求值得到false．与之相反，表达式成为无参函数的函数体，而该函数被当做参数传递下去．<br>仔细看一下until函数的定义．注意它是柯里化的:函数首先处理掉condition，然后把block当做完全独立的另一个参数．如果没有柯里化，调用就会变成如下:<br><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line">until (x == <span class="number">0</span>, &#123;...&#125;)</span><br></pre></td></tr></table></figure></p>
-<h3 id="7-return表达式"><a href="#7-return表达式" class="headerlink" title="7. return表达式"></a>7. return表达式</h3><p>在Scala中，不需要使用return语句返回函数值．函数的返回值是函数体的值．不过，可以使用return来从一个匿名函数中返回值给包含这个匿名函数的带名函数．这对于抽象控制是很有用的:<br><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">indexOf</span></span>(str: <span class="type">String</span>, ch: <span class="type">Char</span>) : <span class="type">Int</span> = &#123;</span><br><span class="line">  <span class="keyword">var</span> i = <span class="number">0</span>;</span><br><span class="line">  until (i == str.length)&#123;</span><br><span class="line">    <span class="keyword">if</span>(str(i) == ch) <span class="keyword">return</span> i</span><br><span class="line">    i += <span class="number">1</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>在这里，匿名函数<code>{ if(str(i) == ch) return i; i += 1 }</code>被传递给until．当return表达式被执行时，包含它的带名函数indexOf终止并返回给定的值．如果要在带名函数中使用return的话，则需要给出其返回类型．例如上例中，编译器没法推断出它会返回Int，因此需要给出返回类型Int．</p>
-<p>来源于： 快学Scala</p>
+<p>返回信息：<br><figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"jid"</span>: <span class="string">"a2848961b7e7768dcf2d9ac71405aacf"</span>,</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"flink-kafka-stream"</span>,</span><br><span class="line">  <span class="attr">"isStoppable"</span>: <span class="literal">false</span>,</span><br><span class="line">  <span class="attr">"state"</span>: <span class="string">"RUNNING"</span>,</span><br><span class="line">  <span class="attr">"start-time"</span>: <span class="number">1604157862897</span>,</span><br><span class="line">  <span class="attr">"end-time"</span>: <span class="number">-1</span>,</span><br><span class="line">  <span class="attr">"duration"</span>: <span class="number">983903294</span>,</span><br><span class="line">  <span class="attr">"now"</span>: <span class="number">1605141766191</span>,</span><br><span class="line">  <span class="attr">"timestamps"</span>: &#123;</span><br><span class="line">    <span class="attr">"RESTARTING"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">"FAILED"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">"SUSPENDED"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">"RECONCILING"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">"CREATED"</span>: <span class="number">1604157862897</span>,</span><br><span class="line">    <span class="attr">"RUNNING"</span>: <span class="number">1604157862984</span>,</span><br><span class="line">    <span class="attr">"CANCELED"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">"FINISHED"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">"FAILING"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">"CANCELLING"</span>: <span class="number">0</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"vertices"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"id"</span>: <span class="string">"cbc357ccb763df2852fee8c4fc7d55f2"</span>,</span><br><span class="line">      <span class="attr">"name"</span>: <span class="string">"Source: Custom Source -&gt; Map -&gt; Sink: Print to Std. Out"</span>,</span><br><span class="line">      <span class="attr">"parallelism"</span>: <span class="number">1</span>,</span><br><span class="line">      <span class="attr">"status"</span>: <span class="string">"RUNNING"</span>,</span><br><span class="line">      <span class="attr">"start-time"</span>: <span class="number">1604157863134</span>,</span><br><span class="line">      <span class="attr">"end-time"</span>: <span class="number">-1</span>,</span><br><span class="line">      <span class="attr">"duration"</span>: <span class="number">983903057</span>,</span><br><span class="line">      <span class="attr">"tasks"</span>: &#123;</span><br><span class="line">        <span class="attr">"CANCELED"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="attr">"RUNNING"</span>: <span class="number">1</span>,</span><br><span class="line">        <span class="attr">"CANCELING"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="attr">"RECONCILING"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="attr">"CREATED"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="attr">"DEPLOYING"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="attr">"FAILED"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="attr">"SCHEDULED"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="attr">"FINISHED"</span>: <span class="number">0</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"metrics"</span>: &#123;</span><br><span class="line">        <span class="attr">"read-bytes"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="attr">"read-bytes-complete"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">"write-bytes"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="attr">"write-bytes-complete"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">"read-records"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="attr">"read-records-complete"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">"write-records"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="attr">"write-records-complete"</span>: <span class="literal">true</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">"status-counts"</span>: &#123;</span><br><span class="line">    <span class="attr">"CANCELED"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">"RUNNING"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">"CANCELING"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">"RECONCILING"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">"CREATED"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">"DEPLOYING"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">"FAILED"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">"SCHEDULED"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">"FINISHED"</span>: <span class="number">0</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"plan"</span>: &#123;</span><br><span class="line">    <span class="attr">"jid"</span>: <span class="string">"a2848961b7e7768dcf2d9ac71405aacf"</span>,</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"flink-kafka-stream"</span>,</span><br><span class="line">    <span class="attr">"nodes"</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"id"</span>: <span class="string">"cbc357ccb763df2852fee8c4fc7d55f2"</span>,</span><br><span class="line">        <span class="attr">"parallelism"</span>: <span class="number">1</span>,</span><br><span class="line">        <span class="attr">"operator"</span>: <span class="string">""</span>,</span><br><span class="line">        <span class="attr">"operator_strategy"</span>: <span class="string">""</span>,</span><br><span class="line">        <span class="attr">"description"</span>: <span class="string">"Source: Custom Source -&amp;gt; Map -&amp;gt; Sink: Print to Std. Out"</span>,</span><br><span class="line">        <span class="attr">"optimizer_properties"</span>: &#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="8-jobs-jobid-plan"><a href="#8-jobs-jobid-plan" class="headerlink" title="8. /jobs/:jobid/plan"></a>8. /jobs/:jobid/plan</h3><p>查看作业的数据流执行计划：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http://localhost:8090/v1/jobs/719ca461851b0afad055d81309b945a8/plan</span><br></pre></td></tr></table></figure></p>
+<p>返回信息：<br><figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"plan"</span>: &#123;</span><br><span class="line">    <span class="attr">"jid"</span>: <span class="string">"719ca461851b0afad055d81309b945a8"</span>,</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"flink-kafka-stream"</span>,</span><br><span class="line">    <span class="attr">"nodes"</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"id"</span>: <span class="string">"cbc357ccb763df2852fee8c4fc7d55f2"</span>,</span><br><span class="line">        <span class="attr">"parallelism"</span>: <span class="number">1</span>,</span><br><span class="line">        <span class="attr">"operator"</span>: <span class="string">""</span>,</span><br><span class="line">        <span class="attr">"operator_strategy"</span>: <span class="string">""</span>,</span><br><span class="line">        <span class="attr">"description"</span>: <span class="string">"Source: Custom Source -&amp;gt; Map -&amp;gt; Sink: Print to Std. Out"</span>,</span><br><span class="line">        <span class="attr">"optimizer_properties"</span>: &#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="9-overview"><a href="#9-overview" class="headerlink" title="9. /overview"></a>9. /overview</h3><p>查看集群信息：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http://localhost:8090/v1/overview</span><br></pre></td></tr></table></figure></p>
+<p>返回信息：<br><figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"taskmanagers"</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">"slots-total"</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">"slots-available"</span>: <span class="number">0</span>,</span><br><span class="line">  <span class="attr">"jobs-running"</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">"jobs-finished"</span>: <span class="number">0</span>,</span><br><span class="line">  <span class="attr">"jobs-cancelled"</span>: <span class="number">0</span>,</span><br><span class="line">  <span class="attr">"jobs-failed"</span>: <span class="number">0</span>,</span><br><span class="line">  <span class="attr">"flink-version"</span>: <span class="string">"1.11.2"</span>,</span><br><span class="line">  <span class="attr">"flink-commit"</span>: <span class="string">"fe36135"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="10-taskmanagers"><a href="#10-taskmanagers" class="headerlink" title="10. /taskmanagers"></a>10. /taskmanagers</h3><p>查看所有 Taskmanager 的信息：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http://localhost:8090/v1/taskmanagers</span><br></pre></td></tr></table></figure></p>
+<p>返回信息：<br><figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"taskmanagers"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"id"</span>: <span class="string">"14b7a2a632fd93d3548a8e17a311697b"</span>,</span><br><span class="line">      <span class="attr">"path"</span>: <span class="string">"akka.tcp://flink@192.168.99.198:49627/user/rpc/taskmanager_0"</span>,</span><br><span class="line">      <span class="attr">"dataPort"</span>: <span class="number">49629</span>,</span><br><span class="line">      <span class="attr">"timeSinceLastHeartbeat"</span>: <span class="number">1605340256498</span>,</span><br><span class="line">      <span class="attr">"slotsNumber"</span>: <span class="number">1</span>,</span><br><span class="line">      <span class="attr">"freeSlots"</span>: <span class="number">0</span>,</span><br><span class="line">      <span class="attr">"totalResource"</span>: &#123;</span><br><span class="line">        <span class="attr">"cpuCores"</span>: <span class="number">0.0</span>,</span><br><span class="line">        <span class="attr">"taskHeapMemory"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="attr">"taskOffHeapMemory"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="attr">"managedMemory"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="attr">"networkMemory"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="attr">"extendedResources"</span>: &#123;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"freeResource"</span>: &#123;</span><br><span class="line">        <span class="attr">"cpuCores"</span>: <span class="number">0.0</span>,</span><br><span class="line">        <span class="attr">"taskHeapMemory"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="attr">"taskOffHeapMemory"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="attr">"managedMemory"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="attr">"networkMemory"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="attr">"extendedResources"</span>: &#123;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"hardware"</span>: &#123;</span><br><span class="line">        <span class="attr">"cpuCores"</span>: <span class="number">4</span>,</span><br><span class="line">        <span class="attr">"physicalMemory"</span>: <span class="number">8589934592</span>,</span><br><span class="line">        <span class="attr">"freeMemory"</span>: <span class="number">536870912</span>,</span><br><span class="line">        <span class="attr">"managedMemory"</span>: <span class="number">536870920</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="11-其他"><a href="#11-其他" class="headerlink" title="11. 其他"></a>11. 其他</h3><p>在这简单罗列了一部分 API，更详细的可以参阅 <a href="https://ci.apache.org/projects/flink/flink-docs-release-1.11/monitoring/rest_api.html" target="_blank" rel="noopener">Monitoring REST API</a>：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">API</th>
+<th style="text-align:left">说明</th>
+<th style="text-align:left">参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">/jobs/:jobid/accumulators</td>
+<td style="text-align:left">查看具体某个作业所有任务的累加器</td>
+<td style="text-align:left">jobid</td>
+</tr>
+<tr>
+<td style="text-align:left">/jobs/:jobid/checkpoints</td>
+<td style="text-align:left">查看具体某个作业的Checkpoint信息</td>
+<td style="text-align:left">jobid</td>
+</tr>
+<tr>
+<td style="text-align:left">/jobs/:jobid/checkpoints/config</td>
+<td style="text-align:left">查看具体某个作业的Checkpoint配置信息</td>
+<td style="text-align:left">jobid</td>
+</tr>
+<tr>
+<td style="text-align:left">/jobs/:jobid/checkpoints/details/:checkpointid</td>
+<td style="text-align:left">查看具体某个作业的某个Checkpoint信息</td>
+<td style="text-align:left">jobid、checkpointid</td>
+</tr>
+<tr>
+<td style="text-align:left">/jobs/:jobid/config</td>
+<td style="text-align:left">查看具体某个作业的配置信息</td>
+<td style="text-align:left">jobid</td>
+</tr>
+<tr>
+<td style="text-align:left">/jobs/:jobid/exceptions</td>
+<td style="text-align:left">查看具体某个作业的已发现异常信息。truncated为true表示异常信息太大，截断展示。</td>
+<td style="text-align:left">jobid</td>
+</tr>
+<tr>
+<td style="text-align:left">/jobs/:jobid/savepoints</td>
+<td style="text-align:left">触发生成保存点，然后有选择地取消作业。此异步操作会返回 triggerid，可以作为后续查询的唯一标识。</td>
+<td style="text-align:left">jobid</td>
+</tr>
+<tr>
+<td style="text-align:left">/taskmanagers/metrics</td>
+<td style="text-align:left">查看 Taskmanager 的 Metrics 信息</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">/taskmanagers/:taskmanagerid</td>
+<td style="text-align:left">查看具体某个 Taskmanager 的详细信息</td>
+<td style="text-align:left">taskmanagerid</td>
+</tr>
+<tr>
+<td style="text-align:left">/taskmanagers/:taskmanagerid/logs</td>
+<td style="text-align:left">查看具体某个 Taskmanager 的所有日志文件列表</td>
+<td style="text-align:left">taskmanagerid</td>
+</tr>
+</tbody>
+</table>
+<p>欢迎关注我的公众号和博客：</p>
+<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Other/smartsi.jpg?raw=true" alt=""></p>
+<p>原文：<a href="https://ci.apache.org/projects/flink/flink-docs-release-1.11/monitoring/rest_api.html" target="_blank" rel="noopener">Monitoring REST API</a></p>
 
       
     </div>
@@ -495,11 +549,11 @@
         <ul class="post-copyright">
   <li class="post-copyright-author">
     <strong>本文作者：</strong>
-    sjf0115
+    smartsi
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://smartsi.club/scala-notes-higher-order-functions.html" title="Scala 学习笔记之高阶函数">http://smartsi.club/scala-notes-higher-order-functions.html</a>
+    <a href="http://smartsi.club/flink-monitoring-rest-api.html" title="Flink监控 Rest API">http://smartsi.club/flink-monitoring-rest-api.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -514,7 +568,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Scala/" rel="tag"># Scala</a>
+            <a href="/tags/Flink/" rel="tag"># Flink</a>
           
         </div>
       
@@ -527,8 +581,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/scala-notes-file.html" rel="next" title="Scala 学习笔记之文件操作">
-                <i class="fa fa-chevron-left"></i> Scala 学习笔记之文件操作
+              <a href="/a-guide-for-unit-testing-in-apache-flink.html" rel="next" title="Flink单元测试指南">
+                <i class="fa fa-chevron-left"></i> Flink单元测试指南
               </a>
             
           </div>
@@ -536,10 +590,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/scala-notes-regex.html" rel="prev" title="Scala 学习笔记之正则表达式">
-                Scala 学习笔记之正则表达式 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -755,7 +805,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-作为值的函数"><span class="nav-number">1.</span> <span class="nav-text">1. 作为值的函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-匿名函数"><span class="nav-number">2.</span> <span class="nav-text">2. 匿名函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-带函数参数的函数"><span class="nav-number">3.</span> <span class="nav-text">3. 带函数参数的函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-参数类型推断"><span class="nav-number">4.</span> <span class="nav-text">4. 参数类型推断</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-柯里化"><span class="nav-number">5.</span> <span class="nav-text">5. 柯里化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-控制抽象"><span class="nav-number">6.</span> <span class="nav-text">6. 控制抽象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-return表达式"><span class="nav-number">7.</span> <span class="nav-text">7. return表达式</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-config"><span class="nav-number">1.</span> <span class="nav-text">1. /config</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-jobmanager-config"><span class="nav-number">2.</span> <span class="nav-text">2. /jobmanager/config</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-jobmanager-logs"><span class="nav-number">3.</span> <span class="nav-text">3. /jobmanager/logs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-jobmanager-metrics"><span class="nav-number">4.</span> <span class="nav-text">4. /jobmanager/metrics</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-jobs"><span class="nav-number">5.</span> <span class="nav-text">5. /jobs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-jobs-overview"><span class="nav-number">6.</span> <span class="nav-text">6. /jobs/overview</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-jobs-jobid"><span class="nav-number">7.</span> <span class="nav-text">7. /jobs/:jobid</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-jobs-jobid-plan"><span class="nav-number">8.</span> <span class="nav-text">8. /jobs/:jobid/plan</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-overview"><span class="nav-number">9.</span> <span class="nav-text">9. /overview</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-taskmanagers"><span class="nav-number">10.</span> <span class="nav-text">10. /taskmanagers</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-其他"><span class="nav-number">11.</span> <span class="nav-text">11. 其他</span></a></li></ol></div>
             
 
           </div>
