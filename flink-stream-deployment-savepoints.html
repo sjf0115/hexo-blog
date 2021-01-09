@@ -97,36 +97,39 @@
 
 
   
-  <meta name="keywords" content="Flink,Flink 内部原理," />
+  <meta name="keywords" content="Flink," />
 
 
-<meta name="description" content="1. 调度Flink中的执行资源是通过任务槽定义。每个TaskManager都有一个或多个任务槽，每个任务槽可以运行一个并行任务的流水线(pipeline)。流水线由多个连续的任务组成，例如 MapFunction 的第n个并行实例和 ReduceFunction 的第n个并行实例。请注意，Flink经常同时执行连续的任务：对于流式处理程序时刻发生，但是对于批处理程序来说却是经常发生。 下图证明了">
-<meta name="keywords" content="Flink,Flink 内部原理">
+<meta name="description" content="1. 概述Savepoint 是 Checkpoint 的一种特殊实现，底层其实也是使用 Checkpoint 的机制。Savepoint 是用户以手工命令的方式触发 Checkpoint，并将结果持久化到指定的存储路径中，其主要目的是帮助用户在升级和维护集群过程中保存系统中的状态数据，避免因为停机维护或者升级应用等正常终止应用的操作导致系统无法恢复到原有的计算状态的情况，从而无法实现端到端的 E">
+<meta name="keywords" content="Flink">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Flink 内部原理之作业与调度">
-<meta property="og:url" content="http://smartsi.club/flink-internals-job-scheduling.html">
+<meta property="og:title" content="Flink Savepoint机制">
+<meta property="og:url" content="http://smartsi.club/flink-stream-deployment-savepoints.html">
 <meta property="og:site_name" content="SmartSi">
-<meta property="og:description" content="1. 调度Flink中的执行资源是通过任务槽定义。每个TaskManager都有一个或多个任务槽，每个任务槽可以运行一个并行任务的流水线(pipeline)。流水线由多个连续的任务组成，例如 MapFunction 的第n个并行实例和 ReduceFunction 的第n个并行实例。请注意，Flink经常同时执行连续的任务：对于流式处理程序时刻发生，但是对于批处理程序来说却是经常发生。 下图证明了">
+<meta property="og:description" content="1. 概述Savepoint 是 Checkpoint 的一种特殊实现，底层其实也是使用 Checkpoint 的机制。Savepoint 是用户以手工命令的方式触发 Checkpoint，并将结果持久化到指定的存储路径中，其主要目的是帮助用户在升级和维护集群过程中保存系统中的状态数据，避免因为停机维护或者升级应用等正常终止应用的操作导致系统无法恢复到原有的计算状态的情况，从而无法实现端到端的 E">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Flink/flink_internals_job_scheduling-1.png?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Flink/flink_internals_job_scheduling-2.png?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Flink/flink_internals_job_scheduling-3.png?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Flink/flink_internals_job_scheduling-4.png?raw=true">
-<meta property="og:updated_time" content="2019-10-26T03:57:13.000Z">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-deployment-savepoints-1.jpg?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-deployment-savepoints-2.jpg?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-deployment-savepoints-3.jpg?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-deployment-savepoints-4.jpg?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-deployment-savepoints-5.jpg?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-deployment-savepoints-6.jpg?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Other/smartsi.jpg?raw=true">
+<meta property="og:updated_time" content="2021-01-09T09:50:30.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Flink 内部原理之作业与调度">
-<meta name="twitter:description" content="1. 调度Flink中的执行资源是通过任务槽定义。每个TaskManager都有一个或多个任务槽，每个任务槽可以运行一个并行任务的流水线(pipeline)。流水线由多个连续的任务组成，例如 MapFunction 的第n个并行实例和 ReduceFunction 的第n个并行实例。请注意，Flink经常同时执行连续的任务：对于流式处理程序时刻发生，但是对于批处理程序来说却是经常发生。 下图证明了">
-<meta name="twitter:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Flink/flink_internals_job_scheduling-1.png?raw=true">
+<meta name="twitter:title" content="Flink Savepoint机制">
+<meta name="twitter:description" content="1. 概述Savepoint 是 Checkpoint 的一种特殊实现，底层其实也是使用 Checkpoint 的机制。Savepoint 是用户以手工命令的方式触发 Checkpoint，并将结果持久化到指定的存储路径中，其主要目的是帮助用户在升级和维护集群过程中保存系统中的状态数据，避免因为停机维护或者升级应用等正常终止应用的操作导致系统无法恢复到原有的计算状态的情况，从而无法实现端到端的 E">
+<meta name="twitter:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-deployment-savepoints-1.jpg?raw=true">
 
 
 
 
 
 
-  <link rel="canonical" href="http://smartsi.club/flink-internals-job-scheduling.html"/>
+  <link rel="canonical" href="http://smartsi.club/flink-stream-deployment-savepoints.html"/>
 
 
-  <title>Flink 内部原理之作业与调度 | SmartSi</title>
+  <title>Flink Savepoint机制 | SmartSi</title>
   
 
 
@@ -307,7 +310,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://smartsi.club/flink-internals-job-scheduling.html">
+    <link itemprop="mainEntityOfPage" href="http://smartsi.club/flink-stream-deployment-savepoints.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="sjf0115">
@@ -324,7 +327,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">Flink 内部原理之作业与调度</h2>
+          <h2 class="post-title" itemprop="name headline">Flink Savepoint机制</h2>
         
 
         <div class="post-meta">
@@ -336,7 +339,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-29T17:31:01+08:00">2018-01-29</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-01T18:13:17+08:00">2021-01-01</time>
             
 
             
@@ -371,8 +374,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/flink-internals-job-scheduling.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/flink-internals-job-scheduling.html" itemprop="commentCount"></span>
+                <a href="/flink-stream-deployment-savepoints.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/flink-stream-deployment-savepoints.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -380,7 +383,7 @@
 
           
           
-             <span id="/flink-internals-job-scheduling.html" class="leancloud_visitors" data-flag-title="Flink 内部原理之作业与调度">
+             <span id="/flink-stream-deployment-savepoints.html" class="leancloud_visitors" data-flag-title="Flink Savepoint机制">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -411,23 +414,67 @@
       
 
       
-        <h3 id="1-调度"><a href="#1-调度" class="headerlink" title="1. 调度"></a>1. 调度</h3><p><code>Flink</code>中的执行资源是通过任务槽定义。每个<code>TaskManager</code>都有一个或多个任务槽，每个任务槽可以运行一个并行任务的流水线(pipeline)。流水线由多个连续的任务组成，例如 <code>MapFunction</code> 的第n个并行实例和 <code>ReduceFunction</code> 的第n个并行实例。请注意，<code>Flink</code>经常同时执行连续的任务：对于流式处理程序时刻发生，但是对于批处理程序来说却是经常发生。</p>
-<p>下图证明了这一点。考虑一个带有数据源，一个<code>MapFunction</code> 和 一个<code>ReduceFunction</code> 的程序。数据源和 <code>MapFunction</code> 以并行度<code>4</code>运行， <code>ReduceFunction</code>以并行度<code>3</code>运行。流水线由 <code>Source-Map-Reduce</code> 序列组成。在具有2个<code>TaskManager</code>（每个有3个插槽）的集群上，程序将按照下面的描述执行:</p>
-<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Flink/flink_internals_job_scheduling-1.png?raw=true" alt=""></p>
-<p>在内部，<code>Flink</code>通过<a href="https://github.com/apache/flink/blob/master//flink-runtime/src/main/java/org/apache/flink/runtime/jobmanager/scheduler/SlotSharingGroup.java" target="_blank" rel="noopener">SlotSharingGroup</a>和 <a href="">CoLocationGroup</a>定义哪些任务可以共享一个槽（允许），哪些任务必须严格放置在同一个槽中。</p>
-<h3 id="2-JobManager-数据结构"><a href="#2-JobManager-数据结构" class="headerlink" title="2. JobManager 数据结构"></a>2. JobManager 数据结构</h3><p>在作业执行期间，<code>JobManager</code> 追踪分布式任务，决定何时调度下一个任务（或任务集合），并对完成的任务或执行失败的任务进行相应的处理。</p>
-<p><code>JobManager</code> 接收 <a href="https://github.com/apache/flink/tree/master/flink-runtime/src/main/java/org/apache/flink/runtime/jobgraph" target="_blank" rel="noopener">JobGraph</a>，<code>JobGraph</code>表示由算子（<a href="https://github.com/apache/flink/blob/master//flink-runtime/src/main/java/org/apache/flink/runtime/jobgraph/JobVertex.java" target="_blank" rel="noopener">JobVertex</a>）和中间结果（<a href="https://github.com/apache/flink/blob/master//flink-runtime/src/main/java/org/apache/flink/runtime/jobgraph/IntermediateDataSet.java" target="_blank" rel="noopener">IntermediateDataSet</a>）组成的数据流。每个算子都具有属性，如并行度和执行的代码等。另外，<code>JobGraph</code>还有一组附加的库，运行算子代码必需使用这些库。</p>
-<p><code>JobManager</code> 将 <code>JobGraph</code> 转换成 <a href="https://github.com/apache/flink/tree/master/flink-runtime/src/main/java/org/apache/flink/runtime/executiongraph" target="_blank" rel="noopener">ExecutionGraph</a>。 <code>ExecutionGraph</code> 是 <code>JobGraph</code> 的并行版本：对于每个 <code>JobVertex</code>，对于每个并行子任务它都包含一个  <a href="https://github.com/apache/flink/blob/master//flink-runtime/src/main/java/org/apache/flink/runtime/executiongraph/ExecutionVertex.java" target="_blank" rel="noopener">ExecutionVertex</a>。例如并行度为100的算子会有一个 <code>JobVertex</code> 以及 100个 <code>ExecutionVertices</code>。 <code>ExecutionVertex</code>跟踪特定子任务的执行状态。<code>JobVertex</code> 中所有的 <code>ExecutionVertices</code> 都保存在一个 <code>ExecutionJobVertex</code> 中，该 <a href="https://github.com/apache/flink/blob/master//flink-runtime/src/main/java/org/apache/flink/runtime/executiongraph/ExecutionJobVertex.java" target="_blank" rel="noopener">ExecutionJobVertex</a> 跟踪整个算子的状态。除了顶点之外， <code>ExecutionGraph</code> 还包含 <a href="https://github.com/apache/flink/blob/master//flink-runtime/src/main/java/org/apache/flink/runtime/executiongraph/IntermediateResult.java" target="_blank" rel="noopener">IntermediateResult</a> 和 <a href="https://github.com/apache/flink/blob/master//flink-runtime/src/main/java/org/apache/flink/runtime/executiongraph/IntermediateResultPartition.java" target="_blank" rel="noopener">IntermediateResultPartition</a>。前者跟踪 <code>IntermediateDataSet</code> 的状态，后者追踪每个分区的状态。</p>
-<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Flink/flink_internals_job_scheduling-2.png?raw=true" alt=""></p>
-<p>每个 <code>ExecutionGraph</code> 都有一个与之相关的作业状态。作业状态表示作业执行的当前状态。</p>
-<p><code>Flink</code> 作业首先处于 <code>ctreated</code> 状态，然后切换到 <code>running</code> 状态，一旦所有工作完成后切换到 <code>finished</code> 状态。在出现故障的情况下，作业首先切换到 <code>failing</code> 状态，取消所有正在运行任务的地方。如果所有作业顶点已达到最终状态，并且作业不可重新启动，那么作业转换 <code>failed</code> 状态。如果作业可以重新启动，那么它将进入 <code>restarting</code> 状态。一旦作业重新启动完成后，将进入 <code>ctreated</code> 状态。</p>
-<p>在用户取消作业的情况下，将进入 <code>cancelling</code> 状态。这也需要取消所有正在运行的任务。一旦所有正在运行的任务都达到最终状态，作业将转换到 <code>cancelled</code> 状态。</p>
-<p>不同于表示全局终端状态以及触发清理工作的 <code>finished</code>， <code>canceled</code> 和 <code>failed</code> 状态，<code>suspended</code> 状态只是本地终端。本地终端的意思是作业的执行已在相应的 <code>JobManager</code> 上终止，但 <code>Flink</code> 集群的另一个 <code>JobManager</code> 可从持久性 <code>HA</code> 存储中检索作业并重新启动作业。因此，进入 <code>suspended</code> 状态的作业将不会完全清理。</p>
-<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Flink/flink_internals_job_scheduling-3.png?raw=true" alt=""></p>
-<p>在 <code>ExecutionGraph</code> 的执行过程中，每个并行任务都经历了从 <code>ctreated</code> 到 <code>finished</code> 或 <code>failed</code> 的多个阶段。下图说明了它们之间的状态和可能的转换。任务可以执行多次（例如在故障恢复过程中）。出于这个原因， <code>ExecutionVertex</code> 执行跟踪信息保存在 <a href="https://github.com/apache/flink/blob/master//flink-runtime/src/main/java/org/apache/flink/runtime/executiongraph/Execution.java" target="_blank" rel="noopener">Execution</a> 中。 每个 <code>ExecutionVertex</code> 都有一个当前的<code>Execution</code>，以及之前的<code>Executions</code>。</p>
-<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Flink/flink_internals_job_scheduling-4.png?raw=true" alt=""></p>
-<p>备注:<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Flink版本:1.4</span><br></pre></td></tr></table></figure></p>
-<p>原文:<a href="https://ci.apache.org/projects/flink/flink-docs-release-1.4/internals/job_scheduling.html" target="_blank" rel="noopener">https://ci.apache.org/projects/flink/flink-docs-release-1.4/internals/job_scheduling.html</a></p>
+        <h3 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h3><p>Savepoint 是 Checkpoint 的一种特殊实现，底层其实也是使用 Checkpoint 的机制。Savepoint 是用户以手工命令的方式触发 Checkpoint，并将结果持久化到指定的存储路径中，其主要目的是帮助用户在升级和维护集群过程中保存系统中的状态数据，避免因为停机维护或者升级应用等正常终止应用的操作导致系统无法恢复到原有的计算状态的情况，从而无法实现端到端的 Exactly-Once 语义保证。</p>
+<blockquote>
+<p>Savepoint 与 Checkpoint 的具体区别，可以参阅<a href="http://smartsi.club/differences-between-savepoints-and-checkpoints-in-flink.html">Flink Savepoints和Checkpoints的3个不同点</a></p>
+</blockquote>
+<h3 id="2-分配算子ID"><a href="#2-分配算子ID" class="headerlink" title="2. 分配算子ID"></a>2. 分配算子ID</h3><p>当使用 Savepoint 对整个集群进行升级或者运维操作的时候，需要停止整个 Flink 应用程序，此时用户可能会对应用的代码逻辑进行修改，即使 Flink 能够通过 Savepoint 将应用中的状态数据同步到磁盘然后恢复任务，但由于代码逻辑发生变化，在升级过程中有可能导致算子的状态无法通过 Savepoint 中的数据进行恢复。在这种情况下就需要通过唯一的ID标记算子。</p>
+<p>在 Flink 中默认支持自动生成算子ID，但是这种方式不利于对代码层面的维护和升级，建议用户尽可能的使用手工的方式对算子进行唯一ID标记。如下所示可以通过 <code>uid()</code> 方法指定唯一ID：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">env.addSource(<span class="keyword">new</span> SimpleCustomSource()).uid(<span class="string">"source-uid"</span>) <span class="comment">// 为Source指定ID</span></span><br><span class="line">.keyBy(<span class="keyword">new</span> KeySelector&lt;Tuple2&lt;String, Integer&gt;, String&gt;() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getKey</span><span class="params">(Tuple2&lt;String, Integer&gt; value)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> value.getField(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line">.map(<span class="keyword">new</span> MyStatefulMapFunction()).uid(<span class="string">"map-uid"</span>) <span class="comment">// 为Map指定ID</span></span><br><span class="line">.print(); <span class="comment">// 自动生成ID</span></span><br></pre></td></tr></table></figure>
+<p>如果你没有手动指定这些ID，它们会自动生成。只要这些ID不变，您就可以从保存点中恢复。生成的ID取决于我们程序的拓扑结构，并对程序修改敏感，如果程序发生改变，ID也会发生改变。因此，强烈建议手动分配这些ID。</p>
+<blockquote>
+<p>强烈建议你按本节描述的去调整程序，以便将来可以升级程序。主要的变化是通过 <code>uid（String）</code> 方法手动指定算子ID。</p>
+</blockquote>
+<p>对于每个有状态的算子，你可以将保存点理解为算子ID到状态的映射：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Operator ID | State</span><br><span class="line">------------+------------------------</span><br><span class="line">source-uid   | State of StatefulSource</span><br><span class="line">map-uid      | State of StatefulMapper</span><br></pre></td></tr></table></figure></p>
+<p>在上面的例子中，print Sink是无状态的，因此不是保存点状态的一部分。默认情况下，我们会尝试将保存点下的每个条目映射到我们新程序下的算子。如果用户在新程序中删除了某个算子，这时会出现任务不能恢复的情况，此时我们可以设置忽略无法匹配的状态，让程序正常启动起来。</p>
+<h3 id="3-操作"><a href="#3-操作" class="headerlink" title="3. 操作"></a>3. 操作</h3><p>Savepoint 可以使用命令行来操作，命令行提供了触发 Savepoint、取消作业时生成 Savepoint、从 Savepoint 中恢复作业以及释放 Savepoint 等操作。在 Flink 1.2.0 版本之后也可以使用 Web 页面从 Savepoint 中恢复作业。</p>
+<h4 id="3-1-手动触发Savepoint"><a href="#3-1-手动触发Savepoint" class="headerlink" title="3.1 手动触发Savepoint"></a>3.1 手动触发Savepoint</h4><p>使用如下命令来触发 Savepoint，同时需要在命令行中指定 jobId 以及可选的 targetDirectory 两个参数，jobId 是需要触发 Savepoint 操作的作业Id，targetDirectory 是 Savepoint 数据的存储路径：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">bin/flink savepoint :jobId [:targetDirectory]</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-deployment-savepoints-1.jpg?raw=true" alt=""></p>
+<blockquote>
+<p>如果你不指定 targetDirectory，则需要配置一个默认目录，否则触发 Savepoint 失败。</p>
+</blockquote>
+<p>如果你是在 Hadoop YARN 上提交应用，需要指定 jobId 的同时也需要通过使用 yid 指定 YarnAppIdId，其他参数跟普通模式一样：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">bin/flink savepoint :jobId [:targetDirectory] -yid :yarnAppId</span><br></pre></td></tr></table></figure></p>
+<h5 id="3-2-取消作业并触发Savepoint"><a href="#3-2-取消作业并触发Savepoint" class="headerlink" title="3.2 取消作业并触发Savepoint"></a>3.2 取消作业并触发Savepoint</h5><p>可以使用如下 cancel 命令在取消作业时并自动触发 Savepoint：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">bin/flink cancel -s [:targetDirectory] :jobId</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-deployment-savepoints-2.jpg?raw=true" alt=""></p>
+<p>此外，您可以指定 targetDirectory 来存储 Savepoint，但是 JobManager 和 TaskManager 必须有访问该目录的权限。</p>
+<h4 id="3-3-从Savepoint恢复作业"><a href="#3-3-从Savepoint恢复作业" class="headerlink" title="3.3 从Savepoint恢复作业"></a>3.3 从Savepoint恢复作业</h4><p>可以使用如下 run 命令从 Savepoint 中恢复作业，其中 -s 参数指定了 Savepoint 数据的存储路径：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">bin/flink run -s :savepointPath [:runArgs]</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-deployment-savepoints-3.jpg?raw=true" alt=""></p>
+<p>默认情况下，恢复操作会尝试将 Savepoint 下的所有状态映射回待恢复的新程序。如果我们在新程序中删除了某个算子，这时会出现任务不能恢复的情况，此时我们可以通过 <code>--allowNonRestoredState</code> （简写-n）参数跳过无法匹配的状态，让程序正常启动起来：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">bin/flink run -s :savepointPath -n [:runArgs]</span><br></pre></td></tr></table></figure></p>
+<h4 id="3-4-释放Savepoint"><a href="#3-4-释放Savepoint" class="headerlink" title="3.4 释放Savepoint"></a>3.4 释放Savepoint</h4><p>可以使用如下命令释放保存在 savepointPath 中的 Savepoint 数据：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">bin/flink savepoint --dispose :savepointPath</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-deployment-savepoints-4.jpg?raw=true" alt=""></p>
+<p>官方文档给出如下也可以释放Savepoint：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">bin/flink savepoint -d :savepointPath</span><br></pre></td></tr></table></figure></p>
+<p>但是实际执行遇到如下问题，暂时没有找到原因：</p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-deployment-savepoints-5.jpg?raw=true" alt=""></p>
+<blockquote>
+<p>有知道的朋友可以留言</p>
+</blockquote>
+<p>需要注意的是我们还可以通过常规文件系统手动删除 Savepoint 数据，而不会影响其他 Savepoint 或 Checkpoint。在 Flink 1.2 之前，这是一个比较繁琐的任务，必须通过上面的 savepoint 命令执行的。</p>
+<h3 id="4-配置"><a href="#4-配置" class="headerlink" title="4. 配置"></a>4. 配置</h3><p>通过上面我们知道在执行 Savepoint 操作时需要指定 targetDirectory 目录，这个目录除了可以通过上面命令行方式指定外，也可以在系统环境中配置默认的 targetDirectory，这样就不需要每次在命令行中指定了。需要注意的时，默认路径和命令行中必须至少指定一个，否则无法正常执行 Savepoint 操作。</p>
+<p>我们可以通过修改 flink-conf.yaml 配置文件的 state.savepoints.dir 参数来修改默认路径：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Default target directory for savepoints, optional.</span><br><span class="line">#</span><br><span class="line">state.savepoints.dir: hdfs://localhost:9000/flink/savepoints</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>需要注意的是配置的路径必须是 JobManager 和 TaskManager 有权限访问的路径，例如，分布式文件系统上的路径。</p>
+</blockquote>
+<h3 id="5-Savepoint-数据"><a href="#5-Savepoint-数据" class="headerlink" title="5. Savepoint 数据"></a>5. Savepoint 数据</h3><p>触发 Savepoint 时，会在指定目录 targetDirectory 或者 state.savepoints.dir 配置参数下创建一个新的保存点目录。数据以及元数据将被存储该目录下：</p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-deployment-savepoints-6.jpg?raw=true" alt=""></p>
+<p>其中 b2f649 是 jobId 简写，0ac0837b40ce 是 SavepointId。具体格式如下：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/savepoints/savepoint-:shortjobid-:savepointid/_metadata</span><br></pre></td></tr></table></figure></p>
+<h3 id="6-FAQ"><a href="#6-FAQ" class="headerlink" title="6. FAQ"></a>6. FAQ</h3><p>(1) 应该为作业中的所有算子分配ID吗？</p>
+<p>根据经验来说，是的。严格来说，仅为有状态算子分配算子ID就足够了。Savepoint 只包含这些算子的状态，并不包含无状态的算子。实际上，建议给所有的算子分配ID，因为一些内置算子也是有状态的，比如，窗口算子。但是有时候我们并且不清楚哪些内置算子是有状态的，哪些是没有状态的。如果你确定算子是无状态的，那么可以不分配ID。</p>
+<p>(2) 如果在作业中添加一个新的有状态算子会发生什么？</p>
+<p>当你添加一个新的算子到你的作业时，算子在初始化时没有任何状态。新的算子类似一个无状态算子。</p>
+<p>(3) 如果从作业中删除了一个有状态算子会发生什么？</p>
+<p>默认情况下，Savepoint 会尝试将所有状态进行恢复。如果从 Savepoint 进行恢复时，发现某个算子已经被删除（Savepoint 包含了这个算子的状态），恢复操作将会失败。但是你可以通过设置 <code>--allowNonRestoredState</code>（简称：<code>-n</code>） 参数来跳过无法恢复的状态：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">flink run -s :savepointPath -n [:runArgs]</span><br></pre></td></tr></table></figure></p>
+<p>(4) 如果在作业中对有状态的算子进行重新排序会怎样？</p>
+<p>如果你为这些算子分配了ID，将照常恢复。如果你没有为它们分配ID，那么在重新排序后，有状态算子自动生成的ID很可能会发生变化。这将导致你无法从以前的 Savepoint 进行恢复。</p>
+<p>(5) 如果在作业中添加、删除或重新排序没有状态的算子会发生什么情况？</p>
+<p>如果你给有状态算子分配了ID，那么无状态算子不会影响 Savepoint 的恢复。如果你没有分配ID，那么在重新排序后，有状态算子自动生成的ID很可能会发生变化。这会导致你无法从以前的 Savepoint 进行恢复。所以还是建议给所有的算子分配ID。</p>
+<p>(6) 当在恢复时改变了程序的并行度会发生什么？</p>
+<p>如果 Savepoint 是在 Flink 大于 1.2.0 版本下被触发的，并且没有使用已经弃用的状态API（如 Checkpointed），那么是可以从 Savepoint 恢复程序并指定新的并行度。但是如果小于 1.2.0 版本 或者使用了已经弃用的状态API，那么必须先将作业和 Savepoint 迁移到大于等于 1.2.0 版本上，然后才能更改并行度。</p>
+<blockquote>
+<p>请参考<a href="https://ci.apache.org/projects/flink/flink-docs-release-1.12/ops/upgrading.html" target="_blank" rel="noopener">升级作业和Flink版本指南</a>。</p>
+</blockquote>
+<p>欢迎关注我的公众号和博客：</p>
+<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Other/smartsi.jpg?raw=true" alt=""></p>
+<p>原文:<a href="https://ci.apache.org/projects/flink/flink-docs-release-1.12/ops/state/savepoints.html" target="_blank" rel="noopener">Savepoints</a></p>
 
       
     </div>
@@ -473,11 +520,11 @@
         <ul class="post-copyright">
   <li class="post-copyright-author">
     <strong>本文作者：</strong>
-    sjf0115
+    smartsi
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://smartsi.club/flink-internals-job-scheduling.html" title="Flink 内部原理之作业与调度">http://smartsi.club/flink-internals-job-scheduling.html</a>
+    <a href="http://smartsi.club/flink-stream-deployment-savepoints.html" title="Flink Savepoint机制">http://smartsi.club/flink-stream-deployment-savepoints.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -494,8 +541,6 @@
           
             <a href="/tags/Flink/" rel="tag"># Flink</a>
           
-            <a href="/tags/Flink-内部原理/" rel="tag"># Flink 内部原理</a>
-          
         </div>
       
 
@@ -507,8 +552,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/hadoop-how-to-determine-the-hdfs-file-exists.html" rel="next" title="Hadoop Shell中判断HDFS文件是否存在">
-                <i class="fa fa-chevron-left"></i> Hadoop Shell中判断HDFS文件是否存在
+              <a href="/big-data-we-have-learned-together-in-2020.html" rel="next" title="2020年我们一起看过的大数据">
+                <i class="fa fa-chevron-left"></i> 2020年我们一起看过的大数据
               </a>
             
           </div>
@@ -517,8 +562,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/flink-stream-deployment-externalized-checkpoints.html" rel="prev" title="Flink1.4 外部检查点">
-                Flink1.4 外部检查点 <i class="fa fa-chevron-right"></i>
+              <a href="/flink-restart-strategy.html" rel="prev" title="Flink 任务失败恢复策略">
+                Flink 任务失败恢复策略 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -735,7 +780,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-调度"><span class="nav-number">1.</span> <span class="nav-text">1. 调度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-JobManager-数据结构"><span class="nav-number">2.</span> <span class="nav-text">2. JobManager 数据结构</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-概述"><span class="nav-number">1.</span> <span class="nav-text">1. 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-分配算子ID"><span class="nav-number">2.</span> <span class="nav-text">2. 分配算子ID</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-操作"><span class="nav-number">3.</span> <span class="nav-text">3. 操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-手动触发Savepoint"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 手动触发Savepoint</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-取消作业并触发Savepoint"><span class="nav-number">3.1.1.</span> <span class="nav-text">3.2 取消作业并触发Savepoint</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-从Savepoint恢复作业"><span class="nav-number">3.2.</span> <span class="nav-text">3.3 从Savepoint恢复作业</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-释放Savepoint"><span class="nav-number">3.3.</span> <span class="nav-text">3.4 释放Savepoint</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-配置"><span class="nav-number">4.</span> <span class="nav-text">4. 配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-Savepoint-数据"><span class="nav-number">5.</span> <span class="nav-text">5. Savepoint 数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-FAQ"><span class="nav-number">6.</span> <span class="nav-text">6. FAQ</span></a></li></ol></div>
             
 
           </div>
