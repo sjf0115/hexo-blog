@@ -97,33 +97,36 @@
 
 
   
-  <meta name="keywords" content="Flink,Flink Stream," />
+  <meta name="keywords" content="Hive," />
 
 
-<meta name="description" content="1. 异步IO操作的必要性当与外部系统交互时（例如，使用存储在数据库中数据丰富流事件），需要注意与外部系统的通信延迟并不决定流应用程序的整体工作。访问外部数据库中的数据（例如在 MapFunction 中）通常意味着同步交互：将请求发送到数据库，MapFunction 会等待直到收到响应。在许多情况下，这个等待时间占了该函数绝大部分时间。 与外部数据库进行异步交互意味着一个并行函数实例可以并发地处">
-<meta name="keywords" content="Flink,Flink Stream">
+<meta name="description" content="如今，很多公司可能会在内部使用多种数据存储和处理系统。这些不同的系统解决了对应的使用案例。除了传统的 RDBMS （比如 Oracle DB，Teradata或PostgreSQL） 之外，我们还会使用 Apache Kafka 来获取流和事件数据。使用 Apache Druid 处理实时系列数据（real-time series data），使用 Apache Phoenix 进行快速索引查找。">
+<meta name="keywords" content="Hive">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Flink1.4 用于外部数据访问的异步IO">
-<meta property="og:url" content="http://smartsi.club/flink-stream-asynchronous-io-for-external-data-access.html">
+<meta property="og:title" content="Apache Hive 联邦查询">
+<meta property="og:url" content="http://smartsi.club/hive-query-federation.html">
 <meta property="og:site_name" content="SmartSi">
-<meta property="og:description" content="1. 异步IO操作的必要性当与外部系统交互时（例如，使用存储在数据库中数据丰富流事件），需要注意与外部系统的通信延迟并不决定流应用程序的整体工作。访问外部数据库中的数据（例如在 MapFunction 中）通常意味着同步交互：将请求发送到数据库，MapFunction 会等待直到收到响应。在许多情况下，这个等待时间占了该函数绝大部分时间。 与外部数据库进行异步交互意味着一个并行函数实例可以并发地处">
+<meta property="og:description" content="如今，很多公司可能会在内部使用多种数据存储和处理系统。这些不同的系统解决了对应的使用案例。除了传统的 RDBMS （比如 Oracle DB，Teradata或PostgreSQL） 之外，我们还会使用 Apache Kafka 来获取流和事件数据。使用 Apache Druid 处理实时系列数据（real-time series data），使用 Apache Phoenix 进行快速索引查找。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Flink/flink-stream-asynchronous-io-for-external-data-access-1.png?raw=true">
-<meta property="og:updated_time" content="2019-10-26T03:57:13.000Z">
+<meta property="og:image" content="http://smartsi.club/1">
+<meta property="og:image" content="http://smartsi.club/2">
+<meta property="og:image" content="http://smartsi.club/3">
+<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Other/smartsi.jpg?raw=true">
+<meta property="og:updated_time" content="2021-01-10T13:11:42.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Flink1.4 用于外部数据访问的异步IO">
-<meta name="twitter:description" content="1. 异步IO操作的必要性当与外部系统交互时（例如，使用存储在数据库中数据丰富流事件），需要注意与外部系统的通信延迟并不决定流应用程序的整体工作。访问外部数据库中的数据（例如在 MapFunction 中）通常意味着同步交互：将请求发送到数据库，MapFunction 会等待直到收到响应。在许多情况下，这个等待时间占了该函数绝大部分时间。 与外部数据库进行异步交互意味着一个并行函数实例可以并发地处">
-<meta name="twitter:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Flink/flink-stream-asynchronous-io-for-external-data-access-1.png?raw=true">
+<meta name="twitter:title" content="Apache Hive 联邦查询">
+<meta name="twitter:description" content="如今，很多公司可能会在内部使用多种数据存储和处理系统。这些不同的系统解决了对应的使用案例。除了传统的 RDBMS （比如 Oracle DB，Teradata或PostgreSQL） 之外，我们还会使用 Apache Kafka 来获取流和事件数据。使用 Apache Druid 处理实时系列数据（real-time series data），使用 Apache Phoenix 进行快速索引查找。">
+<meta name="twitter:image" content="http://smartsi.club/1">
 
 
 
 
 
 
-  <link rel="canonical" href="http://smartsi.club/flink-stream-asynchronous-io-for-external-data-access.html"/>
+  <link rel="canonical" href="http://smartsi.club/hive-query-federation.html"/>
 
 
-  <title>Flink1.4 用于外部数据访问的异步IO | SmartSi</title>
+  <title>Apache Hive 联邦查询 | SmartSi</title>
   
 
 
@@ -304,7 +307,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://smartsi.club/flink-stream-asynchronous-io-for-external-data-access.html">
+    <link itemprop="mainEntityOfPage" href="http://smartsi.club/hive-query-federation.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="sjf0115">
@@ -321,7 +324,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">Flink1.4 用于外部数据访问的异步IO</h2>
+          <h2 class="post-title" itemprop="name headline">Apache Hive 联邦查询</h2>
         
 
         <div class="post-meta">
@@ -333,7 +336,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-28T17:17:17+08:00">2018-02-28</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-10T21:02:01+08:00">2021-01-10</time>
             
 
             
@@ -353,7 +356,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Flink/" itemprop="url" rel="index"><span itemprop="name">Flink</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Hive/" itemprop="url" rel="index"><span itemprop="name">Hive</span></a></span>
 
                 
                 
@@ -368,8 +371,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/flink-stream-asynchronous-io-for-external-data-access.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/flink-stream-asynchronous-io-for-external-data-access.html" itemprop="commentCount"></span>
+                <a href="/hive-query-federation.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/hive-query-federation.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -377,7 +380,7 @@
 
           
           
-             <span id="/flink-stream-asynchronous-io-for-external-data-access.html" class="leancloud_visitors" data-flag-title="Flink1.4 用于外部数据访问的异步IO">
+             <span id="/hive-query-federation.html" class="leancloud_visitors" data-flag-title="Apache Hive 联邦查询">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -408,42 +411,35 @@
       
 
       
-        <h3 id="1-异步IO操作的必要性"><a href="#1-异步IO操作的必要性" class="headerlink" title="1. 异步IO操作的必要性"></a>1. 异步IO操作的必要性</h3><p>当与外部系统交互时（例如，使用存储在数据库中数据丰富流事件），需要注意与外部系统的通信延迟并不决定流应用程序的整体工作。访问外部数据库中的数据（例如在 <code>MapFunction</code> 中）通常意味着同步交互：将请求发送到数据库，<code>MapFunction</code> 会等待直到收到响应。在许多情况下，这个等待时间占了该函数绝大部分时间。</p>
-<p>与外部数据库进行异步交互意味着一个并行函数实例可以并发地处理多个请求和并发地接收多个响应。那样的话，可以通过发送其他请求和接收响应来重叠等待时间。至少，等待时间可以被多个请求平摊，这在很多情况下会导致更高的流吞吐量。</p>
-<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Flink/flink-stream-asynchronous-io-for-external-data-access-1.png?raw=true" alt=""></p>
-<p>通过扩展 <code>MapFunction</code> 到一个很高的并发度来提高吞吐量在一定程度上是可行的，但是常常会导致很高的资源成本：有更多的并行 <code>MapFunction</code> 实例意味着更多的任务、线程、Flink内部网络连接、与数据库之间的网络连接、缓存以及通常的内部开销。</p>
-<h3 id="2-前提条件"><a href="#2-前提条件" class="headerlink" title="2. 前提条件"></a>2. 前提条件</h3><p>如上面的部分所述，实现数据库（或key/value存储系统）适当的异步I/O访问需要该数据库的客户端支持异步请求。许多流行的数据库提供这样的客户端。在没有这样的客户端的情况下，可以尝试创建多个客户端并使用线程池处理同步调用，从而将同步客户端转换为有限的并发客户端。但是，这种方法通常比适当的异步客户端效率低。</p>
-<h3 id="3-Async-I-O-API"><a href="#3-Async-I-O-API" class="headerlink" title="3. Async I/O API"></a>3. Async I/O API</h3><p>Flink 的异步 I/O API允许用户在数据流中使用异步请求客户端。API处理与数据流的集成，以及处理顺序，事件时间，容错等。</p>
-<p>假设有一个用于目标数据库的异步客户端，要实现一个通过异步I/O来操作数据库还需要三个步骤：</p>
+        <p>如今，很多公司可能会在内部使用多种数据存储和处理系统。这些不同的系统解决了对应的使用案例。除了传统的 RDBMS （比如 Oracle DB，Teradata或PostgreSQL） 之外，我们还会使用 Apache Kafka 来获取流和事件数据。使用 Apache Druid 处理实时系列数据（real-time series data），使用 Apache Phoenix 进行快速索引查找。 此外，我们还可能使用云存储服务或 HDFS 批量存储数据。</p>
+<p>平台团队一般会部署所有这些系统，使应用程序开发人员可以灵活地选择，以满足他们业务分析需求所需的功能。</p>
+<h2 id="1-使用-Apache-Hive-3-0-和-SQL-统一访问"><a href="#1-使用-Apache-Hive-3-0-和-SQL-统一访问" class="headerlink" title="1. 使用 Apache Hive 3.0 和 SQL 统一访问"></a>1. 使用 Apache Hive 3.0 和 SQL 统一访问</h2><p>但是我们也知道，如果我们需要将不同存储来源的数据进行关联，我们需要对数据进行提取，并放到同一种存储介质里面，比如都放到 HBase 中，然后再进行关联操作。大家可以看出，这种数据割裂，会对我们的数据关联分析带来很大的麻烦，如果我们能够使用一种查询引擎分别查询不同数据源的数据，然后直接进行关联操作，这将带来巨大的效率提升。这就是本文介绍的 JDBC Storage Handler，详见 HIVE-1555。</p>
+<p>从 JdbcStorageHandler 名字我们就可以看出，其功能应该和 HBaseStorageHandler 类似，也就是可以在 Hive 中使用标准的 JDBC 方式读取存储在不同数据存储里面的数据。比如我们可以在 Hive 中分别读取 MySQL 和 Phoenix 里面的数据，然后进行关联。其提供高效，统一的 SQL 访问 - 开箱即用。 这样做的好处是巨大的：</p>
 <ul>
-<li>实现调度请求的 <code>AsyncFunction</code></li>
-<li>获取操作结果并把它传递给 <code>ResultFuture</code> 的 <code>callBack</code></li>
-<li>将异步 I/O 操作作为转换操作应用于 <code>DataStream</code></li>
+<li>单个 SQL 方言和 API</li>
+<li>统一安全控制和审计跟踪</li>
+<li>统一控制</li>
+<li>能够组合来自多个来源的数据</li>
+<li>数据独立性</li>
 </ul>
-<p>以下代码示例说明了基本模式：</p>
-<p>Java版本:<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// This example implements the asynchronous request and callback with Futures that have the</span></span><br><span class="line"><span class="comment">// interface of Java 8's futures (which is the same one followed by Flink's Future)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * An implementation of the 'AsyncFunction' that sends requests and sets the callback.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AsyncDatabaseRequest</span> <span class="keyword">extends</span> <span class="title">RichAsyncFunction</span>&lt;<span class="title">String</span>, <span class="title">Tuple2</span>&lt;<span class="title">String</span>, <span class="title">String</span>&gt;&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** The database specific client that can issue concurrent requests with callbacks */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">transient</span> DatabaseClient client;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">open</span><span class="params">(Configuration parameters)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        client = <span class="keyword">new</span> DatabaseClient(host, post, credentials);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        client.close();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">asyncInvoke</span><span class="params">(<span class="keyword">final</span> String str, <span class="keyword">final</span> ResultFuture&lt;Tuple2&lt;String, String&gt;&gt; resultFuture)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 发出异步请求，返回结果的 Future</span></span><br><span class="line">        Future&lt;String&gt; resultFuture = client.query(str);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 一旦客户端的请求完成，执行回调函数</span></span><br><span class="line">        <span class="comment">// 回调函数只是将结果转发给 resultFuture</span></span><br><span class="line">        resultFuture.thenAccept( (String result) -&gt; &#123;</span><br><span class="line"></span><br><span class="line">            resultFuture.complete(Collections.singleton(<span class="keyword">new</span> Tuple2&lt;&gt;(str, result)));</span><br><span class="line"></span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// create the original stream</span></span><br><span class="line">DataStream&lt;String&gt; stream = ...;</span><br><span class="line"></span><br><span class="line"><span class="comment">// apply the async I/O transformation</span></span><br><span class="line">DataStream&lt;Tuple2&lt;String, String&gt;&gt; resultStream =</span><br><span class="line">    AsyncDataStream.unorderedWait(stream, <span class="keyword">new</span> AsyncDatabaseRequest(), <span class="number">1000</span>, TimeUnit.MILLISECONDS, <span class="number">100</span>);</span><br></pre></td></tr></table></figure></p>
-<p>Scala版本:<br><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * An implementation of the 'AsyncFunction' that sends requests and sets the callback.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AsyncDatabaseRequest</span> <span class="keyword">extends</span> <span class="title">AsyncFunction</span>[<span class="type">String</span>, (<span class="type">String</span>, <span class="type">String</span>)] </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** The database specific client that can issue concurrent requests with callbacks */</span></span><br><span class="line">    <span class="keyword">lazy</span> <span class="keyword">val</span> client: <span class="type">DatabaseClient</span> = <span class="keyword">new</span> <span class="type">DatabaseClient</span>(host, post, credentials)</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** The context used for the future callbacks */</span></span><br><span class="line">    <span class="keyword">implicit</span> <span class="keyword">lazy</span> <span class="keyword">val</span> executor: <span class="type">ExecutionContext</span> = <span class="type">ExecutionContext</span>.fromExecutor(<span class="type">Executors</span>.directExecutor())</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">asyncInvoke</span></span>(str: <span class="type">String</span>, resultFuture: <span class="type">ResultFuture</span>[(<span class="type">String</span>, <span class="type">String</span>)]): <span class="type">Unit</span> = &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// issue the asynchronous request, receive a future for the result</span></span><br><span class="line">        <span class="keyword">val</span> resultFuture: <span class="type">Future</span>[<span class="type">String</span>] = client.query(str)</span><br><span class="line"></span><br><span class="line">        <span class="comment">// set the callback to be executed once the request by the client is complete</span></span><br><span class="line">        <span class="comment">// the callback simply forwards the result to the result future</span></span><br><span class="line">        resultFuture.onSuccess &#123;</span><br><span class="line">            <span class="keyword">case</span> result: <span class="type">String</span> =&gt; resultFuture.complete(<span class="type">Iterable</span>((str, result)))</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// create the original stream</span></span><br><span class="line"><span class="keyword">val</span> stream: <span class="type">DataStream</span>[<span class="type">String</span>] = ...</span><br><span class="line"></span><br><span class="line"><span class="comment">// apply the async I/O transformation</span></span><br><span class="line"><span class="keyword">val</span> resultStream: <span class="type">DataStream</span>[(<span class="type">String</span>, <span class="type">String</span>)] =</span><br><span class="line">    <span class="type">AsyncDataStream</span>.unorderedWait(stream, <span class="keyword">new</span> <span class="type">AsyncDatabaseRequest</span>(), <span class="number">1000</span>, <span class="type">TimeUnit</span>.<span class="type">MILLISECONDS</span>, <span class="number">100</span>)</span><br></pre></td></tr></table></figure></p>
-<blockquote>
-<p>重要提示<br>ResultFuture是在第一次调用 ResultFuture.complete 时已经完成。所有后续的 <code>complete</code> 调用都将被忽略。</p>
-</blockquote>
-<p>以下两个参数控制异步操作：</p>
-<ul>
-<li>超时：超时定义了异步请求在被认为失败之前可能需要多长时间。该参数防止死亡/失败请求。</li>
-<li>容量：该参数定义可以同时进行多少个异步请求。尽管异步I/O方法通常会有更好的吞吐量，但是算子仍然可能是流应用程序中的瓶颈。限制并发请求的数量可以确保算子不会积压不断增长的未处理请求，但一旦容量耗尽，它将触发背压。</li>
-</ul>
-<h3 id="4-结果顺序"><a href="#4-结果顺序" class="headerlink" title="4. 结果顺序"></a>4. 结果顺序</h3><p>由 <code>AsyncFunction</code> 发出的并发请求经常是以无序的形式完成，取决于哪个请求先完成。为了控制结果记录发出的顺序，Flink 提供了两种模式：</p>
-<ul>
-<li><code>Unordered</code>：异步请求结束后立即输出结果记录。在经过异步I/O算子之后，流中记录的顺序与之前会不一样。当使用处理时间作为基本时间特性时，该模式具有最低延迟和最低开销的特性。在这种模式下使用 <code>AsyncDataStream.unorderedWait（...）</code> 函数。</li>
-<li><code>Ordered</code>：在这种情况下，保留流的顺序。结果记录输出的顺利与异步请求触发的顺序(算子输入记录的顺序)一致。为此，算子必须缓冲结果记录，直到其前面所有的记录输出（或超时）为止。这通常会导致在检查点中出现一定量的额外延迟和一些开销，因为与 <code>Unordered</code> 模式相比，结果的记录在检查点状态中保持较长的一段时间。在这种模式下使用 <code>AsyncDataStream.orderedWait（...）</code> 函数。</li>
-</ul>
-<h3 id="5-事件时间"><a href="#5-事件时间" class="headerlink" title="5. 事件时间"></a>5. 事件时间</h3><p>当流式应用程序使用事件时间时，异步 I/O 算子能正确处理 <code>watermarks</code>。这意味着对于两个顺序模式具体如下：</p>
-<ul>
-<li><code>Unordered</code>： <code>watermarks</code> 不会超过记录，反之亦然，这意味着 <code>watermarks</code> 建立起顺序边界。记录只在 <code>watermarks</code> 之间无序排列。只有在发布 <code>watermarks</code> 后才会发出某个 <code>watermarks</code> 后发生的记录。反过来，只有在发布 <code>watermarks</code> 前的所有输入结果记录之后才会发送 <code>watermarks</code>。这意味着，在有 <code>watermarks</code> 的情况下，<code>Unordered</code> 模式与 <code>Ordered</code> 模式一样，都引入了延迟和开销。该开销取决于 <code>watermarks</code> 发送频率。</li>
-<li><code>Ordered</code>：保存记录的 <code>watermarks</code> 顺序，就像保存记录之间的顺序一样。与处理时间相比，开销没有显着变化。</li>
-</ul>
-<p>请记住，提取时间是事件时间的特例，自动生成的 <code>watermarks</code> 基于数据源的处理时间。</p>
-<h3 id="6-容错保证"><a href="#6-容错保证" class="headerlink" title="6. 容错保证"></a>6. 容错保证</h3><p>异步 I/O 算子提供 <code>exactly-once</code> 语义容错保证。它将检查点中正在进行的异步请求记录存储起来，并在从故障中恢复时恢复/重新触发请求。</p>
-<p>原文： <a href="https://ci.apache.org/projects/flink/flink-docs-release-1.4/dev/stream/operators/asyncio.html" target="_blank" rel="noopener">https://ci.apache.org/projects/flink/flink-docs-release-1.4/dev/stream/operators/asyncio.html</a></p>
+<p>需要注意的是，目前 JdbcStorageHandler 仅仅支持从 JDBC 数据源读取数据，还不支持支持将数据写入到 JDBC 数据源。</p>
+<p><img src="1" alt=""></p>
+<h2 id="2-JdbcStorageHandler-支持-CBO（Cost-based-optimizer）"><a href="#2-JdbcStorageHandler-支持-CBO（Cost-based-optimizer）" class="headerlink" title="2. JdbcStorageHandler 支持 CBO（Cost-based optimizer）"></a>2. JdbcStorageHandler 支持 CBO（Cost-based optimizer）</h2><p>使用 JdbcStorageHandler 从 JDBC 数据源读取数据时，一种简单的方式是直接读取全量的数据；并将其全部加载到 Hive。这种方式虽然很简答，但是却会带来性能问题。</p>
+<p>基于这些原因，Hive 依赖 storage handler interfaces 以及 Apache Calcite 的 CBO 实现了智能的算子下推功能。这样可以将查询规则下推到 JDBC 数据源，在 JDBC 数据源层面上进行一些过滤，再将计算结果返回给 Hive，这样可以减少数据的量，从而提高查询效率。</p>
+<p>算子下推这个功能不限于 SQL 系统，比如我们可以将算子下推到 Apache Druid 或者 Apache Kafka。在查询 Apache Druid 里面的数据时，Hive 可以将过滤和聚合操作下推到 Druid，生成 JSON查询，并将其发送到引擎公开的 REST API。另一方面，如果我们查询 Kafka 里面的数据时，Hive 可以直接过滤相关的分区或者偏移量，有选择地从系统中的主题读取数据。</p>
+<p>假设我们在 MySQL 或者 PostgreSQL 里面有 store_sales、 store_retuens 和 date_dim 三张表，然后我们有以下的查询：<br><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">FLOOR</span>(d_timestap <span class="keyword">TO</span> <span class="keyword">DAY</span>),</span><br><span class="line">    <span class="keyword">SUM</span>(ss_sales_price) <span class="keyword">AS</span> sum_sales</span><br><span class="line"><span class="keyword">FROM</span> store_sales, store_returns, date_dim</span><br><span class="line"><span class="keyword">WHERE</span> ss_item_sk = sr_item_sk <span class="keyword">AND</span></span><br><span class="line">    ss_ticket_number = sr_ticket_number <span class="keyword">AND</span></span><br><span class="line">    ss_sold_date_sk = d_date_sk <span class="keyword">AND</span></span><br><span class="line">    ss_store_sk = <span class="number">410</span></span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> <span class="keyword">FLOOR</span>(d_timestap <span class="keyword">TO</span> <span class="keyword">DAY</span>)</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> sum_sales <span class="keyword">DESC</span></span><br><span class="line"><span class="keyword">LIMIT</span> <span class="number">100</span>;</span><br></pre></td></tr></table></figure></p>
+<p>上面这条 SQL 在优化前的执行计划，如下：</p>
+<p><img src="2" alt=""></p>
+<p>其中绿色的框框是在 MySQL 或者 PostgreSQL 里面执行的，橘色的是在 Hive 执行的。从上图可以看出，三次扫描的文件直接返回到 Hive 处理，这样效率是很低下的，其实我们可以对其进行算子下沉优化，经过 Apache Calcite 的 CBO 优化之后，执行计划如下：</p>
+<p><img src="3" alt=""></p>
+<p>对应的 SQL 执行如下：<br><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">// 如果是 PostgreSQL JDBC 数据源：</span><br><span class="line"><span class="keyword">SELECT</span> DATE_TRUNC(<span class="string">'DAY'</span>, <span class="string">"d_timestap"</span>),</span><br><span class="line">    <span class="keyword">SUM</span>(<span class="string">"ss_sales_price"</span>) <span class="keyword">AS</span> <span class="string">"sum_sales"</span></span><br><span class="line"><span class="keyword">FROM</span> <span class="string">"store_sales"</span>, <span class="string">"store_returns"</span>, <span class="string">"date_dim"</span></span><br><span class="line"><span class="keyword">WHERE</span> <span class="string">"ss_item_sk"</span> = <span class="string">"sr_item_sk"</span> <span class="keyword">AND</span></span><br><span class="line">    <span class="string">"ss_ticket_number"</span> = <span class="string">"sr_ticket_number"</span> <span class="keyword">AND</span></span><br><span class="line">    <span class="string">"ss_sold_date_sk"</span> = <span class="string">"d_date_sk"</span> <span class="keyword">AND</span></span><br><span class="line">    <span class="string">"ss_store_sk"</span> = <span class="number">410</span></span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> DATE_TRUNC(<span class="string">'DAY'</span>, <span class="string">"d_timestap"</span>)</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="string">"sum_sales"</span> <span class="keyword">DESC</span></span><br><span class="line"><span class="keyword">LIMIT</span> <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line">// 如果是 MySQL JDBC 数据源：</span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DATE_FORMAT</span>(<span class="string">`d_timestap`</span>, <span class="string">'%Y-%m-%d 00:00:00'</span>),</span><br><span class="line">    <span class="keyword">SUM</span>(<span class="string">`ss_sales_price`</span>) <span class="keyword">AS</span> <span class="string">`sum_sales`</span></span><br><span class="line"><span class="keyword">FROM</span> <span class="string">`store_sales`</span>, <span class="string">`store_returns`</span>, <span class="string">`date_dim`</span></span><br><span class="line"><span class="keyword">WHERE</span> <span class="string">`ss_item_sk`</span> = <span class="string">`sr_item_sk`</span> <span class="keyword">AND</span></span><br><span class="line">    <span class="string">`ss_ticket_number`</span> = <span class="string">`sr_ticket_number`</span> <span class="keyword">AND</span></span><br><span class="line">    <span class="string">`ss_sold_date_sk`</span> = <span class="string">`d_date_sk`</span> <span class="keyword">AND</span></span><br><span class="line">    <span class="string">`ss_store_sk`</span> = <span class="number">410</span></span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> <span class="keyword">DATE_FORMAT</span>(<span class="string">`d_timestap`</span>, <span class="string">'%Y-%m-%d 00:00:00'</span>)</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="string">`sum_sales`</span> <span class="keyword">DESC</span></span><br><span class="line"><span class="keyword">LIMIT</span> <span class="number">100</span>;</span><br></pre></td></tr></table></figure></p>
+<p>上面的这些操作直接在对应的 JDBC 数据源上执行，然后 Hive 再调用 JDBC_Scan 将查询结果保存到对应的 Sink 中。</p>
+<h2 id="3-如何使用-JdbcStorageHandler"><a href="#3-如何使用-JdbcStorageHandler" class="headerlink" title="3. 如何使用 JdbcStorageHandler"></a>3. 如何使用 JdbcStorageHandler</h2><p>说了这么多，那么我们该如何使用 JdbcStorageHandler 呢？为了使用它，我们需要在 Hive 里面创建一张外部表，具体如下：<br><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">EXTERNAL</span> <span class="keyword">TABLE</span> iteblog_jdbc</span><br><span class="line">(</span><br><span class="line">  <span class="keyword">name</span> <span class="keyword">string</span>,</span><br><span class="line">  age <span class="built_in">int</span>,</span><br><span class="line">  gpa <span class="keyword">double</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">STORED</span> <span class="keyword">BY</span> <span class="string">'org.apache.hive.storage.jdbc.JdbcStorageHandler'</span></span><br><span class="line">TBLPROPERTIES (</span><br><span class="line">    <span class="string">"hive.sql.database.type"</span> = <span class="string">"MYSQL"</span>,</span><br><span class="line">    <span class="string">"hive.sql.jdbc.driver"</span> = <span class="string">"com.mysql.jdbc.Driver"</span>,</span><br><span class="line">    <span class="string">"hive.sql.jdbc.url"</span> = <span class="string">"jdbc:mysql://www.iteblog.com/sample"</span>,</span><br><span class="line">    <span class="string">"hive.sql.dbcp.username"</span> = <span class="string">"iteblog"</span>,</span><br><span class="line">    <span class="string">"hive.sql.dbcp.password"</span> = <span class="string">"iteblog_hadoop"</span>,</span><br><span class="line">    <span class="string">"hive.sql.table"</span> = <span class="string">"STUDENT"</span>,</span><br><span class="line">    <span class="string">"hive.sql.dbcp.maxActive"</span> = <span class="string">"1"</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure></p>
+<p>正如上述所示，create table 当前需要指定 JDBC 表的模式。<a href="https://issues.apache.org/jira/browse/HIVE-21060" target="_blank" rel="noopener">HIVE-21060</a> 引入了一种可以对基于 JDBC 外部表自动发现模式的功能，这样我们就不必在 create table 命令中声明它。</p>
+<p><a href="https://issues.apache.org/jira/browse/HIVE-21059" target="_blank" rel="noopener">HIVE-21059</a> 的工作是对外部 catalog 的支持。 外部 catalog 将允许在 Metastore 中创建指向外部 mysql 数据库的 catalog。并且通过此 catalog，我们可以在 Hive 查询中使用里面的所有表。</p>
+<p>欢迎关注我的公众号和博客：</p>
+<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Other/smartsi.jpg?raw=true" alt=""></p>
+<p>原文:<a href="https://www.iteblog.com/archives/2524.html" target="_blank" rel="noopener">Apache Hive 联邦查询（Query Federation）</a></p>
 
       
     </div>
@@ -493,7 +489,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://smartsi.club/flink-stream-asynchronous-io-for-external-data-access.html" title="Flink1.4 用于外部数据访问的异步IO">http://smartsi.club/flink-stream-asynchronous-io-for-external-data-access.html</a>
+    <a href="http://smartsi.club/hive-query-federation.html" title="Apache Hive 联邦查询">http://smartsi.club/hive-query-federation.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -508,9 +504,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Flink/" rel="tag"># Flink</a>
-          
-            <a href="/tags/Flink-Stream/" rel="tag"># Flink Stream</a>
+            <a href="/tags/Hive/" rel="tag"># Hive</a>
           
         </div>
       
@@ -523,8 +517,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/introducing-apache-spark-2-3.html" rel="next" title="Spark 2.3.0 重要特性介绍">
-                <i class="fa fa-chevron-left"></i> Spark 2.3.0 重要特性介绍
+              <a href="/flink-stream-event-time-and-watermark.html" rel="next" title="Flink Watermark机制">
+                <i class="fa fa-chevron-left"></i> Flink Watermark机制
               </a>
             
           </div>
@@ -532,10 +526,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/flink-stream-windows-overall.html" rel="prev" title="Flink窗口如何使用">
-                Flink窗口如何使用 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -751,7 +741,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-异步IO操作的必要性"><span class="nav-number">1.</span> <span class="nav-text">1. 异步IO操作的必要性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-前提条件"><span class="nav-number">2.</span> <span class="nav-text">2. 前提条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Async-I-O-API"><span class="nav-number">3.</span> <span class="nav-text">3. Async I/O API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-结果顺序"><span class="nav-number">4.</span> <span class="nav-text">4. 结果顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-事件时间"><span class="nav-number">5.</span> <span class="nav-text">5. 事件时间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-容错保证"><span class="nav-number">6.</span> <span class="nav-text">6. 容错保证</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-使用-Apache-Hive-3-0-和-SQL-统一访问"><span class="nav-number">1.</span> <span class="nav-text">1. 使用 Apache Hive 3.0 和 SQL 统一访问</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-JdbcStorageHandler-支持-CBO（Cost-based-optimizer）"><span class="nav-number">2.</span> <span class="nav-text">2. JdbcStorageHandler 支持 CBO（Cost-based optimizer）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-如何使用-JdbcStorageHandler"><span class="nav-number">3.</span> <span class="nav-text">3. 如何使用 JdbcStorageHandler</span></a></li></ol></div>
             
 
           </div>
