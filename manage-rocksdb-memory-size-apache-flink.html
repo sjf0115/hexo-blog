@@ -100,36 +100,31 @@
   <meta name="keywords" content="Flink," />
 
 
-<meta name="description" content="Flink版本：1.11.0  1. 为何要使用Watermark？在说 Watermark 之前，我们先提一下 EventTime（事件时间）和 ProcessingTime（处理时间）。事件时间是事件在现实世界中发生的时间，处理时间是 Flink 系统处理该事件的时间。如果我们比较关心事件实际发生的时间，我们就需要基于事件时间进行处理。但是基于事件时间，我们就不得不面对乱序的问题。 通常情况">
+<meta name="description" content="这篇文章描述了一些配置选项，这些选项可以帮助我们有效地管理 Apache Flink 中 RocksDB 状态后端的内存大小。在前面的文章中，我们讲述了 Flink 中可支持的状态后端，本文将介绍跟 Flink 相关的一些 RocksDB 操作，并讨论一些提高资源利用率的重要配置。  从 Flink 1.10 开始，Flink 就开始自动管理 RocksDB 的内存，详细介绍请查阅 Memory">
 <meta name="keywords" content="Flink">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Flink Watermark机制">
-<meta property="og:url" content="http://smartsi.club/flink-stream-event-time-and-watermark.html">
+<meta property="og:title" content="Flink 如何管理 RocksDB 内存大小">
+<meta property="og:url" content="http://smartsi.club/manage-rocksdb-memory-size-apache-flink.html">
 <meta property="og:site_name" content="SmartSi">
-<meta property="og:description" content="Flink版本：1.11.0  1. 为何要使用Watermark？在说 Watermark 之前，我们先提一下 EventTime（事件时间）和 ProcessingTime（处理时间）。事件时间是事件在现实世界中发生的时间，处理时间是 Flink 系统处理该事件的时间。如果我们比较关心事件实际发生的时间，我们就需要基于事件时间进行处理。但是基于事件时间，我们就不得不面对乱序的问题。 通常情况">
+<meta property="og:description" content="这篇文章描述了一些配置选项，这些选项可以帮助我们有效地管理 Apache Flink 中 RocksDB 状态后端的内存大小。在前面的文章中，我们讲述了 Flink 中可支持的状态后端，本文将介绍跟 Flink 相关的一些 RocksDB 操作，并讨论一些提高资源利用率的重要配置。  从 Flink 1.10 开始，Flink 就开始自动管理 RocksDB 的内存，详细介绍请查阅 Memory">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-event-time-and-watermark-1.jpg?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-event-time-and-watermark-2.jpg?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-event-time-and-watermark-3.jpg?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-event-time-and-watermark-4.jpg?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-event-time-and-watermark-5.jpg?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-event-time-and-watermark-6.jpg?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Other/smartsi.jpg?raw=true">
-<meta property="og:updated_time" content="2021-01-10T08:20:16.000Z">
+<meta property="og:image" content="http://smartsi.club/![](https://github.com/sjf0115/ImageBucket/blob/main/Flink/manage-rocksdb-memory-size-apache-flink-1.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Other/smartsi.jpg?raw=true">
+<meta property="og:updated_time" content="2021-07-13T15:43:14.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Flink Watermark机制">
-<meta name="twitter:description" content="Flink版本：1.11.0  1. 为何要使用Watermark？在说 Watermark 之前，我们先提一下 EventTime（事件时间）和 ProcessingTime（处理时间）。事件时间是事件在现实世界中发生的时间，处理时间是 Flink 系统处理该事件的时间。如果我们比较关心事件实际发生的时间，我们就需要基于事件时间进行处理。但是基于事件时间，我们就不得不面对乱序的问题。 通常情况">
-<meta name="twitter:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-event-time-and-watermark-1.jpg?raw=true">
+<meta name="twitter:title" content="Flink 如何管理 RocksDB 内存大小">
+<meta name="twitter:description" content="这篇文章描述了一些配置选项，这些选项可以帮助我们有效地管理 Apache Flink 中 RocksDB 状态后端的内存大小。在前面的文章中，我们讲述了 Flink 中可支持的状态后端，本文将介绍跟 Flink 相关的一些 RocksDB 操作，并讨论一些提高资源利用率的重要配置。  从 Flink 1.10 开始，Flink 就开始自动管理 RocksDB 的内存，详细介绍请查阅 Memory">
+<meta name="twitter:image" content="http://smartsi.club/![](https://github.com/sjf0115/ImageBucket/blob/main/Flink/manage-rocksdb-memory-size-apache-flink-1.png?raw=true">
 
 
 
 
 
 
-  <link rel="canonical" href="http://smartsi.club/flink-stream-event-time-and-watermark.html"/>
+  <link rel="canonical" href="http://smartsi.club/manage-rocksdb-memory-size-apache-flink.html"/>
 
 
-  <title>Flink Watermark机制 | SmartSi</title>
+  <title>Flink 如何管理 RocksDB 内存大小 | SmartSi</title>
   
 
 
@@ -310,7 +305,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://smartsi.club/flink-stream-event-time-and-watermark.html">
+    <link itemprop="mainEntityOfPage" href="http://smartsi.club/manage-rocksdb-memory-size-apache-flink.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="sjf0115">
@@ -327,7 +322,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">Flink Watermark机制</h2>
+          <h2 class="post-title" itemprop="name headline">Flink 如何管理 RocksDB 内存大小</h2>
         
 
         <div class="post-meta">
@@ -339,7 +334,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-09T18:12:01+08:00">2021-01-09</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-07-13T18:08:21+08:00">2021-07-13</time>
             
 
             
@@ -353,7 +348,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-01-10T16:20:16+08:00">2021-01-10</time>
+              <time title="更新于" itemprop="dateModified" datetime="2021-07-13T23:43:14+08:00">2021-07-13</time>
             
           </span>
 
@@ -384,8 +379,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/flink-stream-event-time-and-watermark.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/flink-stream-event-time-and-watermark.html" itemprop="commentCount"></span>
+                <a href="/manage-rocksdb-memory-size-apache-flink.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/manage-rocksdb-memory-size-apache-flink.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -393,7 +388,7 @@
 
           
           
-             <span id="/flink-stream-event-time-and-watermark.html" class="leancloud_visitors" data-flag-title="Flink Watermark机制">
+             <span id="/manage-rocksdb-memory-size-apache-flink.html" class="leancloud_visitors" data-flag-title="Flink 如何管理 RocksDB 内存大小">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -424,272 +419,35 @@
       
 
       
-        <blockquote>
-<p>Flink版本：1.11.0</p>
-</blockquote>
-<h2 id="1-为何要使用Watermark？"><a href="#1-为何要使用Watermark？" class="headerlink" title="1. 为何要使用Watermark？"></a>1. 为何要使用Watermark？</h2><p>在说 Watermark 之前，我们先提一下 EventTime（事件时间）和 ProcessingTime（处理时间）。事件时间是事件在现实世界中发生的时间，处理时间是 Flink 系统处理该事件的时间。如果我们比较关心事件实际发生的时间，我们就需要基于事件时间进行处理。但是基于事件时间，我们就不得不面对乱序的问题。</p>
-<p>通常情况下，由于网络或者系统等外部因素影响，事件往往不能及时传输到 Flink 系统中，导致数据延迟到达。另一方面，流处理从事件产生，到流经 Source，再到算子，中间是有一个过程和时间的。虽然大部分情况下，流到算子的数据都是按照事件产生的时间来的，但是也可能由于网络、背压等原因，导致乱序的产生。</p>
-<p>因此，我们需要一种机制能够控制数据处理的过程和进度，比如，基于事件时间的 Window 创建后，那如何确定属于该 Window 的数据已经全部到达。如果确定全部到达，就可以对 Window 的所有数据做窗口计算操作，如果数据没有全部到达，则继续等待该 Window 中的数据全部到达才开始处理。这种情况下就需要使用 Watermark ，它能够衡量数据处理进度（表达数据到达的完整性），保证事件数据全部到达 Flink 系统，或者在乱序以及延迟到达时，也能够像预期一样计算出正确并且连续的结果。Flink 会用最新的事件时间减去最大可以容忍的延迟时间最为 Watermark，也就是说理论上不会有事件超过该容忍延迟时间到达，否则被认为是迟到事件。</p>
-<p>Watermark 的出现是为了解决一定范围内的乱序问题，一定范围内表明我们不会无限制的等待延迟的事件，我们有一定的可容忍的延迟时间。Watermark 用来表明所有比当前 Watermark 事件时间早的事件都已经（可能）到达，从而来衡量数据处理进度（表达数据到达的完整性）。</p>
-<h2 id="2-Watermark如何产生？"><a href="#2-Watermark如何产生？" class="headerlink" title="2. Watermark如何产生？"></a>2. Watermark如何产生？</h2><h3 id="2-1-顺序事件中的Watermark"><a href="#2-1-顺序事件中的Watermark" class="headerlink" title="2.1 顺序事件中的Watermark"></a>2.1 顺序事件中的Watermark</h3><p>如果数据元素的事件时间是有序的，Watermark 时间戳会随着数据元素的事件时间按顺序生成，此时 Watermark 的变化和事件时间保持一致，这就是理想状态中的 Watermark。如下图所示， 事件按照其原本的顺序进入 Flink 系统中，Watermark 也跟随着事件时间之后生效，可以看出 Watermark 只是对数据流简单的进行周期性标记，并没有特别大的意义，也就是说在顺序事件的数据处理过程中，Watermark 并不能发挥太大的价值，反而会因为设定超期时间而导致延迟输出计算结果。</p>
-<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-event-time-and-watermark-1.jpg?raw=true" alt=""></p>
-<h3 id="2-2-乱序事件中的Watermark"><a href="#2-2-乱序事件中的Watermark" class="headerlink" title="2.2 乱序事件中的Watermark"></a>2.2 乱序事件中的Watermark</h3><p>现实情况下数据往往并不是找找其产生顺序接入到 Flink 系统中进行处理，而频繁出现乱序或者迟到的情况，这种情况就需要使用 Watermark 来应对。当事件无序时，我们通常认为他们有一定的无序性，那么一定的无序性表明数据不可能无限期的延迟，那它只能在一定范围内处于一种无序状态，那么这个时候我们通过 MaxOutOfOrderness 参数设定我们可以忍受的最大延迟时间。如下图所示 MaxOutOfOrderness = 4，表明可以接受有4个时间单位的延迟，比如，4秒或者4分钟等。当超过4个时间单位之后，我们认为这个数据就是一种无效数据。在4个时间单位之内接入的数据，我们认为是一种有效的乱序事件。在乱序的情况下，我们看看会产生怎样的 Watermark。在这通过 MaxOutOfOrderness 参数去计算我们的 Watermark，也就是会在我们的事件时间的基础之上减去我们的 MaxOutOfOrderness，比如，事件时间为7，Watermark 就为 3（事件时间减去 MaxOutOfOrderness）：</p>
-<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-event-time-and-watermark-2.jpg?raw=true" alt=""></p>
+        <p>这篇文章描述了一些配置选项，这些选项可以帮助我们有效地管理 Apache Flink 中 RocksDB 状态后端的内存大小。在前面的<a href="http://smartsi.club/stateful-stream-processing-apache-flink-state-backends.html">文章</a>中，我们讲述了 Flink 中可支持的状态后端，本文将介绍跟 Flink 相关的一些 RocksDB 操作，并讨论一些提高资源利用率的重要配置。</p>
 <blockquote>
-<p>Watermark = 当前最大时间戳 - 最大能容忍的时间（MaxOutOfOrderness）</p>
+<p>从 Flink 1.10 开始，Flink 就开始自动管理 RocksDB 的内存，详细介绍请查阅 <a href="https://ci.apache.org/projects/flink/flink-docs-release-1.10/ops/state/state_backends.html#memory-management" target="_blank" rel="noopener">Memory Management</a></p>
 </blockquote>
-<p>每当新来一条数据，如果高于了我们前面的最大事件时间，就会触发一个 Watermark 的更新。比如事件时间 11 高于前面的最大事件时间 7，就会触发 w(7) 的更新：</p>
-<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-event-time-and-watermark-3.jpg?raw=true" alt=""></p>
-<p>对于事件时间 7 产生 Watermark 3，事件时间 11 产生 Watermark 7，但是对于 9 这样一条事件，我们发现它的事件时间没有超过我们前面的事件时间的最大值（11），那么就不会触发 Watermark 的更新。</p>
-<p>我们发现 Watermark 的更新其实是根据我们事件时间的变动而发生变化，如果新接入的事件时间大于了前面的事件时间，这时候才会触发产生 Watermark，即每当有新的最大事件时间出现时，就可以产生新的 Watermark。</p>
-<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-event-time-and-watermark-4.jpg?raw=true" alt=""></p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">事件时间</th>
-<th style="text-align:left">当前最大事件时间</th>
-<th style="text-align:left">Watermark</th>
-<th style="text-align:left">是否触发</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">7</td>
-<td style="text-align:left">7</td>
-<td style="text-align:left">w(3)</td>
-<td style="text-align:left">是</td>
-</tr>
-<tr>
-<td style="text-align:left">11</td>
-<td style="text-align:left">11</td>
-<td style="text-align:left">w(7)</td>
-<td style="text-align:left">是</td>
-</tr>
-<tr>
-<td style="text-align:left">9</td>
-<td style="text-align:left">11</td>
-<td style="text-align:left">w(7)</td>
-<td style="text-align:left">否</td>
-</tr>
-<tr>
-<td style="text-align:left">15</td>
-<td style="text-align:left">15</td>
-<td style="text-align:left">w(11)</td>
-<td style="text-align:left">是</td>
-</tr>
-<tr>
-<td style="text-align:left">12</td>
-<td style="text-align:left">15</td>
-<td style="text-align:left">w(11)</td>
-<td style="text-align:left">否</td>
-</tr>
-<tr>
-<td style="text-align:left">13</td>
-<td style="text-align:left">15</td>
-<td style="text-align:left">w(11)</td>
-<td style="text-align:left">否</td>
-</tr>
-<tr>
-<td style="text-align:left">17</td>
-<td style="text-align:left">17</td>
-<td style="text-align:left">w(13)</td>
-<td style="text-align:left">是</td>
-</tr>
-<tr>
-<td style="text-align:left">14</td>
-<td style="text-align:left">17</td>
-<td style="text-align:left">w(13)</td>
-<td style="text-align:left">否</td>
-</tr>
-<tr>
-<td style="text-align:left">21</td>
-<td style="text-align:left">21</td>
-<td style="text-align:left">w(17)</td>
-<td style="text-align:left">是</td>
-</tr>
-<tr>
-<td style="text-align:left">24</td>
-<td style="text-align:left">24</td>
-<td style="text-align:left">w(20)</td>
-<td style="text-align:left">是</td>
-</tr>
-<tr>
-<td style="text-align:left">22</td>
-<td style="text-align:left">24</td>
-<td style="text-align:left">w(20)</td>
-<td style="text-align:left">否</td>
-</tr>
-<tr>
-<td style="text-align:left">19</td>
-<td style="text-align:left">24</td>
-<td style="text-align:left">w(20)</td>
-<td style="text-align:left">否</td>
-</tr>
-</tbody>
-</table>
-<p>但是对于事件时间 19 这样一条数据，我们发现它的时间戳已经小于了当前的 Watermark 的时间，这个时候系统就会将这条数据标记为迟到事件。迟到事件在窗口计算时就不会被纳入窗口的统计范围内，w(20) 之前的数据会被纳入到窗口的统计范围内。</p>
-<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-event-time-and-watermark-5.jpg?raw=true" alt=""></p>
-<h3 id="2-3-并行数据流中的Watermark"><a href="#2-3-并行数据流中的Watermark" class="headerlink" title="2.3 并行数据流中的Watermark"></a>2.3 并行数据流中的Watermark</h3><p>Watermark 一般在 Source 算子中生成，并且在每个 Source 算子的子任务中都会独立生成 Watermark。在 Source 算子的子任务中生成后就会更新该任务的 Watermark，并且会逐步更新下游算子中的 Watermark。如下图所示，Watermark w(17) 已经将 Source 算子和 Map 算子的子任务时钟全部更新值为 17。如果多个 Watermark 同时更新一个算子子任务的当前时间，Flink 会选择最小的 Watermark 来更新。</p>
-<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-event-time-and-watermark-6.jpg?raw=true" alt=""></p>
-<h2 id="3-Watermark与窗口的关系"><a href="#3-Watermark与窗口的关系" class="headerlink" title="3. Watermark与窗口的关系"></a>3. Watermark与窗口的关系</h2><p>Watermark 在 Flink 系统中本身没有太大的意义，只有与窗口结合才能产生其相应价值。对于窗口来讲，其实是通过 Watermark 去控制它的窗口触发时机，告诉窗口不再会有比当前 Watermark 更晚的数据到达了。只有当 Watermark 大于窗口的右边界时才会触发窗口的计算。下面我们通过具体的示例一起来看一下 Watermark 怎么应用于窗口之中。下面我们创建一个窗口大小为10分钟，滑动步长为5分钟的滑动窗口。我们的输入元素都有特定格式:&lt;事件Id,事件时间&gt;，我们的目标就是统计每个事件Id在窗口中出现的次数。假设我们可以接受的最大延迟时间为10分钟，即10分钟以外的数据我们标记为延迟事件：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">序号</th>
-<th style="text-align:left">输入</th>
-<th style="text-align:left">当前最大时间(时间戳)</th>
-<th style="text-align:left">当前Watermark(时间戳)</th>
-<th style="text-align:left">属于窗口</th>
-<th style="text-align:left">触发窗口</th>
-<th style="text-align:left">触发元素</th>
-<th style="text-align:left">计算结果</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">1</td>
-<td style="text-align:left">A,2021-01-05 12:07:01</td>
-<td style="text-align:left">2021-01-05 12:07:01</td>
-<td style="text-align:left">2021-01-05 11:57:00</td>
-<td style="text-align:left">[12:00, 12:10]、[12:05, 12:15]</td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">2</td>
-<td style="text-align:left">B,2021-01-05 12:08:01</td>
-<td style="text-align:left">2021-01-05 12:08:01</td>
-<td style="text-align:left">2021-01-05 11:58:00</td>
-<td style="text-align:left">[12:00, 12:10]、[12:05, 12:15]</td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">3</td>
-<td style="text-align:left">A,2021-01-05 12:14:01</td>
-<td style="text-align:left">2021-01-05 12:14:01</td>
-<td style="text-align:left">2021-01-05 12:04:00</td>
-<td style="text-align:left">[12:05, 12:15]、[12:10, 12:20]</td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">4</td>
-<td style="text-align:left">C,2021-01-05 12:09:01</td>
-<td style="text-align:left">2021-01-05 12:14:01</td>
-<td style="text-align:left">2021-01-05 12:04:00</td>
-<td style="text-align:left">[12:00, 12:10]、[12:05, 12:15]</td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">5</td>
-<td style="text-align:left">C,2021-01-05 12:15:01</td>
-<td style="text-align:left">2021-01-05 12:15:01</td>
-<td style="text-align:left">2021-01-05 12:05:00</td>
-<td style="text-align:left">[12:10, 12:20]、[12:15, 12:25]</td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">6</td>
-<td style="text-align:left">A,2021-01-05 12:08:01</td>
-<td style="text-align:left">2021-01-05 12:15:01</td>
-<td style="text-align:left">2021-01-05 12:05:00</td>
-<td style="text-align:left">[12:00, 12:10]、[12:05, 12:15]</td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">7</td>
-<td style="text-align:left">B,2021-01-05 12:13:01</td>
-<td style="text-align:left">2021-01-05 12:15:01</td>
-<td style="text-align:left">2021-01-05 12:05:00</td>
-<td style="text-align:left">[12:05, 12:15]、[12:10, 12:20]</td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">8</td>
-<td style="text-align:left">B,2021-01-05 12:21:01</td>
-<td style="text-align:left">2021-01-05 12:21:01</td>
-<td style="text-align:left">2021-01-05 12:11:00</td>
-<td style="text-align:left">[12:15, 12:25]、[12:20, 12:30]</td>
-<td style="text-align:left">[12:00, 12:10]</td>
-<td style="text-align:left">1、2、4、6</td>
-<td style="text-align:left">(A,2)、(B,1)、(C,1)</td>
-</tr>
-<tr>
-<td style="text-align:left">9</td>
-<td style="text-align:left">D,2021-01-05 12:04:01</td>
-<td style="text-align:left">2021-01-05 12:21:01</td>
-<td style="text-align:left">2021-01-05 12:11:00</td>
-<td style="text-align:left">[11:55, 12:05]、[12:00, 12:10]</td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">10</td>
-<td style="text-align:left">B,2021-01-05 12:26:01</td>
-<td style="text-align:left">2021-01-05 12:26:01</td>
-<td style="text-align:left">2021-01-05 12:16:00</td>
-<td style="text-align:left">[12:20, 12:30]、[12:25, 12:35]</td>
-<td style="text-align:left">[12:05, 12:15]</td>
-<td style="text-align:left">1、2、3、4、6、7</td>
-<td style="text-align:left">(A,3)、(C,1)、(B,2)</td>
-</tr>
-<tr>
-<td style="text-align:left">11</td>
-<td style="text-align:left">B,2021-01-05 12:17:01</td>
-<td style="text-align:left">2021-01-05 12:26:01</td>
-<td style="text-align:left">2021-01-05 12:16:00</td>
-<td style="text-align:left">[12:10, 12:20]、[12:15, 12:25]</td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">12</td>
-<td style="text-align:left">D,2021-01-05 12:09:01</td>
-<td style="text-align:left">2021-01-05 12:26:01</td>
-<td style="text-align:left">2021-01-05 12:16:00</td>
-<td style="text-align:left">[12:00, 12:10]、[12:05, 12:15]</td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">13</td>
-<td style="text-align:left">C,2021-01-05 12:30:01</td>
-<td style="text-align:left">2021-01-05 12:30:01</td>
-<td style="text-align:left">2021-01-05 12:20:00</td>
-<td style="text-align:left">[12:25, 12:35]、[12:30, 12:40]</td>
-<td style="text-align:left">[12:15,12:20]</td>
-<td style="text-align:left">3、5、7、11</td>
-<td style="text-align:left">(B,2)、(C,1)、(A,1)</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>maxOutOfOrderness=10分钟，watermark(t)=currentMaxTimeStamp(t)-maxOutOfOrderness(t)-1</p>
-</blockquote>
-<p>第二列是我们输入的事件，第三列是当前最大的事件时间，第四列是当前最新的 Watermark，第五列是当前事件所属于的窗口，第六列是当前 Watermark 触发了哪个窗口的计算，第七列是哪些事件在这个触发的窗口中，第八列是窗口计算的最终结果。</p>
-<p>当第一条数据接入 Flink 系统时，会产生一个新的 Watermark，同时会产生 [12:00, 12:10]、[12:05, 12:15] 两个窗口。当第二条数据到达时，由于大于了前面的事件时间，因此会触发 Watermark 的更新，该数据属于前面一条数据创建的窗口中。前7条数据比较类似，都是创建每条数据属于的窗口以及每当有新的最大事件时间出现，都会触发 Watermark 的更新。第8条数据到来时，由于都大于前面的事件时间，因此产生新的 Watermark（2021-01-05 12:11:00）。由于当前的 Watermark 大于第一个窗口 [12:00, 12:10] 的右边界，因此第一次触发窗口的计算。同理，第13条数据到来时，触发了第二次窗口计算。</p>
-<p>欢迎关注我的公众号和博客：</p>
-<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Other/smartsi.jpg?raw=true" alt=""></p>
-<p>参考:</p>
+<h3 id="1-RocksDB-状态后端"><a href="#1-RocksDB-状态后端" class="headerlink" title="1. RocksDB 状态后端"></a>1. RocksDB 状态后端</h3><p>在深入了解配置参数之前，我们先回顾一下在 Apache Flink 中如何使用 RocksDB 来进行状态管理。当我们选择 RocksDB 作为状态后端时，状态将作为序列化字节串存在于堆外内存或本地磁盘中。RocksDB 是以日志合并树(LSM 树）进行组织的 KV 存储。当用于存储 Keyed 状态时，Key 由 <keygroup，key，namespace> 的序列化字节组成，而 Value 由状态的序列化字节组成。每次注册 Keyed 状态时，它都可以映射到列族（类似于传统数据库中的表），并将键值对以序列化字节存储在 RocksDB 中。这意味着每次读写操作都必须对数据进行反序列化或者序列化，与 Flink 内置的内存状态后端相比，会有一些性能开销。</keygroup，key，namespace></p>
+<p>使用 RocksDB 作为状态后端有许多优点：</p>
 <ul>
-<li><a href="https://ci.apache.org/projects/flink/flink-docs-release-1.10/dev/event_time.html#event-time-and-watermarks" target="_blank" rel="noopener">Event Time and Watermarks</a></li>
-<li>Flink核心技术与实战</li>
+<li>不受 Java 垃圾回收的影响，与堆对象相比，它的内存开销更低，并且是目前唯一支持增量检查点的状态后端。</li>
+<li>此外使用 RocksDB，状态大小仅受限于本地可用磁盘空间的大小，非常适合状态特别大的 Flink 应用程序。</li>
 </ul>
+<p>下面的图表将进一步阐明 RocksDB 的基本读写操作：</p>
+<p><img src="![](https://github.com/sjf0115/ImageBucket/blob/main/Flink/manage-rocksdb-memory-size-apache-flink-1.png?raw=true" alt="">)</p>
+<p>RocksDB 的 WRITE 操作将把数据存储到当前活跃的 MemTable 中。当 MemTable 写满时，它将成为 READ ONLY MemTable，并被一个新的空的 MemTable 替换。READ ONLY MemTable 被后台线程周期性地刷新到磁盘上，生成按键排序的只读文件，这便是所谓的 SSTables。这些 SSTable 是不可变的，通过后台的多路归并实现进一步的整合。如前所述，对于 RocksDB，每个注册状态都对应一个列族，这意味着每个状态都包含一组 MemTables 和 SSTables。</p>
+<p>RocksDB 中的 READ 操作首先访问活跃的 MemTable 来反馈查询。如果找到待查询的 key，那么 READ 操作将从最新 READ ONLY MemTables 到最旧依次访问，直到找到待查询的 key 为止。如果在任何 MemTable 中都找不到该 key，那么 READ 操作将访问 SSTables，再次从最新的开始。SSTables 文件可以：</p>
+<ul>
+<li>优先去 RocksDB 的 BlockCache 读取；</li>
+<li>如果 BlockCache 没有的话，就去读操作系统的文件，这些文件块又可能被操作系统缓存了；</li>
+<li>最差的情况就是去本地磁盘读取；</li>
+<li>SST 级别的布隆过滤器策略可以避免大量的磁盘访问。</li>
+</ul>
+<h3 id="2-管理-RocksDB-内存的-3-种配置"><a href="#2-管理-RocksDB-内存的-3-种配置" class="headerlink" title="2. 管理 RocksDB 内存的 3 种配置"></a>2. 管理 RocksDB 内存的 3 种配置</h3><p>现在，我们已经理解了 Flink 中 Rocksdb 功能，接下来看看一些配置选项以更有效地管理 RocksDB 内存大小。请注意，下面的选项并不详尽，因为您可以使用 Apache Flink 1.6 中引入的 state TTL（Time To Live）功能来管理 Flink 应用程序的状态大小。</p>
+<p>以下三个配置是一个很好的起点，可以有效帮助您管理 Rocksdb 的内存开销：</p>
+<h4 id="2-1-block-cache-size"><a href="#2-1-block-cache-size" class="headerlink" title="2.1 block_cache_size"></a>2.1 block_cache_size</h4><p>此配置最终将控制内存中缓存的最大未压缩块数。随着块数的不断增加，内存大小也会增加。因此，通过预先配置，您可以保持固定内存消耗级别。</p>
+<h4 id="2-2-write-buffer-size"><a href="#2-2-write-buffer-size" class="headerlink" title="2.2 write_buffer_size"></a>2.2 write_buffer_size</h4><p>此配置本质上是控制 RocksDB 中 MemTable 的最大大小。活跃 MemTables 和 READ ONLY MemTables 最终会影响 RocksDB 中的内存大小，所以提前调整可能会为以后避免一些麻烦。</p>
+<h4 id="2-3-max-write-buffer-number"><a href="#2-3-max-write-buffer-number" class="headerlink" title="2.3 max_write_buffer_number"></a>2.3 max_write_buffer_number</h4><p>在 RocksDB 将 MemTables 刷新到磁盘上的 SSTable 之前，此配置控制着内存中保留的 MemTables 的最大数量。这实际上是内存中 READ ONLY MemTables 的最大数量。</p>
+<p>除了上面提到的资源之外，您还可以选择配置索引和布隆过滤器，但它们会消耗额外的内存空间， Table 级别的 Cache 也是一样。在这里，Table 缓存不仅会额外占用 RocksDB 的内存，还会占用 SST 文件的打开文件描述符，(在默认情况下设置的大小是不受限制的)，如果配置不正确，可能会影响操作系统的设置。</p>
+<p>欢迎关注我的公众号和博客：</p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Other/smartsi.jpg?raw=true" alt=""></p>
+<p>原文：<a href="https://www.ververica.com/blog/manage-rocksdb-memory-size-apache-flink" target="_blank" rel="noopener">How to manage your RocksDB memory size in Apache Flink</a></p>
 
       
     </div>
@@ -739,7 +497,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://smartsi.club/flink-stream-event-time-and-watermark.html" title="Flink Watermark机制">http://smartsi.club/flink-stream-event-time-and-watermark.html</a>
+    <a href="http://smartsi.club/manage-rocksdb-memory-size-apache-flink.html" title="Flink 如何管理 RocksDB 内存大小">http://smartsi.club/manage-rocksdb-memory-size-apache-flink.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -767,8 +525,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/rebranding-prestosql-as-trino.html" rel="next" title="<转>与 Facebook 分手后 ，PrestoSQL 再度因商标侵权被迫更名">
-                <i class="fa fa-chevron-left"></i> <转>与 Facebook 分手后 ，PrestoSQL 再度因商标侵权被迫更名
+              <a href="/when-and-how-use-rocksdb-state-backend-in-apache-flink.html" rel="next" title="Flink 何时以及如何使用 RocksDB 状态后端">
+                <i class="fa fa-chevron-left"></i> Flink 何时以及如何使用 RocksDB 状态后端
               </a>
             
           </div>
@@ -776,10 +534,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/hive-query-federation.html" rel="prev" title="<转>Apache Hive 联邦查询">
-                <转>Apache Hive 联邦查询 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -995,7 +749,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-为何要使用Watermark？"><span class="nav-number">1.</span> <span class="nav-text">1. 为何要使用Watermark？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Watermark如何产生？"><span class="nav-number">2.</span> <span class="nav-text">2. Watermark如何产生？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-顺序事件中的Watermark"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 顺序事件中的Watermark</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-乱序事件中的Watermark"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 乱序事件中的Watermark</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-并行数据流中的Watermark"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 并行数据流中的Watermark</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Watermark与窗口的关系"><span class="nav-number">3.</span> <span class="nav-text">3. Watermark与窗口的关系</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-RocksDB-状态后端"><span class="nav-number">1.</span> <span class="nav-text">1. RocksDB 状态后端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-管理-RocksDB-内存的-3-种配置"><span class="nav-number">2.</span> <span class="nav-text">2. 管理 RocksDB 内存的 3 种配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-block-cache-size"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 block_cache_size</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-write-buffer-size"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 write_buffer_size</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-max-write-buffer-number"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 max_write_buffer_number</span></a></li></ol></li></ol></div>
             
 
           </div>
