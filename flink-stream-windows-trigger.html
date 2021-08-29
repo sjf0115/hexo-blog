@@ -100,37 +100,33 @@
   <meta name="keywords" content="Flink," />
 
 
-<meta name="description" content="数据分析场景见证了批处理到流处理的演变过程。尽管批处理可以作为流处理的一种特殊情况来处理，但分析永无止境的流数据通常需要转变一种思维方式，并使用它自己的专门术语，例如，窗口、At-Least-Once 或者 Exactly-Once 处理语义。 对于刚刚接触流处理的人来说，这种思维方式的转变以及新的专业术语可能会让他们感到非常困惑。但是，Apache Flink 作为一个为生产环境而生的流处理器，">
+<meta name="description" content="1. 简介Trigger(窗口触发器)决定了窗口（由 WindowAssigner 产生）什么时候调用窗口处理函数。可以根据指定的时间或数据元素条件来决定什么时候触发，比如，可以根据到达的元素个数或者具体获取到的元素值等等。Trigger 可以访问时间属性以及计时器，并且可以处理状态。因此，它们与处理函数一样强大。例如，我们可以实现特定的触发逻辑来触发，比如窗口接收到一定数量的元素时就会触发，或者">
 <meta name="keywords" content="Flink">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Flink 窗口之Window机制">
-<meta property="og:url" content="http://smartsi.club/introducing-stream-windows-in-apache-flink.html">
+<meta property="og:title" content="Flink 窗口触发器 Trigger">
+<meta property="og:url" content="http://smartsi.club/flink-stream-windows-trigger.html">
 <meta property="og:site_name" content="SmartSi">
-<meta property="og:description" content="数据分析场景见证了批处理到流处理的演变过程。尽管批处理可以作为流处理的一种特殊情况来处理，但分析永无止境的流数据通常需要转变一种思维方式，并使用它自己的专门术语，例如，窗口、At-Least-Once 或者 Exactly-Once 处理语义。 对于刚刚接触流处理的人来说，这种思维方式的转变以及新的专业术语可能会让他们感到非常困惑。但是，Apache Flink 作为一个为生产环境而生的流处理器，">
+<meta property="og:description" content="1. 简介Trigger(窗口触发器)决定了窗口（由 WindowAssigner 产生）什么时候调用窗口处理函数。可以根据指定的时间或数据元素条件来决定什么时候触发，比如，可以根据到达的元素个数或者具体获取到的元素值等等。Trigger 可以访问时间属性以及计时器，并且可以处理状态。因此，它们与处理函数一样强大。例如，我们可以实现特定的触发逻辑来触发，比如窗口接收到一定数量的元素时就会触发，或者">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/introducing-stream-windows-in-apache-flink-1.png?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/introducing-stream-windows-in-apache-flink-2.png?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/introducing-stream-windows-in-apache-flink-3.png?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/introducing-stream-windows-in-apache-flink-4.png?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/introducing-stream-windows-in-apache-flink-5.png?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/introducing-stream-windows-in-apache-flink-6.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-windows-trigger-1.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-windows-trigger-2.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-windows-trigger-3.png?raw=true">
 <meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Other/smartsi.jpg?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-jk.jpeg?raw=true">
-<meta property="og:updated_time" content="2021-02-03T00:21:51.000Z">
+<meta property="og:updated_time" content="2021-08-29T14:55:42.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Flink 窗口之Window机制">
-<meta name="twitter:description" content="数据分析场景见证了批处理到流处理的演变过程。尽管批处理可以作为流处理的一种特殊情况来处理，但分析永无止境的流数据通常需要转变一种思维方式，并使用它自己的专门术语，例如，窗口、At-Least-Once 或者 Exactly-Once 处理语义。 对于刚刚接触流处理的人来说，这种思维方式的转变以及新的专业术语可能会让他们感到非常困惑。但是，Apache Flink 作为一个为生产环境而生的流处理器，">
-<meta name="twitter:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/introducing-stream-windows-in-apache-flink-1.png?raw=true">
+<meta name="twitter:title" content="Flink 窗口触发器 Trigger">
+<meta name="twitter:description" content="1. 简介Trigger(窗口触发器)决定了窗口（由 WindowAssigner 产生）什么时候调用窗口处理函数。可以根据指定的时间或数据元素条件来决定什么时候触发，比如，可以根据到达的元素个数或者具体获取到的元素值等等。Trigger 可以访问时间属性以及计时器，并且可以处理状态。因此，它们与处理函数一样强大。例如，我们可以实现特定的触发逻辑来触发，比如窗口接收到一定数量的元素时就会触发，或者">
+<meta name="twitter:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-windows-trigger-1.png?raw=true">
 
 
 
 
 
 
-  <link rel="canonical" href="http://smartsi.club/introducing-stream-windows-in-apache-flink.html"/>
+  <link rel="canonical" href="http://smartsi.club/flink-stream-windows-trigger.html"/>
 
 
-  <title>Flink 窗口之Window机制 | SmartSi</title>
+  <title>Flink 窗口触发器 Trigger | SmartSi</title>
   
 
 
@@ -311,7 +307,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://smartsi.club/introducing-stream-windows-in-apache-flink.html">
+    <link itemprop="mainEntityOfPage" href="http://smartsi.club/flink-stream-windows-trigger.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="sjf0115">
@@ -328,7 +324,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">Flink 窗口之Window机制</h2>
+          <h2 class="post-title" itemprop="name headline">Flink 窗口触发器 Trigger</h2>
         
 
         <div class="post-meta">
@@ -340,7 +336,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-02-01T16:40:01+08:00">2021-02-01</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-08-29T22:49:17+08:00">2021-08-29</time>
             
 
             
@@ -354,7 +350,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-02-03T08:21:51+08:00">2021-02-03</time>
+              <time title="更新于" itemprop="dateModified" datetime="2021-08-29T22:55:42+08:00">2021-08-29</time>
             
           </span>
 
@@ -385,8 +381,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/introducing-stream-windows-in-apache-flink.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/introducing-stream-windows-in-apache-flink.html" itemprop="commentCount"></span>
+                <a href="/flink-stream-windows-trigger.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/flink-stream-windows-trigger.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -394,7 +390,7 @@
 
           
           
-             <span id="/introducing-stream-windows-in-apache-flink.html" class="leancloud_visitors" data-flag-title="Flink 窗口之Window机制">
+             <span id="/flink-stream-windows-trigger.html" class="leancloud_visitors" data-flag-title="Flink 窗口触发器 Trigger">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -425,38 +421,62 @@
       
 
       
-        <p>数据分析场景见证了批处理到流处理的演变过程。尽管批处理可以作为流处理的一种特殊情况来处理，但分析永无止境的流数据通常需要转变一种思维方式，并使用它自己的专门术语，例如，窗口、At-Least-Once 或者 Exactly-Once 处理语义。</p>
-<p>对于刚刚接触流处理的人来说，这种思维方式的转变以及新的专业术语可能会让他们感到非常困惑。但是，Apache Flink 作为一个为生产环境而生的流处理器，具有易于使用并且表达能力很强的 API 来定义高级流分析程序。 Flink 的 API 在数据流上有非常灵活的窗口定义，使其能在其他开源流处理器中脱颖而出。</p>
-<p>在这篇文章中，我们主要讨论用于流处理的窗口的概念，介绍 Flink 的内置窗口，并说明其对自定义窗口语义的支持。</p>
-<h2 id="1-什么是窗口？它们有什么用？"><a href="#1-什么是窗口？它们有什么用？" class="headerlink" title="1. 什么是窗口？它们有什么用？"></a>1. 什么是窗口？它们有什么用？</h2><p>我们拿交通传感器的例子来说明，传感器每15秒统计通过某个位置的车辆数量。结果流看起来像如下所示：</p>
-<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/introducing-stream-windows-in-apache-flink-1.png?raw=true" alt=""></p>
-<p>如果现在我们想知道有多少辆车经过这个位置，我们只需简单的将每15秒统计的数量相加即可。但是，传感器流的本质是连续产生数据。像这样的流永远都不会结束，更不可能计算出可以返回的最终和。换一种思路，我们可以滚动计算总和，即为每个输入事件返回一个更新的总和记录。这就会产生新的部分和流：</p>
-<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/introducing-stream-windows-in-apache-flink-2.png?raw=true" alt=""></p>
-<p>但是，部分求和流可能不是我们想要的，因为它会不断更新计数，更重要的是，某些信息（例如随时间变化）会丢失。因此，我们需要想改一下我们的问题：每分钟通过该位置的汽车数量。这要求我们将流的元素分组为有限的集合，每个集合对应于60秒。此操作称为滚动窗口操作。</p>
-<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/introducing-stream-windows-in-apache-flink-3.png?raw=true" alt=""></p>
-<p>滚动窗口将流离散化为不重叠的窗口。对于某些应用程序，重要的是窗口不可分离，因为应用程序可能需要平滑的聚合。例如，我们可以每30秒计算最后一分钟通过的汽车数量。这种窗口称为滑动窗口。</p>
-<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/introducing-stream-windows-in-apache-flink-4.png?raw=true" alt=""></p>
-<p>如上所述，在数据流上定义窗口是非并行操作。这是因为流的每个元素必须由同一窗口算子处理，决定每个元素应归属到哪个窗口中。一个完整流上的 Windows 在 Flink 中称为 AllWindows。对于许多应用程序，数据流可以拆分为多个逻辑流，每个逻辑流都可以应用窗口算子。例如，考虑统计来自多个交通传感器（而不是像前面的示例中的一个传感器）的车辆，其中每个传感器都会监控一个不同的位置。通过按传感器ID对流进行分组，我们可以并行计算每个位置的窗口流量统计。在 Flink 中，我们将这种分区的窗口简称为 Windows，因为它们是分布式流的常见情况。下图显示了在 (sensorId, count) 流上的滚动窗口。</p>
-<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/introducing-stream-windows-in-apache-flink-5.png?raw=true" alt=""></p>
-<p>一般来说，窗口在无界流上定义了一组有限的元素。该集合可以基于时间（如我们之前的示例中所示），元素个数，元素个数和时间的组合或一些自定义逻辑将元素分配给窗口。Flink 的 DataStream API 为最常见的窗口操作提供了简洁的算子，并提供了一种通用的窗口机制，该机制允许用户自定义窗口逻辑。在下面的内容中，我们将介绍 Flink 的 Time Windows 和 Count Windows，然后再详细讨论其窗口机制。</p>
-<h2 id="2-Time-Windows"><a href="#2-Time-Windows" class="headerlink" title="2. Time Windows"></a>2. Time Windows</h2><p>顾名思义，Time Windows（时间窗口）按时间对流元素进行分组。例如，窗口大小为一分钟的滚动窗口将收集一分钟内的元素，并在一分钟后将函数应用于窗口中的所有元素。在 Apache Flink 中定义滚动和滑动时间窗口非常简单：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Stream of (sensorId, carCnt)</span></span><br><span class="line">DataStream&lt;Tuple2&lt;String, Long&gt;&gt; vehicleCnt ...</span><br><span class="line"></span><br><span class="line"><span class="comment">// 滚动窗口</span></span><br><span class="line">DataStream&lt;Tuple2&lt;String, Long&gt;&gt; tumblingCnt = vehicleCnt</span><br><span class="line">        <span class="comment">// 根据sensorId分组</span></span><br><span class="line">        .keyBy(<span class="number">0</span>)</span><br><span class="line">        <span class="comment">// 窗口大小为1分钟的滚动窗口</span></span><br><span class="line">        .timeWindow(Time.minutes(<span class="number">1</span>))</span><br><span class="line">        <span class="comment">// 求和</span></span><br><span class="line">        .sum(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 滑动窗口</span></span><br><span class="line">DataStream&lt;Tuple2&lt;String, Long&gt;&gt; slidingCnt = vehicleCnt</span><br><span class="line">        <span class="comment">// 根据sensorId分组</span></span><br><span class="line">        .keyBy(<span class="number">0</span>)</span><br><span class="line">        <span class="comment">// 窗口大小为1分钟、滑动步长为30秒的滑动窗口</span></span><br><span class="line">        .timeWindow(Time.minutes(<span class="number">1</span>), Time.seconds(<span class="number">30</span>))</span><br><span class="line">        <span class="comment">// 求和</span></span><br><span class="line">        .sum(<span class="number">1</span>);</span><br></pre></td></tr></table></figure></p>
-<p>我们还没有讨论过 ‘收集一分钟内的元素’ 的确切含义，也可以归结为’流处理器如何解释时间？’这一问题。</p>
-<p>Apache Flink 具有三种不同的时间概念，即处理时间，事件时间和摄取时间。具体的可以参阅<a href="http://smartsi.club/flink-stream-event-time-and-processing-time.html">Flink 事件时间与处理时间</a>。</p>
-<h2 id="3-Count-Windows"><a href="#3-Count-Windows" class="headerlink" title="3. Count Windows"></a>3. Count Windows</h2><p>除了 Time Windows 外，Apache Flink 还具有 Count Windows（计数窗口）。一个大小为100的滚动计数窗口，将会在一个窗口中收集100个元素，并在添加第100个元素时触发窗口计算。</p>
-<p>在 Flink 的 DataStream API 中，滚动和滑动计数窗口如下定义：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Stream of (sensorId, carCnt)</span></span><br><span class="line">DataStream&lt;Tuple2&lt;String, Long&gt;&gt; vehicleCnt ...</span><br><span class="line"></span><br><span class="line"><span class="comment">// 滚动窗口</span></span><br><span class="line">DataStream&lt;Tuple2&lt;String, Long&gt;&gt; tumblingCnt = vehicleCnt</span><br><span class="line">        <span class="comment">// 根据sensorId分组</span></span><br><span class="line">        .keyBy(<span class="number">0</span>)</span><br><span class="line">        <span class="comment">// 100个元素大小的滚动计数窗口</span></span><br><span class="line">        .countWindow(<span class="number">100</span>)</span><br><span class="line">        <span class="comment">// 求和</span></span><br><span class="line">        .sum(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 滑动窗口</span></span><br><span class="line">DataStream&lt;Tuple2&lt;String, Long&gt;&gt; slidingCnt = vehicleCnt</span><br><span class="line">        <span class="comment">// 根据sensorId分组</span></span><br><span class="line">        .keyBy(<span class="number">0</span>)</span><br><span class="line">        <span class="comment">// 100个元素大小、步长为10个元素的滑动计数窗口</span></span><br><span class="line">        .countWindow(<span class="number">100</span>, <span class="number">10</span>)</span><br><span class="line">        <span class="comment">// 求和</span></span><br><span class="line">        .sum(<span class="number">1</span>);</span><br></pre></td></tr></table></figure></p>
-<h2 id="4-剖析Flink的窗口机制"><a href="#4-剖析Flink的窗口机制" class="headerlink" title="4. 剖析Flink的窗口机制"></a>4. 剖析Flink的窗口机制</h2><p>Flink 的内置 Time Windows 和 Count Windows 覆盖了各种常见的窗口用例。但是，有些应用程序还是需要实现自定义窗口逻辑，而 Flink 的内置窗口无法解决这些逻辑。为了同时也支持定制的窗口语义的应用程序，DataStream API 公开了窗口机制内部的接口。这些接口可以非常精细地控制窗口的创建和触发。</p>
-<p>下图描述了 Flink 的窗口机制，并介绍了其中涉及的组件。</p>
-<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/introducing-stream-windows-in-apache-flink-6.png?raw=true" alt=""></p>
-<p>到达窗口算子的元素将传递给 WindowAssigner。 WindowAssigner 将元素分配给一个或多个窗口，也可能会创建新的窗口。窗口本身只是一系列元素的标识符，并且可以提供一些可选的元信息，例如，在使用 TimeWindow 时的开始和结束时间。请注意，可以将元素添加到多个窗口中，这也意味着可以同时存在多个窗口。</p>
-<p>每个窗口都有一个 Trigger，决定了何时触发计算或清除该窗口。当先前注册的计时器到点时，对于分配到窗口中的每个元素都会调用 Trigger。对于每个事件，Trigger 都可以决定触发，清除（清除窗口并丢弃其内容），或者触发并清除窗口。仅触发的 Trigger 会计算窗口并保持其原样，即所有元素都保留在窗口中，并在下次触发时再次计算（不删除元素）。一个窗口可以被触发多次计算，并且一直存在直到清除为止。请注意，在清除窗口之前，窗口会一值消耗内存。</p>
-<p>触发 Trigger 时，可以将窗口元素列表提供给可选的 Evictor。Evictor 遍历列表，可以决定从列表的开头删除一些元素，即删除一些首先进入窗口的元素。其它元素则提供给窗口计算函数。如果没有定义 Evictor，则 Trigger 直接将所有窗口元素交给窗口计算函数。</p>
-<p>窗口计算函数接收一个窗口的元素（可能先由 Evictor 进行过滤），并为该窗口计算一个或多个结果元素。DataStream API 可以接受不同类型的计算函数，包括预定义的聚合函数，例如，sum()，min()，max() 以及 ReduceFunction，FoldFunction 或 WindowFunction。WindowFunction 是最通用的窗口计算函数，接收窗口对象（即窗口的元数据），窗口元素列表以及窗口键（如果是 Keyed Window）作为参数。</p>
-<p>这些是构成 Flink 的窗口机制的组件。</p>
-<h2 id="5-结论"><a href="#5-结论" class="headerlink" title="5. 结论"></a>5. 结论</h2><p>对于现代流处理器来说，在连续数据流上支持各种类型的窗口是必不可少的。Apache Flink 是一种流处理器，具有非常强大的功能，其中就包括一种非常灵活的机制来构建和计算连续数据流上的窗口。Flink 为常见用例提供了内置的窗口算子，以及允许用户自定义窗口逻辑。</p>
+        <h3 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h3><p>Trigger(窗口触发器)决定了窗口（由 WindowAssigner 产生）什么时候调用<a href="http://smartsi.club/flink-stream-windows-function.html">窗口处理函数</a>。可以根据指定的时间或数据元素条件来决定什么时候触发，比如，可以根据到达的元素个数或者具体获取到的元素值等等。Trigger 可以访问时间属性以及计时器，并且可以处理状态。因此，它们与处理函数一样强大。例如，我们可以实现特定的触发逻辑来触发，比如窗口接收到一定数量的元素时就会触发，或者当具有特定值的元素到达窗口时，再或者检测到到达窗口中的元素满足一定模式时触发，例如最近5秒内有两个相同类型的事件。</p>
+<p>Trigger 接口有 6 个方法，可以允许 Trigger 对不同的事件做出反应：</p>
+<ul>
+<li>onElement：每个元素到达窗口时都会调用该方法，来决定是否触发窗口计算并输出窗口结果。</li>
+<li>onProcessingTime：当使用 TriggerContext 注册的处理时间 Timer 触发时会调用该方法。</li>
+<li>onEventTime：当使用 TriggerContext 注册的事件时间 Timer 触发时会调用该方法。</li>
+<li>canMerge：如果 Trigger 支持对 Trigger 状态进行 Merge 并因此可以与 MergingWindowAssigner 一起使用，则返回 true。如果返回 true，必须实现 onMerge 方法。</li>
+<li>onMerge：当 WindowAssigner 将多个窗口合并为一个窗口时会调用该方法，同时会进行状态的合并。</li>
+<li>clear：执行窗口以及状态数据的清除。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Trigger</span>&lt;<span class="title">T</span>, <span class="title">W</span> <span class="keyword">extends</span> <span class="title">Window</span>&gt; <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> TriggerResult <span class="title">onElement</span><span class="params">(T element, <span class="keyword">long</span> timestamp, W window, TriggerContext ctx)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> TriggerResult <span class="title">onProcessingTime</span><span class="params">(<span class="keyword">long</span> time, W window, TriggerContext ctx)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> TriggerResult <span class="title">onEventTime</span><span class="params">(<span class="keyword">long</span> time, W window, TriggerContext ctx)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">canMerge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onMerge</span><span class="params">(W window, OnMergeContext ctx)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> UnsupportedOperationException(<span class="string">"This trigger does not support merging."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">clear</span><span class="params">(W window, TriggerContext ctx)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>每次调用 Trigger 时都会生成一个 TriggerResult 来确定窗口应该触发什么操作，例如，是否应该调用窗口函数，或者应该销毁窗。TriggerResult 有如下几种取值：</p>
+<ul>
+<li>CONTINUE：表示当前不触发计算。</li>
+<li>FIRE：表示触发窗口计算，但是数据继续保留。如果窗口算子具有 ProcessWindowFunction，则调用该函数并输出计算结果。如果窗口只有一个增量聚合函数（ReduceFunction 或 AggregateFunction），则输出当前聚合结果。窗口状态(State)没有任何改变。</li>
+<li>PURGE：表示清除窗口内部数据，但不触发窗口计算。窗口所有元素被清除，窗口也被销毁(包括所有元数据)。此外，会调用 ProcessWindowFunction.clear() 方法来清除所有自定义窗口状态。</li>
+<li>FIRE_AND_PURGE：表示触发窗口计算并清除数据。首先触发窗口计算(FIRE)，然后清除所有状态和元数据(PURGE)。</li>
+</ul>
+<h3 id="2-内置触发器"><a href="#2-内置触发器" class="headerlink" title="2. 内置触发器"></a>2. 内置触发器</h3><h4 id="2-1-内置触发器"><a href="#2-1-内置触发器" class="headerlink" title="2.1 内置触发器"></a>2.1 内置触发器</h4><p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-windows-trigger-1.png?raw=true" alt=""></p>
+<ul>
+<li>EventTimeTrigger：通过对比 Watermark 和窗口结束时间戳确定是否触发窗口，如果 Watermark 的时间大于窗口结束时间戳则触发计算，反之不触发计算。</li>
+<li>ProcesTimeTrigger：通过对比 ProcessTime 和窗口结束时间戳确定是否触发窗口，如果 ProcessTime 的时间大于窗口结束时间戳则触发计算，反之不触发计算。</li>
+<li>ContinuousEventTimeTrigger：根据间隔时间周期性触发窗口或者当前 EventTime 大于窗口结束时间戳会触发窗口计算。</li>
+<li>ContinuousProcessTimeTrigger：根据间隔时间周期性触发窗口或者当前 ProcessTime 大于窗口结束时间戳会触发窗口计算。</li>
+<li>CountTrigger：根据接入数据量是否超过设定的阈值来决定是否触发窗口计算。</li>
+<li>DeltaTrigger：根据接入数据量计算出来的 Delta 指标是否超过设定的阈值来决定是否触发窗口计算。</li>
+<li>PurgingTrigger：可以将任意 Trigger 作为参数转为为 Purge 类型大的 Trigger，计算完成后数据将被清除。</li>
+<li>ProcessingTimeoutTrigger：可以将任意 Trigger 作为参数转为为 ProcessingTimeout 类型的 Trigger。在第一个元素到达后设置一个超时处理时间。还可以通过指定 resetTimerOnNewRecord 为每个到达的元素重新更新计时器，也可以指定是否应通过 shouldClearOnTimeout 在超时时清理窗口所有数据。</li>
+</ul>
+<blockquote>
+<p>ProcessingTimeoutTrigger 于 1.12.0 版本引入。</p>
+</blockquote>
+<h4 id="2-2-WindowAssigners-的默认触发器"><a href="#2-2-WindowAssigners-的默认触发器" class="headerlink" title="2.2 WindowAssigners 的默认触发器"></a>2.2 WindowAssigners 的默认触发器</h4><p>每种类型的 WindowAssigner 都有不同的默认 Trigger，如下所示：</p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-windows-trigger-2.png?raw=true" alt=""></p>
+<p>所有基于事件时间的 WindowAssigner 都有一个 EventTimeTrigger 作为默认 Trigger。一旦 Watermark 大于窗口的结束时间戳，这个 Trigger 就会触发。所有基于处理时间的 WindowAssigner 都有一个 ProcessingTimeTrigger 作为默认 Trigger。一旦当前处理时间大于窗口结束时间戳，这个 Trigger 就会触发。除此之外，GlobalWindow 的默认 Trigger 是从不触发的 NeverTrigger。因此，在使用 GlobalWindow 时，我们必须自定义 Trigger。</p>
+<h3 id="3-自定义触发器"><a href="#3-自定义触发器" class="headerlink" title="3. 自定义触发器"></a>3. 自定义触发器</h3><p>如果默认 Trigger 不符合我们的需要，用户也可以继承并实现 Trigger 抽象类来实现自定义 Trigger。假设我们有如下场景：当每个文章点击用户达到 N 个用户时，计算每个文章的的总点击次数以及平均点击次数。比如如下输入流：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">c10,ua,1</span><br><span class="line">c11,ua,2</span><br><span class="line">c10,ub,1</span><br><span class="line">c11,ub,4</span><br><span class="line">c10,uc,3</span><br><span class="line">c12,ua,5</span><br><span class="line">c11,uc,1</span><br><span class="line">c12,ub,2</span><br><span class="line">c12,uc,4</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>contentId(文章Id)、uid(用户Id)、clickCnt(点击次数)</p>
+</blockquote>
+<p>第一条记录表示用户 ua 对文章 c10 点击了 1 次。等到达第 5 条记录时，文章 c10 被 ua、ub、uc 三个用户点击。此时，该文章总共被点击了 5(1 + 1 + 3) 次。</p>
+<p>因为默认 Trigger 不符合我们的需要(要么根据处理时间、事件时间来触发，要么根据到达的元素个数来触发，没有默认 Trigger 能实现根据到达的用户个数触发的)，所以我们需要实现如下自定义 Trigger：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomCountTrigger</span> &lt;<span class="title">W</span> <span class="keyword">extends</span> <span class="title">Window</span>&gt; <span class="keyword">extends</span> <span class="title">Trigger</span>&lt;<span class="title">Object</span>, <span class="title">W</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Logger LOG = LoggerFactory.getLogger(CustomWindowTriggerExample.class);</span><br><span class="line">    <span class="keyword">private</span> Long maxCount;</span><br><span class="line">    <span class="keyword">private</span> ListStateDescriptor&lt;String&gt; stateDescriptor = <span class="keyword">new</span> ListStateDescriptor&lt;&gt;(<span class="string">"UidState"</span>, String.class);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CustomCountTrigger</span><span class="params">(Long maxCount)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.maxCount = maxCount;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> TriggerResult <span class="title">onElement</span><span class="params">(Object element, <span class="keyword">long</span> timestamp, W window, TriggerContext ctx)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">// 获取uid信息</span></span><br><span class="line">        Tuple3&lt;String, String, Long&gt; uidTuple = (Tuple3&lt;String, String, Long&gt;) element;</span><br><span class="line">        String key = uidTuple.f0;</span><br><span class="line">        String uid = uidTuple.f1;</span><br><span class="line">        <span class="comment">// 获取状态</span></span><br><span class="line">        ListState&lt;String&gt; uidState = ctx.getPartitionedState(stateDescriptor);</span><br><span class="line">        <span class="comment">// 更新状态</span></span><br><span class="line">        Iterable&lt;String&gt; iterable = uidState.get();</span><br><span class="line">        List&lt;String&gt; uidList = Lists.newArrayList();</span><br><span class="line">        <span class="keyword">if</span> (!Objects.equals(iterable, <span class="keyword">null</span>)) &#123;</span><br><span class="line">            uidList = Lists.newArrayList(iterable);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">boolean</span> isContains = uidList.contains(uid);</span><br><span class="line">        <span class="keyword">if</span> (!isContains) &#123;</span><br><span class="line">            uidList.add(uid);</span><br><span class="line">            uidState.update(uidList);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 大于等于3个用户触发计算</span></span><br><span class="line">        <span class="keyword">if</span> (uidList.size() &gt;= maxCount) &#123;</span><br><span class="line">            LOG.info(<span class="string">"[Trigger] Key: &#123;&#125; 触发计算并清除状态"</span>, key);</span><br><span class="line">            uidState.clear();</span><br><span class="line">            <span class="keyword">return</span> TriggerResult.FIRE;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> TriggerResult.CONTINUE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> TriggerResult <span class="title">onProcessingTime</span><span class="params">(<span class="keyword">long</span> time, W window, TriggerContext ctx)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> TriggerResult.CONTINUE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> TriggerResult <span class="title">onEventTime</span><span class="params">(<span class="keyword">long</span> time, W window, TriggerContext ctx)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> TriggerResult.CONTINUE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">clear</span><span class="params">(W window, TriggerContext ctx)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        ctx.getPartitionedState(stateDescriptor).clear();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;W extends Window&gt; <span class="function">CustomCountTrigger&lt;W&gt; <span class="title">of</span><span class="params">(<span class="keyword">long</span> maxCount)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> CustomCountTrigger&lt;&gt;(maxCount);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>自定义 Trigger 的核心逻辑都在 onElement 方法中。每次元素到达窗口时都要判断元素对应的用户是否在状态中，如果不在状态中，则更新状态。更新状态之后判断状态中的用户个数，如果达到指定的阈值则触发窗口计算，否则什么都不做。</p>
+<p>通过调用 trigger 方法来指定我们的自定义 Trigger：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">DataStream&lt;String&gt; result = stream</span><br><span class="line">    <span class="comment">// 根据contentId分组</span></span><br><span class="line">    .keyBy(<span class="keyword">new</span> KeySelector&lt;Tuple3&lt;String, String, Long&gt;, String&gt;() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">getKey</span><span class="params">(Tuple3&lt;String, String, Long&gt; value)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> value.f0;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="comment">// 每3个用户一个窗口</span></span><br><span class="line">    .window(GlobalWindows.create())</span><br><span class="line">    .trigger(CustomCountTrigger.of(<span class="number">3</span>))</span><br><span class="line">    <span class="comment">// 求和以及平均值</span></span><br><span class="line">    .aggregate(<span class="keyword">new</span> AverageAggregateFunction());</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>完整代码请查阅  <a href="https://github.com/sjf0115/data-example/blob/master/flink-example/src/main/java/com/flink/example/stream/window/CustomWindowTriggerExample.java" target="_blank" rel="noopener">CustomWindowTriggerExample</a></p>
+</blockquote>
+<p>实际效果如下所示：</p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-windows-trigger-3.png?raw=true" alt=""></p>
 <p>欢迎关注我的公众号和博客：</p>
 <p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Other/smartsi.jpg?raw=true" alt=""></p>
-<p>推荐订阅：<br><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-jk.jpeg?raw=true" alt=""></p>
-<p>原文：<a href="https://flink.apache.org/news/2015/12/04/Introducing-windows.html" target="_blank" rel="noopener">Introducing Stream Windows in Apache Flink</a></p>
+<p>相关推荐：</p>
+<ul>
+<li><a href="http://smartsi.club/introducing-stream-windows-in-apache-flink.html">Flink 窗口之Window机制</a></li>
+<li><a href="http://smartsi.club/flink-stream-windows-overall.html">Flink 窗口分配器 WindowAssigner</a></li>
+<li><a href="http://smartsi.club/flink-stream-windows-function.html">Flink 窗口处理函数 WindowFunction</a></li>
+</ul>
 
       
     </div>
@@ -506,7 +526,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://smartsi.club/introducing-stream-windows-in-apache-flink.html" title="Flink 窗口之Window机制">http://smartsi.club/introducing-stream-windows-in-apache-flink.html</a>
+    <a href="http://smartsi.club/flink-stream-windows-trigger.html" title="Flink 窗口触发器 Trigger">http://smartsi.club/flink-stream-windows-trigger.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -534,8 +554,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/flink-stream-event-timestamp-and-extractors.html" rel="next" title="Flink 在1.10版本之前如何生成Watermark">
-                <i class="fa fa-chevron-left"></i> Flink 在1.10版本之前如何生成Watermark
+              <a href="/flink-sql-persistent-query-of-dynamic-table.html" rel="next" title="Flink SQL 动态表的持续查询">
+                <i class="fa fa-chevron-left"></i> Flink SQL 动态表的持续查询
               </a>
             
           </div>
@@ -543,10 +563,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/flink-stream-windows-function.html" rel="prev" title="Flink 窗口之WindowFunction">
-                Flink 窗口之WindowFunction <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -762,7 +778,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-什么是窗口？它们有什么用？"><span class="nav-number">1.</span> <span class="nav-text">1. 什么是窗口？它们有什么用？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Time-Windows"><span class="nav-number">2.</span> <span class="nav-text">2. Time Windows</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Count-Windows"><span class="nav-number">3.</span> <span class="nav-text">3. Count Windows</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-剖析Flink的窗口机制"><span class="nav-number">4.</span> <span class="nav-text">4. 剖析Flink的窗口机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-结论"><span class="nav-number">5.</span> <span class="nav-text">5. 结论</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-简介"><span class="nav-number">1.</span> <span class="nav-text">1. 简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-内置触发器"><span class="nav-number">2.</span> <span class="nav-text">2. 内置触发器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-内置触发器"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 内置触发器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-WindowAssigners-的默认触发器"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 WindowAssigners 的默认触发器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-自定义触发器"><span class="nav-number">3.</span> <span class="nav-text">3. 自定义触发器</span></a></li></ol></div>
             
 
           </div>
