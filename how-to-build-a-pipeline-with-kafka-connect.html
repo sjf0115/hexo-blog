@@ -97,39 +97,37 @@
 
 
   
-  <meta name="keywords" content="Flink," />
+  <meta name="keywords" content="Kafka," />
 
 
-<meta name="description" content="Flink版本：1.11.0  1. 为何要使用Watermark？在说 Watermark 之前，我们先提一下 EventTime（事件时间）和 ProcessingTime（处理时间）。事件时间是事件在现实世界中发生的时间，处理时间是 Flink 系统处理该事件的时间。如果我们比较关心事件实际发生的时间，我们就需要基于事件时间进行处理。但是基于事件时间，我们就不得不面对乱序的问题。 通常情况">
-<meta name="keywords" content="Flink">
+<meta name="description" content="Kafka Connect 旨在通过将数据移入和移出 Kafka 进行标准化，以更轻松地构建大规模的实时数据管道。我们可以使用 Kafka Connector 读取或写入外部系统、管理数据流以及扩展系统，所有这些都无需开发新代码。Kafka Connect 管理与其他系统连接时的所有常见问题（Schema 管理、容错、并行性、延迟、投递语义等），每个 Connector 只关注如何在目标系统和 K">
+<meta name="keywords" content="Kafka">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Flink Watermark机制">
-<meta property="og:url" content="http://smartsi.club/flink-stream-event-time-and-watermark.html">
+<meta property="og:title" content="Kafka Connect 如何构建实时数据管道">
+<meta property="og:url" content="http://smartsi.club/how-to-build-a-pipeline-with-kafka-connect.html">
 <meta property="og:site_name" content="SmartSi">
-<meta property="og:description" content="Flink版本：1.11.0  1. 为何要使用Watermark？在说 Watermark 之前，我们先提一下 EventTime（事件时间）和 ProcessingTime（处理时间）。事件时间是事件在现实世界中发生的时间，处理时间是 Flink 系统处理该事件的时间。如果我们比较关心事件实际发生的时间，我们就需要基于事件时间进行处理。但是基于事件时间，我们就不得不面对乱序的问题。 通常情况">
+<meta property="og:description" content="Kafka Connect 旨在通过将数据移入和移出 Kafka 进行标准化，以更轻松地构建大规模的实时数据管道。我们可以使用 Kafka Connector 读取或写入外部系统、管理数据流以及扩展系统，所有这些都无需开发新代码。Kafka Connect 管理与其他系统连接时的所有常见问题（Schema 管理、容错、并行性、延迟、投递语义等），每个 Connector 只关注如何在目标系统和 K">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-event-time-and-watermark-1.jpg?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-event-time-and-watermark-2.jpg?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-event-time-and-watermark-3.jpg?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-event-time-and-watermark-4.jpg?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-event-time-and-watermark-5.jpg?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-event-time-and-watermark-6.jpg?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Other/smartsi.jpg?raw=true">
-<meta property="og:updated_time" content="2021-01-10T08:20:16.000Z">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/how-to-build-a-pipeline-with-kafka-connect-1.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/how-to-build-a-pipeline-with-kafka-connect-2.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/how-to-build-a-pipeline-with-kafka-connect-3.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/how-to-build-a-pipeline-with-kafka-connect-4.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Other/smartsi.jpg?raw=true">
+<meta property="og:updated_time" content="2021-09-21T07:06:03.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Flink Watermark机制">
-<meta name="twitter:description" content="Flink版本：1.11.0  1. 为何要使用Watermark？在说 Watermark 之前，我们先提一下 EventTime（事件时间）和 ProcessingTime（处理时间）。事件时间是事件在现实世界中发生的时间，处理时间是 Flink 系统处理该事件的时间。如果我们比较关心事件实际发生的时间，我们就需要基于事件时间进行处理。但是基于事件时间，我们就不得不面对乱序的问题。 通常情况">
-<meta name="twitter:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-event-time-and-watermark-1.jpg?raw=true">
+<meta name="twitter:title" content="Kafka Connect 如何构建实时数据管道">
+<meta name="twitter:description" content="Kafka Connect 旨在通过将数据移入和移出 Kafka 进行标准化，以更轻松地构建大规模的实时数据管道。我们可以使用 Kafka Connector 读取或写入外部系统、管理数据流以及扩展系统，所有这些都无需开发新代码。Kafka Connect 管理与其他系统连接时的所有常见问题（Schema 管理、容错、并行性、延迟、投递语义等），每个 Connector 只关注如何在目标系统和 K">
+<meta name="twitter:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/how-to-build-a-pipeline-with-kafka-connect-1.png?raw=true">
 
 
 
 
 
 
-  <link rel="canonical" href="http://smartsi.club/flink-stream-event-time-and-watermark.html"/>
+  <link rel="canonical" href="http://smartsi.club/how-to-build-a-pipeline-with-kafka-connect.html"/>
 
 
-  <title>Flink Watermark机制 | SmartSi</title>
+  <title>Kafka Connect 如何构建实时数据管道 | SmartSi</title>
   
 
 
@@ -310,7 +308,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://smartsi.club/flink-stream-event-time-and-watermark.html">
+    <link itemprop="mainEntityOfPage" href="http://smartsi.club/how-to-build-a-pipeline-with-kafka-connect.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="sjf0115">
@@ -327,7 +325,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">Flink Watermark机制</h2>
+          <h2 class="post-title" itemprop="name headline">Kafka Connect 如何构建实时数据管道</h2>
         
 
         <div class="post-meta">
@@ -339,7 +337,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-09T18:12:01+08:00">2021-01-09</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-09-21T15:58:00+08:00">2021-09-21</time>
             
 
             
@@ -353,7 +351,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-01-10T16:20:16+08:00">2021-01-10</time>
+              <time title="更新于" itemprop="dateModified" datetime="2021-09-21T15:06:03+08:00">2021-09-21</time>
             
           </span>
 
@@ -369,7 +367,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Flink/" itemprop="url" rel="index"><span itemprop="name">Flink</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Kafka/" itemprop="url" rel="index"><span itemprop="name">Kafka</span></a></span>
 
                 
                 
@@ -384,8 +382,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/flink-stream-event-time-and-watermark.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/flink-stream-event-time-and-watermark.html" itemprop="commentCount"></span>
+                <a href="/how-to-build-a-pipeline-with-kafka-connect.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/how-to-build-a-pipeline-with-kafka-connect.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -393,7 +391,7 @@
 
           
           
-             <span id="/flink-stream-event-time-and-watermark.html" class="leancloud_visitors" data-flag-title="Flink Watermark机制">
+             <span id="/how-to-build-a-pipeline-with-kafka-connect.html" class="leancloud_visitors" data-flag-title="Kafka Connect 如何构建实时数据管道">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -424,271 +422,76 @@
       
 
       
-        <blockquote>
-<p>Flink版本：1.11.0</p>
-</blockquote>
-<h2 id="1-为何要使用Watermark？"><a href="#1-为何要使用Watermark？" class="headerlink" title="1. 为何要使用Watermark？"></a>1. 为何要使用Watermark？</h2><p>在说 Watermark 之前，我们先提一下 EventTime（事件时间）和 ProcessingTime（处理时间）。事件时间是事件在现实世界中发生的时间，处理时间是 Flink 系统处理该事件的时间。如果我们比较关心事件实际发生的时间，我们就需要基于事件时间进行处理。但是基于事件时间，我们就不得不面对乱序的问题。</p>
-<p>通常情况下，由于网络或者系统等外部因素影响，事件往往不能及时传输到 Flink 系统中，导致数据延迟到达。另一方面，流处理从事件产生，到流经 Source，再到算子，中间是有一个过程和时间的。虽然大部分情况下，流到算子的数据都是按照事件产生的时间来的，但是也可能由于网络、背压等原因，导致乱序的产生。</p>
-<p>因此，我们需要一种机制能够控制数据处理的过程和进度，比如，基于事件时间的 Window 创建后，那如何确定属于该 Window 的数据已经全部到达。如果确定全部到达，就可以对 Window 的所有数据做窗口计算操作，如果数据没有全部到达，则继续等待该 Window 中的数据全部到达才开始处理。这种情况下就需要使用 Watermark ，它能够衡量数据处理进度（表达数据到达的完整性），保证事件数据全部到达 Flink 系统，或者在乱序以及延迟到达时，也能够像预期一样计算出正确并且连续的结果。Flink 会用最新的事件时间减去最大可以容忍的延迟时间最为 Watermark，也就是说理论上不会有事件超过该容忍延迟时间到达，否则被认为是迟到事件。</p>
-<p>Watermark 的出现是为了解决一定范围内的乱序问题，一定范围内表明我们不会无限制的等待延迟的事件，我们有一定的可容忍的延迟时间。Watermark 用来表明所有比当前 Watermark 事件时间早的事件都已经（可能）到达，从而来衡量数据处理进度（表达数据到达的完整性）。</p>
-<h2 id="2-Watermark如何产生？"><a href="#2-Watermark如何产生？" class="headerlink" title="2. Watermark如何产生？"></a>2. Watermark如何产生？</h2><h3 id="2-1-顺序事件中的Watermark"><a href="#2-1-顺序事件中的Watermark" class="headerlink" title="2.1 顺序事件中的Watermark"></a>2.1 顺序事件中的Watermark</h3><p>如果数据元素的事件时间是有序的，Watermark 时间戳会随着数据元素的事件时间按顺序生成，此时 Watermark 的变化和事件时间保持一致，这就是理想状态中的 Watermark。如下图所示， 事件按照其原本的顺序进入 Flink 系统中，Watermark 也跟随着事件时间之后生效，可以看出 Watermark 只是对数据流简单的进行周期性标记，并没有特别大的意义，也就是说在顺序事件的数据处理过程中，Watermark 并不能发挥太大的价值，反而会因为设定超期时间而导致延迟输出计算结果。</p>
-<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-event-time-and-watermark-1.jpg?raw=true" alt=""></p>
-<h3 id="2-2-乱序事件中的Watermark"><a href="#2-2-乱序事件中的Watermark" class="headerlink" title="2.2 乱序事件中的Watermark"></a>2.2 乱序事件中的Watermark</h3><p>现实情况下数据往往并不是找找其产生顺序接入到 Flink 系统中进行处理，而频繁出现乱序或者迟到的情况，这种情况就需要使用 Watermark 来应对。当事件无序时，我们通常认为他们有一定的无序性，那么一定的无序性表明数据不可能无限期的延迟，那它只能在一定范围内处于一种无序状态，那么这个时候我们通过 MaxOutOfOrderness 参数设定我们可以忍受的最大延迟时间。如下图所示 MaxOutOfOrderness = 4，表明可以接受有4个时间单位的延迟，比如，4秒或者4分钟等。当超过4个时间单位之后，我们认为这个数据就是一种无效数据。在4个时间单位之内接入的数据，我们认为是一种有效的乱序事件。在乱序的情况下，我们看看会产生怎样的 Watermark。在这通过 MaxOutOfOrderness 参数去计算我们的 Watermark，也就是会在我们的事件时间的基础之上减去我们的 MaxOutOfOrderness，比如，事件时间为7，Watermark 就为 3（事件时间减去 MaxOutOfOrderness）：</p>
-<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-event-time-and-watermark-2.jpg?raw=true" alt=""></p>
+        <p><a href="http://smartsi.club/announcing-kafka-connect-building-large-scale-low-latency-data-pipelines.html">Kafka Connect</a> 旨在通过将数据移入和移出 Kafka 进行标准化，以更轻松地构建大规模的实时数据管道。我们可以使用 Kafka Connector 读取或写入外部系统、管理数据流以及扩展系统，所有这些都无需开发新代码。Kafka Connect 管理与其他系统连接时的所有常见问题（Schema 管理、容错、并行性、延迟、投递语义等），每个 Connector 只关注如何在目标系统和 Kafka 之间复制数据。</p>
 <blockquote>
-<p>Watermark = 当前最大时间戳 - 最大能容忍的时间（MaxOutOfOrderness）</p>
+<p>如果有对 Kafka Connect 不了解的，可以参考<a href="http://smartsi.club/announcing-kafka-connect-building-large-scale-low-latency-data-pipelines.html">Kafka Connect 构建大规模低延迟的数据管道</a></p>
 </blockquote>
-<p>每当新来一条数据，如果高于了我们前面的最大事件时间，就会触发一个 Watermark 的更新。比如事件时间 11 高于前面的最大事件时间 7，就会触发 w(7) 的更新：</p>
-<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-event-time-and-watermark-3.jpg?raw=true" alt=""></p>
-<p>对于事件时间 7 产生 Watermark 3，事件时间 11 产生 Watermark 7，但是对于 9 这样一条事件，我们发现它的事件时间没有超过我们前面的事件时间的最大值（11），那么就不会触发 Watermark 的更新。</p>
-<p>我们发现 Watermark 的更新其实是根据我们事件时间的变动而发生变化，如果新接入的事件时间大于了前面的事件时间，这时候才会触发产生 Watermark，即每当有新的最大事件时间出现时，就可以产生新的 Watermark。</p>
-<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-event-time-and-watermark-4.jpg?raw=true" alt=""></p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">事件时间</th>
-<th style="text-align:left">当前最大事件时间</th>
-<th style="text-align:left">Watermark</th>
-<th style="text-align:left">是否触发</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">7</td>
-<td style="text-align:left">7</td>
-<td style="text-align:left">w(3)</td>
-<td style="text-align:left">是</td>
-</tr>
-<tr>
-<td style="text-align:left">11</td>
-<td style="text-align:left">11</td>
-<td style="text-align:left">w(7)</td>
-<td style="text-align:left">是</td>
-</tr>
-<tr>
-<td style="text-align:left">9</td>
-<td style="text-align:left">11</td>
-<td style="text-align:left">w(7)</td>
-<td style="text-align:left">否</td>
-</tr>
-<tr>
-<td style="text-align:left">15</td>
-<td style="text-align:left">15</td>
-<td style="text-align:left">w(11)</td>
-<td style="text-align:left">是</td>
-</tr>
-<tr>
-<td style="text-align:left">12</td>
-<td style="text-align:left">15</td>
-<td style="text-align:left">w(11)</td>
-<td style="text-align:left">否</td>
-</tr>
-<tr>
-<td style="text-align:left">13</td>
-<td style="text-align:left">15</td>
-<td style="text-align:left">w(11)</td>
-<td style="text-align:left">否</td>
-</tr>
-<tr>
-<td style="text-align:left">17</td>
-<td style="text-align:left">17</td>
-<td style="text-align:left">w(13)</td>
-<td style="text-align:left">是</td>
-</tr>
-<tr>
-<td style="text-align:left">14</td>
-<td style="text-align:left">17</td>
-<td style="text-align:left">w(13)</td>
-<td style="text-align:left">否</td>
-</tr>
-<tr>
-<td style="text-align:left">21</td>
-<td style="text-align:left">21</td>
-<td style="text-align:left">w(17)</td>
-<td style="text-align:left">是</td>
-</tr>
-<tr>
-<td style="text-align:left">24</td>
-<td style="text-align:left">24</td>
-<td style="text-align:left">w(20)</td>
-<td style="text-align:left">是</td>
-</tr>
-<tr>
-<td style="text-align:left">22</td>
-<td style="text-align:left">24</td>
-<td style="text-align:left">w(20)</td>
-<td style="text-align:left">否</td>
-</tr>
-<tr>
-<td style="text-align:left">19</td>
-<td style="text-align:left">24</td>
-<td style="text-align:left">w(20)</td>
-<td style="text-align:left">否</td>
-</tr>
-</tbody>
-</table>
-<p>但是对于事件时间 19 这样一条数据，我们发现它的时间戳已经小于了当前的 Watermark 的时间，这个时候系统就会将这条数据标记为迟到事件。迟到事件在窗口计算时就不会被纳入窗口的统计范围内，w(20) 之前的数据会被纳入到窗口的统计范围内。</p>
-<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-event-time-and-watermark-5.jpg?raw=true" alt=""></p>
-<h3 id="2-3-并行数据流中的Watermark"><a href="#2-3-并行数据流中的Watermark" class="headerlink" title="2.3 并行数据流中的Watermark"></a>2.3 并行数据流中的Watermark</h3><p>Watermark 一般在 Source 算子中生成，并且在每个 Source 算子的子任务中都会独立生成 Watermark。在 Source 算子的子任务中生成后就会更新该任务的 Watermark，并且会逐步更新下游算子中的 Watermark。如下图所示，Watermark w(17) 已经将 Source 算子和 Map 算子的子任务时钟全部更新值为 17。如果多个 Watermark 同时更新一个算子子任务的当前时间，Flink 会选择最小的 Watermark 来更新。</p>
-<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-stream-event-time-and-watermark-6.jpg?raw=true" alt=""></p>
-<h2 id="3-Watermark与窗口的关系"><a href="#3-Watermark与窗口的关系" class="headerlink" title="3. Watermark与窗口的关系"></a>3. Watermark与窗口的关系</h2><p>Watermark 在 Flink 系统中本身没有太大的意义，只有与窗口结合才能产生其相应价值。对于窗口来讲，其实是通过 Watermark 去控制它的窗口触发时机，告诉窗口不再会有比当前 Watermark 更晚的数据到达了。只有当 Watermark 大于窗口的右边界时才会触发窗口的计算。下面我们通过具体的示例一起来看一下 Watermark 怎么应用于窗口之中。下面我们创建一个窗口大小为10分钟，滑动步长为5分钟的滑动窗口。我们的输入元素都有特定格式:&lt;事件Id,事件时间&gt;，我们的目标就是统计每个事件Id在窗口中出现的次数。假设我们可以接受的最大延迟时间为10分钟，即10分钟以外的数据我们标记为延迟事件：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">序号</th>
-<th style="text-align:left">输入</th>
-<th style="text-align:left">当前最大时间(时间戳)</th>
-<th style="text-align:left">当前Watermark(时间戳)</th>
-<th style="text-align:left">属于窗口</th>
-<th style="text-align:left">触发窗口</th>
-<th style="text-align:left">触发元素</th>
-<th style="text-align:left">计算结果</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">1</td>
-<td style="text-align:left">A,2021-01-05 12:07:01</td>
-<td style="text-align:left">2021-01-05 12:07:01</td>
-<td style="text-align:left">2021-01-05 11:57:00</td>
-<td style="text-align:left">[12:00, 12:10]、[12:05, 12:15]</td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">2</td>
-<td style="text-align:left">B,2021-01-05 12:08:01</td>
-<td style="text-align:left">2021-01-05 12:08:01</td>
-<td style="text-align:left">2021-01-05 11:58:00</td>
-<td style="text-align:left">[12:00, 12:10]、[12:05, 12:15]</td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">3</td>
-<td style="text-align:left">A,2021-01-05 12:14:01</td>
-<td style="text-align:left">2021-01-05 12:14:01</td>
-<td style="text-align:left">2021-01-05 12:04:00</td>
-<td style="text-align:left">[12:05, 12:15]、[12:10, 12:20]</td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">4</td>
-<td style="text-align:left">C,2021-01-05 12:09:01</td>
-<td style="text-align:left">2021-01-05 12:14:01</td>
-<td style="text-align:left">2021-01-05 12:04:00</td>
-<td style="text-align:left">[12:00, 12:10]、[12:05, 12:15]</td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">5</td>
-<td style="text-align:left">C,2021-01-05 12:15:01</td>
-<td style="text-align:left">2021-01-05 12:15:01</td>
-<td style="text-align:left">2021-01-05 12:05:00</td>
-<td style="text-align:left">[12:10, 12:20]、[12:15, 12:25]</td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">6</td>
-<td style="text-align:left">A,2021-01-05 12:08:01</td>
-<td style="text-align:left">2021-01-05 12:15:01</td>
-<td style="text-align:left">2021-01-05 12:05:00</td>
-<td style="text-align:left">[12:00, 12:10]、[12:05, 12:15]</td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">7</td>
-<td style="text-align:left">B,2021-01-05 12:13:01</td>
-<td style="text-align:left">2021-01-05 12:15:01</td>
-<td style="text-align:left">2021-01-05 12:05:00</td>
-<td style="text-align:left">[12:05, 12:15]、[12:10, 12:20]</td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">8</td>
-<td style="text-align:left">B,2021-01-05 12:21:01</td>
-<td style="text-align:left">2021-01-05 12:21:01</td>
-<td style="text-align:left">2021-01-05 12:11:00</td>
-<td style="text-align:left">[12:15, 12:25]、[12:20, 12:30]</td>
-<td style="text-align:left">[12:00, 12:10]</td>
-<td style="text-align:left">1、2、4、6</td>
-<td style="text-align:left">(A,2)、(B,1)、(C,1)</td>
-</tr>
-<tr>
-<td style="text-align:left">9</td>
-<td style="text-align:left">D,2021-01-05 12:04:01</td>
-<td style="text-align:left">2021-01-05 12:21:01</td>
-<td style="text-align:left">2021-01-05 12:11:00</td>
-<td style="text-align:left">[11:55, 12:05]、[12:00, 12:10]</td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">10</td>
-<td style="text-align:left">B,2021-01-05 12:26:01</td>
-<td style="text-align:left">2021-01-05 12:26:01</td>
-<td style="text-align:left">2021-01-05 12:16:00</td>
-<td style="text-align:left">[12:20, 12:30]、[12:25, 12:35]</td>
-<td style="text-align:left">[12:05, 12:15]</td>
-<td style="text-align:left">1、2、3、4、6、7</td>
-<td style="text-align:left">(A,3)、(C,1)、(B,2)</td>
-</tr>
-<tr>
-<td style="text-align:left">11</td>
-<td style="text-align:left">B,2021-01-05 12:17:01</td>
-<td style="text-align:left">2021-01-05 12:26:01</td>
-<td style="text-align:left">2021-01-05 12:16:00</td>
-<td style="text-align:left">[12:10, 12:20]、[12:15, 12:25]</td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">12</td>
-<td style="text-align:left">D,2021-01-05 12:09:01</td>
-<td style="text-align:left">2021-01-05 12:26:01</td>
-<td style="text-align:left">2021-01-05 12:16:00</td>
-<td style="text-align:left">[12:00, 12:10]、[12:05, 12:15]</td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">13</td>
-<td style="text-align:left">C,2021-01-05 12:30:01</td>
-<td style="text-align:left">2021-01-05 12:30:01</td>
-<td style="text-align:left">2021-01-05 12:20:00</td>
-<td style="text-align:left">[12:25, 12:35]、[12:30, 12:40]</td>
-<td style="text-align:left">[12:15,12:20]</td>
-<td style="text-align:left">3、5、7、11</td>
-<td style="text-align:left">(B,2)、(C,1)、(A,1)</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>maxOutOfOrderness=10分钟，watermark(t)=currentMaxTimeStamp(t)-maxOutOfOrderness(t)-1</p>
-</blockquote>
-<p>第二列是我们输入的事件，第三列是当前最大的事件时间，第四列是当前最新的 Watermark，第五列是当前事件所属于的窗口，第六列是当前 Watermark 触发了哪个窗口的计算，第七列是哪些事件在这个触发的窗口中，第八列是窗口计算的最终结果。</p>
-<p>当第一条数据接入 Flink 系统时，会产生一个新的 Watermark，同时会产生 [12:00, 12:10]、[12:05, 12:15] 两个窗口。当第二条数据到达时，由于大于了前面的事件时间，因此会触发 Watermark 的更新，该数据属于前面一条数据创建的窗口中。前7条数据比较类似，都是创建每条数据属于的窗口以及每当有新的最大事件时间出现，都会触发 Watermark 的更新。第8条数据到来时，由于都大于前面的事件时间，因此产生新的 Watermark（2021-01-05 12:11:00）。由于当前的 Watermark 大于第一个窗口 [12:00, 12:10] 的右边界，因此第一次触发窗口的计算。同理，第13条数据到来时，触发了第二次窗口计算。</p>
-<p>欢迎关注我的公众号和博客：</p>
-<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Other/smartsi.jpg?raw=true" alt=""></p>
-<p>参考:</p>
+<h3 id="1-执行模式"><a href="#1-执行模式" class="headerlink" title="1. 执行模式"></a>1. 执行模式</h3><p>Kafka Connect 是与 Apache Kafka 一起发布的，所以没有必要单独安装，对于生产使用，特别是计划使用 Connect 移动大量数据或运行多个 Connector 时，应该在单独的服务器上运行 Connect。在这种情况下，所有的机器上安装 Apache Kafka，并在部分服务器上启动 broker，然后在其他服务器上启动 Connect。Kafka Connect 目前支持两种执行模式：Standalone 模式和分布式模式。</p>
+<h4 id="1-1-Standalone-模式"><a href="#1-1-Standalone-模式" class="headerlink" title="1.1 Standalone 模式"></a>1.1 Standalone 模式</h4><p>在 Standalone 模式下，所有的工作都在单个进程中完成。这种模式更容易配置以及入门，但不能充分利用 Kafka Connect 的某些重要功能，例如，容错。我们可以使用如下命令启动 Standalone 进程：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">bin/connect-standalone.sh config/connect-standalone.properties connector1.properties [connector2.properties ...]</span><br></pre></td></tr></table></figure></p>
+<p>第一个参数 config/connect-standalone.properties 是 worker 的配置。这其中包括 Kafka 连接参数、序列化格式以及提交 Offset 的频率等配置：<br><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">bootstrap.servers=localhost:9092</span><br><span class="line">key.converter.schemas.enable=true</span><br><span class="line">value.converter.schemas.enable=true</span><br><span class="line">offset.storage.file.filename=/tmp/connect.offsets</span><br><span class="line">offset.flush.interval.ms=10000</span><br></pre></td></tr></table></figure></p>
+<p>上述提供的默认配置适用于使用 config/server.properties 提供的默认配置运行的本地集群。如果使用不同配置或者在生产部署，那就需要对默认配置做调整。但无论怎样，所有 Worker（独立的和分布式的）都需要一些配置：</p>
 <ul>
-<li><a href="https://ci.apache.org/projects/flink/flink-docs-release-1.10/dev/event_time.html#event-time-and-watermarks" target="_blank" rel="noopener">Event Time and Watermarks</a></li>
-<li>Flink核心技术与实战</li>
+<li>bootstrap.servers：该参数列出了将要与 Connect 协同工作的 broker 服务器，Connector 将会向这些 broker 写入数据或者从它们那里读取数据。你不需要指定集群的所有 broker，但是建议至少指定3个。</li>
+<li>key.converter 和 value.converter：分别指定了消息键和消息值所使用的的转换器，用于在 Kafka Connect 格式和写入 Kafka 的序列化格式之间进行转换。这控制了写入 Kafka 或从 Kafka 读取的消息中键和值的格式。由于这与 Connector 没有任何关系，因此任何 Connector 可以与任何序列化格式一起使用。默认使用 Kafka 提供的 JSONConverter。有些转换器还包含了特定的配置参数。例如，通过将 key.converter.schemas.enable 设置成 true 或者 false 来指定 JSON 消息是否包含 schema。</li>
+<li>offset.storage.file.filename：用于存储 Offset 数据的文件。</li>
+</ul>
+<p>这些配置参数可以让 Kafka Connect 的生产者和消费者访问配置、Offset 和状态 Topic。配置 Kafka Source 任务使用的生产者和 Kafka Sink 任务使用的消费者，可以使用相同的参数，但需要分别加上 ‘producer.’ 和 ‘consumer.’ 前缀。bootstrap.servers 是唯一不需要添加前缀的 Kafka 客户端参数。</p>
+<h4 id="1-2-分布式模式"><a href="#1-2-分布式模式" class="headerlink" title="1.2 分布式模式"></a>1.2 分布式模式</h4><p>分布式模式可以自动平衡工作负载，并可以动态扩展（或缩减）以及提供容错。分布式模式的执行与 Standalone 模式非常相似：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">bin/connect-distributed.sh config/connect-distributed.properties</span><br></pre></td></tr></table></figure></p>
+<p>不同之处在于启动的脚本以及配置参数。在分布式模式下，使用 connect-distributed.sh 来代替 connect-standalone.sh。第一个 worker 配置参数使用的是 config/connect-distributed.properties 配置文件：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">bootstrap.servers=localhost:9092</span><br><span class="line">group.id=connect-cluster</span><br><span class="line">key.converter.schemas.enable=true</span><br><span class="line">value.converter.schemas.enable=true</span><br><span class="line">offset.storage.topic=connect-offsets</span><br><span class="line">offset.storage.replication.factor=1</span><br><span class="line">#offset.storage.partitions=25</span><br><span class="line">config.storage.topic=connect-configs</span><br><span class="line">config.storage.replication.factor=1</span><br><span class="line">status.storage.topic=connect-status</span><br><span class="line">status.storage.replication.factor=1</span><br><span class="line">#status.storage.partitions=5</span><br><span class="line">offset.flush.interval.ms=10000</span><br></pre></td></tr></table></figure></p>
+<p>Kafka Connect 将 Offset、配置以及任务状态存储在 Kafka Topic 中。建议手动创建 Offset、配置和状态的 Topic，以达到所需的分区数和复制因子。如果在启动 Kafka Connect 时尚未创建 Topic，将使用默认分区数和复制因子来自动创建 Topic，这可能不适合我们的应用。在启动集群之前配置如下参数至关重要：</p>
+<ul>
+<li>group.id：Connect 集群的唯一名称，默认为 connect-cluster。具有相同 group id 的 worker 属于同一个 Connect 集群。需要注意的是这不能与消费者组 ID 冲突。</li>
+<li>config.storage.topic：用于存储 Connector 和任务配置的 Topic，默认为 connect-configs。需要注意的是这是一个只有一个分区、高度复制、压缩的 Topic。我们可能需要手动创建 Topic 以确保配置的正确，因为自动创建的 Topic 可能有多个分区或自动配置为删除而不是压缩。</li>
+<li>offset.storage.topic：用于存储 Offset 的 Topic，默认为 connect-offsets。这个 Topic 可以有多个分区。</li>
+<li>status.storage.topic：用于存储状态的 Topic，默认为 connect-status。这个 Topic 可以有多个分区。</li>
+</ul>
+<h3 id="2-配置-Connector"><a href="#2-配置-Connector" class="headerlink" title="2. 配置 Connector"></a>2. 配置 Connector</h3><p>Connector 配置是简单的键值对。对于 Standalone 模式，配置参数在配置文件中定义并通过命令行传递给 Connect 进程。但在分布式模式下，需要使用 REST API 来提交 Connector 配置，来请求创建或者修改 Connector。如下是文件 Source Connector 的示例：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">name=local-file-source</span><br><span class="line">connector.class=FileStreamSource</span><br><span class="line">tasks.max=1</span><br><span class="line">file=test.txt</span><br></pre></td></tr></table></figure></p>
+<p>大多数配置都依赖于具体的 Connector，因此无法在此处进行概述。但是，有一些常见的配置参数：</p>
+<ul>
+<li>name：Connector 的唯一名称。使用相同名称注册会失败。</li>
+<li>connector.class：Connector 对应的的 Java 类。</li>
+<li>tasks.max：应为此 Connector 创建的最大任务数。如果 Connector 无法达到这种并行度级别，可能会创建比配置要少的任务。</li>
+</ul>
+<p>connector.class 配置支持多种格式：Connector 类的全名或别名。对于文件 Source Connector，我们可以全名 org.apache.kafka.connect.file.FileStreamSinkConnector，也可以使用简写的 FileStreamSink 或 FileStreamSinkConnector。Sink Connector 还需要一些其他的参数来控制输入。每个 Sink Connector 都必须设置如下参数：</p>
+<ul>
+<li>topic：Connector 的输入 Topic，以逗号分隔的列表</li>
+<li>topic.regex：Connector 输入 Topic 的 Java 正则表达式</li>
+</ul>
+<h3 id="3-运行-Connect"><a href="#3-运行-Connect" class="headerlink" title="3. 运行 Connect"></a>3. 运行 Connect</h3><p>启动 Connect 进程与启动 broker 进程差不多，在调用脚本时传入一个配置文件即可，如下使用分布式执行模式来启动 Connect：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">bin/connect-distributed.sh config/connect-distributed.properties &amp;</span><br></pre></td></tr></table></figure></p>
+<p>我们一般通过 Connect 的 REST API 来配置和监控 rest.host.name 和 rest.port。你可以为 REST API 指定特定的端口：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">rest.port=9083</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>默认端口号为 8083，在这里我们为了防止端口号冲突，特意修改为 9083。</p>
+</blockquote>
+<p>启动 Worker 集群之后，可以通过 REST API 来验证它们是否正常运行：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">localhost:script wy$ curl http://localhost:9083/</span><br><span class="line">&#123;&quot;version&quot;:&quot;2.4.0&quot;,&quot;commit&quot;:&quot;77a89fcf8d7fa018&quot;,&quot;kafka_cluster_id&quot;:&quot;jNjfTPnOTHOYxyaafsGU6A&quot;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个 REST API 会返回当前 Connect 的版本号。我们运行的是 Kafka 2.4.0 版本。我们还可以检查已经安装好的 Connector 插件：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">localhost:script wy$ curl http://localhost:9083/connector-plugins</span><br><span class="line">[&#123;&quot;class&quot;:&quot;org.apache.kafka.connect.file.FileStreamSinkConnector&quot;,&quot;type&quot;:&quot;sink&quot;,&quot;version&quot;:&quot;2.4.0&quot;&#125;,&#123;&quot;class&quot;:&quot;org.apache.kafka.connect.file.FileStreamSourceConnector&quot;,&quot;type&quot;:&quot;source&quot;,&quot;version&quot;:&quot;2.4.0&quot;&#125;,&#123;&quot;class&quot;:&quot;org.apache.kafka.connect.mirror.MirrorCheckpointConnector&quot;,&quot;type&quot;:&quot;source&quot;,&quot;version&quot;:&quot;1&quot;&#125;,&#123;&quot;class&quot;:&quot;org.apache.kafka.connect.mirror.MirrorHeartbeatConnector&quot;,&quot;type&quot;:&quot;source&quot;,&quot;version&quot;:&quot;1&quot;&#125;,&#123;&quot;class&quot;:&quot;org.apache.kafka.connect.mirror.MirrorSourceConnector&quot;,&quot;type&quot;:&quot;source&quot;,&quot;version&quot;:&quot;1&quot;&#125;]</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-Connector-示例"><a href="#4-Connector-示例" class="headerlink" title="4. Connector 示例"></a>4. Connector 示例</h3><p>在这里，我们使用 Kafka 自带的文件连接器(FileStreamSource、FileStreamSink)来演示如何将一个文件发送到 Kafka Topic 上，再从 Kafka Topic 导出到文件中。</p>
+<p>如下所示创建一个文件 Source Connector。在这里，直接让它读取我们创建的 a.txt 文件，即把 a.txt 文件发送到 Topic 上：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">echo &apos;&#123;&quot;name&quot;:&quot;file-source-connector&quot;, &quot;config&quot;:&#123;&quot;connector.class&quot;:&quot;FileStreamSource&quot;,&quot;file&quot;:&quot;a.txt&quot;,&quot;topic&quot;:&quot;file-connector-topic&quot;&#125;&#125;&apos; | curl -X POST -d @- http://localhost:9083/connectors --header &quot;content-Type:application/json&quot;</span><br></pre></td></tr></table></figure></p>
+<p>上述命令使用 Kafka Connect REST API ‘POST /connectors’ 创建一个新的 Connector，请求是一个 JSON 对象，其中包含一个字符串名称字段 name 以及一个带有 Connector 配置参数的对象配置字段 config。我们通过 echo 命令把 JSON 内容发送给 REST API。从 JSON 中我们可以知道：</p>
+<ul>
+<li>Connector 名称： file-source-connector</li>
+<li>Connector 类： FileStreamSource</li>
+<li>要加载的文件： a.txt</li>
+<li>把文件加载到 Kaffa 的 topic：file-connector-topic</li>
+</ul>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/how-to-build-a-pipeline-with-kafka-connect-1.png?raw=true" alt=""></p>
+<p>a.txt 文件内容如下：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td></tr></table></figure></p>
+<p>创建完 Connector 之后，我们通过如下命令查看目前已经创建的 Connector：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">curl -X GET http://localhost:9083/connectors</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/how-to-build-a-pipeline-with-kafka-connect-2.png?raw=true" alt=""></p>
+<blockquote>
+<p>可以通过该命令删除对应的 Connector：curl -X DELETE <a href="http://localhost:9083/connectors/" target="_blank" rel="noopener">http://localhost:9083/connectors/</a><name></name></p>
+</blockquote>
+<p>下面通过 Kafka 的控制台消费者来验证指定的文件是否已经加载到 Topic 中：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">bin/kafka-console-consumer.sh --topic file-connector-topic --from-beginning --bootstrap-server localhost:9092</span><br></pre></td></tr></table></figure></p>
+<p>如果一切正常，可以看到如下输出：</p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/how-to-build-a-pipeline-with-kafka-connect-3.png?raw=true" alt=""></p>
+<p>以上输出的是 a.txt 文件的内容，这些内容被一行一行的转成 JSON 记录，并被 Connector 发送到 file-connector-topic Topic 上。默认情况下，JSON 转换器会在每一条记录上附带上 schema 信息。payload 列对应了文件里的一行内容。</p>
+<p>文件已经发送到 Kafka Topic 上了，现在使用文件 Sink Connector 再把 Topic 里的内容导出到 a-backup.txt 文件中。导出的文件应该与原始文件 a.txt 的内容完全一样，JSON转换器会把每个 JSON 记录转成单行文本：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">echo &apos;&#123;&quot;name&quot;:&quot;file-sink-connector&quot;, &quot;config&quot;:&#123;&quot;connector.class&quot;:&quot;FileStreamSink&quot;,&quot;file&quot;:&quot;a-backup.txt&quot;,&quot;topics&quot;:&quot;file-connector-topic&quot;&#125;&#125;&apos; | curl -X POST -d @- http://localhost:9083/connectors --header &quot;content-Type:application/json&quot;</span><br></pre></td></tr></table></figure></p>
+<p>上述命令还是使用 Kafka Connect REST API ‘POST /connectors’ 创建一个新的 Connector，请求同样是一个 JSON 对象，其中有几个配置参数发生了变化，connector.class 使用 FileStreamSink，而不是 FileStreamSource；file 参数指向目标文件，而不是原始文件；我们使用 topics，而不是 topic 来指定读取的 Topic。如果一切正常，我们会得到一个名为 a-backup.txt 的文件。</p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/how-to-build-a-pipeline-with-kafka-connect-4.png?raw=true" alt=""></p>
+<p>欢迎关注我的公众号和博客：</p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Other/smartsi.jpg?raw=true" alt=""></p>
+<p>参考：</p>
+<ul>
+<li><a href="https://kafka.apache.org/documentation/#connect" target="_blank" rel="noopener">KAFKA CONNECT</a></li>
 </ul>
 
       
@@ -735,11 +538,11 @@
         <ul class="post-copyright">
   <li class="post-copyright-author">
     <strong>本文作者：</strong>
-    sjf0115
+    smartsi
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://smartsi.club/flink-stream-event-time-and-watermark.html" title="Flink Watermark机制">http://smartsi.club/flink-stream-event-time-and-watermark.html</a>
+    <a href="http://smartsi.club/how-to-build-a-pipeline-with-kafka-connect.html" title="Kafka Connect 如何构建实时数据管道">http://smartsi.club/how-to-build-a-pipeline-with-kafka-connect.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -754,7 +557,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Flink/" rel="tag"># Flink</a>
+            <a href="/tags/Kafka/" rel="tag"># Kafka</a>
           
         </div>
       
@@ -767,8 +570,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/rebranding-prestosql-as-trino.html" rel="next" title="<转>与 Facebook 分手后 ，PrestoSQL 再度因商标侵权被迫更名">
-                <i class="fa fa-chevron-left"></i> <转>与 Facebook 分手后 ，PrestoSQL 再度因商标侵权被迫更名
+              <a href="/announcing-kafka-connect-building-large-scale-low-latency-data-pipelines.html" rel="next" title="Kafka Connect 构建大规模低延迟的数据管道">
+                <i class="fa fa-chevron-left"></i> Kafka Connect 构建大规模低延迟的数据管道
               </a>
             
           </div>
@@ -776,10 +579,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/hive-query-federation.html" rel="prev" title="<转>Apache Hive 联邦查询">
-                <转>Apache Hive 联邦查询 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -995,7 +794,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-为何要使用Watermark？"><span class="nav-number">1.</span> <span class="nav-text">1. 为何要使用Watermark？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Watermark如何产生？"><span class="nav-number">2.</span> <span class="nav-text">2. Watermark如何产生？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-顺序事件中的Watermark"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 顺序事件中的Watermark</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-乱序事件中的Watermark"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 乱序事件中的Watermark</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-并行数据流中的Watermark"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 并行数据流中的Watermark</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Watermark与窗口的关系"><span class="nav-number">3.</span> <span class="nav-text">3. Watermark与窗口的关系</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-执行模式"><span class="nav-number">1.</span> <span class="nav-text">1. 执行模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-Standalone-模式"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 Standalone 模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-分布式模式"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 分布式模式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-配置-Connector"><span class="nav-number">2.</span> <span class="nav-text">2. 配置 Connector</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-运行-Connect"><span class="nav-number">3.</span> <span class="nav-text">3. 运行 Connect</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Connector-示例"><span class="nav-number">4.</span> <span class="nav-text">4. Connector 示例</span></a></li></ol></div>
             
 
           </div>
