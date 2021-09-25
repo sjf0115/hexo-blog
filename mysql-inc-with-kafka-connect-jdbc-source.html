@@ -97,33 +97,48 @@
 
 
   
-  <meta name="keywords" content="HBase," />
+  <meta name="keywords" content="Kafka," />
 
 
-<meta name="description" content="HBase 使用 Java 语言开发，因而 HBase 原生提供了一个 Java 语言客户端。这篇文章介绍 HBase Admin API，包括创建、启用、禁用、删除表等。如果项目使用 Maven 进行依赖管理，只需添加如下依赖即可以使用 Java 客户端访问 HBase 集群：&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;org.apache.hbase&amp;lt;/gr">
-<meta name="keywords" content="HBase">
+<meta name="description" content="Kafka 版本：2.4.0  上一篇文章 Kafka Connect JDBC Source MySQL 全量同步 中，我们只是将整个表数据导入 Kafka。这对于获取数据快照很有用，但并不是所有场景都需要批量全部同步，有时候我们可能想要获取自上次之后发生的变更以实现增量同步。JDBC Connector 提供了这样的能力，将表中自上次轮询以来发生更改的行流式传输到 Kafka 中。可以基于递">
+<meta name="keywords" content="Kafka">
 <meta property="og:type" content="article">
-<meta property="og:title" content="HBase Java Admin API">
-<meta property="og:url" content="http://smartsi.club/hbase-java-admin-api.html">
+<meta property="og:title" content="Kafka Connect JDBC Source MySQL 增量同步">
+<meta property="og:url" content="http://smartsi.club/mysql-inc-with-kafka-connect-jdbc-source.html">
 <meta property="og:site_name" content="SmartSi">
-<meta property="og:description" content="HBase 使用 Java 语言开发，因而 HBase 原生提供了一个 Java 语言客户端。这篇文章介绍 HBase Admin API，包括创建、启用、禁用、删除表等。如果项目使用 Maven 进行依赖管理，只需添加如下依赖即可以使用 Java 客户端访问 HBase 集群：&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;org.apache.hbase&amp;lt;/gr">
+<meta property="og:description" content="Kafka 版本：2.4.0  上一篇文章 Kafka Connect JDBC Source MySQL 全量同步 中，我们只是将整个表数据导入 Kafka。这对于获取数据快照很有用，但并不是所有场景都需要批量全部同步，有时候我们可能想要获取自上次之后发生的变更以实现增量同步。JDBC Connector 提供了这样的能力，将表中自上次轮询以来发生更改的行流式传输到 Kafka 中。可以基于递">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Other/smartsi.jpg?raw=true">
-<meta property="og:updated_time" content="2019-12-29T06:42:22.000Z">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-inc-with-kafka-connect-jdbc-source-1.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-inc-with-kafka-connect-jdbc-source-2.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-inc-with-kafka-connect-jdbc-source-3.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-inc-with-kafka-connect-jdbc-source-4.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-inc-with-kafka-connect-jdbc-source-5.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-inc-with-kafka-connect-jdbc-source-6.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-inc-with-kafka-connect-jdbc-source-7.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-inc-with-kafka-connect-jdbc-source-8.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-inc-with-kafka-connect-jdbc-source-9.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-inc-with-kafka-connect-jdbc-source-10.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-inc-with-kafka-connect-jdbc-source-11.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-inc-with-kafka-connect-jdbc-source-12.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-inc-with-kafka-connect-jdbc-source-13.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-inc-with-kafka-connect-jdbc-source-14.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-inc-with-kafka-connect-jdbc-source-15.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Other/smartsi.jpg?raw=true">
+<meta property="og:updated_time" content="2021-09-25T15:19:17.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="HBase Java Admin API">
-<meta name="twitter:description" content="HBase 使用 Java 语言开发，因而 HBase 原生提供了一个 Java 语言客户端。这篇文章介绍 HBase Admin API，包括创建、启用、禁用、删除表等。如果项目使用 Maven 进行依赖管理，只需添加如下依赖即可以使用 Java 客户端访问 HBase 集群：&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;org.apache.hbase&amp;lt;/gr">
-<meta name="twitter:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Other/smartsi.jpg?raw=true">
+<meta name="twitter:title" content="Kafka Connect JDBC Source MySQL 增量同步">
+<meta name="twitter:description" content="Kafka 版本：2.4.0  上一篇文章 Kafka Connect JDBC Source MySQL 全量同步 中，我们只是将整个表数据导入 Kafka。这对于获取数据快照很有用，但并不是所有场景都需要批量全部同步，有时候我们可能想要获取自上次之后发生的变更以实现增量同步。JDBC Connector 提供了这样的能力，将表中自上次轮询以来发生更改的行流式传输到 Kafka 中。可以基于递">
+<meta name="twitter:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-inc-with-kafka-connect-jdbc-source-1.png?raw=true">
 
 
 
 
 
 
-  <link rel="canonical" href="http://smartsi.club/hbase-java-admin-api.html"/>
+  <link rel="canonical" href="http://smartsi.club/mysql-inc-with-kafka-connect-jdbc-source.html"/>
 
 
-  <title>HBase Java Admin API | SmartSi</title>
+  <title>Kafka Connect JDBC Source MySQL 增量同步 | SmartSi</title>
   
 
 
@@ -304,7 +319,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://smartsi.club/hbase-java-admin-api.html">
+    <link itemprop="mainEntityOfPage" href="http://smartsi.club/mysql-inc-with-kafka-connect-jdbc-source.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="sjf0115">
@@ -321,7 +336,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">HBase Java Admin API</h2>
+          <h2 class="post-title" itemprop="name headline">Kafka Connect JDBC Source MySQL 增量同步</h2>
         
 
         <div class="post-meta">
@@ -333,7 +348,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-29T14:37:11+08:00">2019-12-29</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-09-27T21:56:00+08:00">2021-09-27</time>
             
 
             
@@ -347,7 +362,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-12-29T14:42:22+08:00">2019-12-29</time>
+              <time title="更新于" itemprop="dateModified" datetime="2021-09-25T23:19:17+08:00">2021-09-25</time>
             
           </span>
 
@@ -363,7 +378,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/HBase/" itemprop="url" rel="index"><span itemprop="name">HBase</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Kafka/" itemprop="url" rel="index"><span itemprop="name">Kafka</span></a></span>
 
                 
                 
@@ -378,8 +393,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/hbase-java-admin-api.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/hbase-java-admin-api.html" itemprop="commentCount"></span>
+                <a href="/mysql-inc-with-kafka-connect-jdbc-source.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/mysql-inc-with-kafka-connect-jdbc-source.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -387,7 +402,7 @@
 
           
           
-             <span id="/hbase-java-admin-api.html" class="leancloud_visitors" data-flag-title="HBase Java Admin API">
+             <span id="/mysql-inc-with-kafka-connect-jdbc-source.html" class="leancloud_visitors" data-flag-title="Kafka Connect JDBC Source MySQL 增量同步">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -418,28 +433,78 @@
       
 
       
-        <p>HBase 使用 Java 语言开发，因而 HBase 原生提供了一个 Java 语言客户端。这篇文章介绍 HBase Admin API，包括创建、启用、禁用、删除表等。如果项目使用 Maven 进行依赖管理，只需添加如下依赖即可以使用 Java 客户端访问 HBase 集群：<br><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hbase<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hbase-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1.6<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hbase<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hbase-server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1.6<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<blockquote>
-<p>需要注意的是，客户端版本和 HBase 版本需要保持一致，否则可能会遇到不兼容的问题。</p>
+        <blockquote>
+<p>Kafka 版本：2.4.0</p>
 </blockquote>
-<p>如果要是遇到 Protobuf 等类冲突时，可以使用 HBase 提供的一个非常方便的 Jar：<br><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hbase<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hbase-shaded-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1.6<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hbase<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hbase-shaded-server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1.6<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>上一篇文章 <a href="http://smartsi.club/mysql-bulk-with-kafka-connect-jdbc-source.html">Kafka Connect JDBC Source MySQL 全量同步</a> 中，我们只是将整个表数据导入 Kafka。这对于获取数据快照很有用，但并不是所有场景都需要批量全部同步，有时候我们可能想要获取自上次之后发生的变更以实现增量同步。JDBC Connector 提供了这样的能力，将表中自上次轮询以来发生更改的行流式传输到 Kafka 中。可以基于递增的列（例如，递增的主键）或者时间戳列（例如，上次更新的时间戳）来进行操作。Kafka Connect JDBC Source  提供了三种增量同步模式：</p>
+<ul>
+<li>incrementing</li>
+<li>timestamp</li>
+<li>timestamp+incrementing</li>
+</ul>
+<p>下面我们详细介绍每一种模式。</p>
+<h3 id="1-incrementing-模式"><a href="#1-incrementing-模式" class="headerlink" title="1. incrementing 模式"></a>1. incrementing 模式</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> <span class="string">`stu`</span>(</span><br><span class="line">   <span class="string">`id`</span> <span class="built_in">BIGINT</span> <span class="keyword">UNSIGNED</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT,</span><br><span class="line">   <span class="string">`stu_id`</span> <span class="built_in">VARCHAR</span>(<span class="number">100</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">   <span class="string">`stu_name`</span> <span class="built_in">VARCHAR</span>(<span class="number">100</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">   <span class="string">`gmt_create`</span> DATETIME <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="keyword">CURRENT_TIMESTAMP</span>,</span><br><span class="line">   <span class="string">`gmt_modified`</span> DATETIME <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="keyword">CURRENT_TIMESTAMP</span> <span class="keyword">ON</span> <span class="keyword">UPDATE</span> <span class="keyword">CURRENT_TIMESTAMP</span>,</span><br><span class="line">   PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span> )</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8;</span><br></pre></td></tr></table></figure>
+<p>incrementing 模式基于表上严格递增的列来检测是否是新行。如果添加了具有新 ID 的新行，该行会被导入到 Kafka 中。需要使用 incrementing.column.name 参数指定严格递增列。如下所示使用 id 字段作为自增列：<br><figure class="highlight"><table><tr><td class="code"><pre><span class="line">curl -X POST http://localhost:8083/connectors \</span><br><span class="line">-H "Content-Type: application/json" -d '&#123;</span><br><span class="line">    "name": "jdbc_source_connector_mysql_increment",</span><br><span class="line">    "config": &#123;</span><br><span class="line">            "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",</span><br><span class="line">            "connection.url": "jdbc:mysql://localhost:3306/kafka_connect_sample",</span><br><span class="line">            "connection.user": "root",</span><br><span class="line">            "connection.password": "root",</span><br><span class="line">            "topic.prefix": "connect-mysql-increment-",</span><br><span class="line">            "mode":"incrementing",</span><br><span class="line">            "incrementing.column.name":"id",</span><br><span class="line">            "catalog.pattern" : "kafka_connect_sample",</span><br><span class="line">            "table.whitelist" : "stu"</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;'</span><br></pre></td></tr></table></figure></p>
+<p>创建 Connector 成功之后如下显示：</p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-inc-with-kafka-connect-jdbc-source-1.png?raw=true" alt=""></p>
+<p>在 incrementing 模式下，每次都是根据 incrementing.column.name 参数指定的列，查询大于自上次拉取的最大id：<br><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> stu</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">id</span> &gt; ?</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="keyword">id</span> <span class="keyword">ASC</span></span><br></pre></td></tr></table></figure></p>
+<p>现在我们向 stu 数据表新添加 stu_id 分别为 00001 和 00002 的两条数据：</p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-inc-with-kafka-connect-jdbc-source-2.png?raw=true" alt=""></p>
+<p>我们在使用如下命令消费 connect-mysql-increment-stu Topic 时，会连续得到两条记录，如下图所示：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">bin/kafka-console-consumer.sh --topic connect-mysql-increment-stu --from-beginning --bootstrap-server localhost:9092</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-inc-with-kafka-connect-jdbc-source-3.png?raw=true" alt=""></p>
+<p>这种模式的缺点是无法捕获行上更新操作（例如，UPDATE、DELETE）的变更，因为无法增大该行的 id。如下所示我们删除了 stud_id 为 00002 的行、修改了 stud_id 为 00001 的行以及新添加了 stu_id 为 00003 的行：</p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-inc-with-kafka-connect-jdbc-source-4.png?raw=true" alt=""></p>
+<p>但是只有新添加的 stu_id 为 00003 的行导入了 kafka：</p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-inc-with-kafka-connect-jdbc-source-5.png?raw=true" alt=""></p>
+<h3 id="2-timestamp-模式"><a href="#2-timestamp-模式" class="headerlink" title="2. timestamp 模式"></a>2. timestamp 模式</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> <span class="string">`stu_timestamp`</span>(</span><br><span class="line">   <span class="string">`id`</span> <span class="built_in">BIGINT</span> <span class="keyword">UNSIGNED</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT,</span><br><span class="line">   <span class="string">`stu_id`</span> <span class="built_in">VARCHAR</span>(<span class="number">100</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">   <span class="string">`stu_name`</span> <span class="built_in">VARCHAR</span>(<span class="number">100</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">   <span class="string">`gmt_create`</span> DATETIME <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="keyword">CURRENT_TIMESTAMP</span>,</span><br><span class="line">   <span class="string">`gmt_modified`</span> DATETIME <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="keyword">CURRENT_TIMESTAMP</span> <span class="keyword">ON</span> <span class="keyword">UPDATE</span> <span class="keyword">CURRENT_TIMESTAMP</span>,</span><br><span class="line">   PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span> )</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8;</span><br></pre></td></tr></table></figure>
+<p>timestamp 模式基于表上时间戳列来检测是否是新行或者修改的行。该列最好是随着每次写入而更新，并且值是单调递增的。需要使用 timestamp.column.name 参数指定时间戳列。如下所示使用 gmt_modified 字段作为时间戳列：<br><figure class="highlight"><table><tr><td class="code"><pre><span class="line">curl -X POST http://localhost:8083/connectors \</span><br><span class="line">-H "Content-Type: application/json" -d '&#123;</span><br><span class="line">    "name": "jdbc_source_connector_mysql_timestamp",</span><br><span class="line">    "config": &#123;</span><br><span class="line">            "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",</span><br><span class="line">            "connection.url": "jdbc:mysql://localhost:3306/kafka_connect_sample",</span><br><span class="line">            "connection.user": "root",</span><br><span class="line">            "connection.password": "root",</span><br><span class="line">            "topic.prefix": "connect-mysql-timestamp-",</span><br><span class="line">            "mode":"timestamp",</span><br><span class="line">            "timestamp.column.name":"gmt_modified",</span><br><span class="line">            "catalog.pattern" : "kafka_connect_sample",</span><br><span class="line">            "table.whitelist" : "stu_timestamp"</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;'</span><br></pre></td></tr></table></figure></p>
+<p>需要注意的是时间戳列在数据表中不能设置为可 NULL，否则抛出如下异常：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">org.apache.kafka.connect.errors.ConnectException: Cannot make incremental queries using timestamp columns</span><br><span class="line">[gmt_modified] on `kafka_connect_sample`.`stu_timestamp` because all of these columns nullable.</span><br><span class="line">	at io.confluent.connect.jdbc.source.JdbcSourceTask.validateNonNullable(JdbcSourceTask.java:<span class="number">497</span>)</span><br><span class="line">	at io.confluent.connect.jdbc.source.JdbcSourceTask.start(JdbcSourceTask.java:<span class="number">168</span>)</span><br><span class="line">	at org.apache.kafka.connect.runtime.WorkerSourceTask.execute(WorkerSourceTask.java:<span class="number">208</span>)</span><br><span class="line">	at org.apache.kafka.connect.runtime.WorkerTask.doRun(WorkerTask.java:<span class="number">177</span>)</span><br><span class="line">	at org.apache.kafka.connect.runtime.WorkerTask.run(WorkerTask.java:<span class="number">227</span>)</span><br><span class="line">	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:<span class="number">511</span>)</span><br><span class="line">	at java.util.concurrent.FutureTask.run(FutureTask.java:<span class="number">266</span>)</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:<span class="number">1149</span>)</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:<span class="number">624</span>)</span><br><span class="line">	at java.lang.Thread.run(Thread.java:<span class="number">748</span>)</span><br></pre></td></tr></table></figure></p>
 <blockquote>
-<p><a href="https://issues.apache.org/jira/browse/HBASE-13517" target="_blank" rel="noopener">HBASE-13517</a></p>
+<p>请注意，因为 Connector 要求时间戳列为 NOT NULL，我们可以将这些列设置为 NOT NULL，或者我们可以通过设置 validate.not.null 为 false 来禁用此验证。</p>
 </blockquote>
-<p><code>hbase-shaded-client</code> 和 <code>hbase-shaded-server</code> 是在无法以其他方式解决依赖冲突的场景下使用的。在没有冲突的情况下，我们应首选：<code>hbase-client</code> 和 <code>hbase-server</code>。不要在协处理器内部使用 <code>hbase-shaded-server</code>或 <code>hbase-shaded-client</code>，因为这样可能会发生不好的事情。</p>
-<h3 id="1-连接HBase"><a href="#1-连接HBase" class="headerlink" title="1. 连接HBase"></a>1. 连接HBase</h3><p>构建一个 Configuration 示例，该示例包含了一些客户端配置，最重要的必须配置是 HBase 集群的 ZooKeeper 地址与端口。ConnectionFactory 根据 Configuration 示例创建一个 Connection 对象，该 Connection 对象线程安全，封装了连接到 HBase 集群所需要的所有信息，如元数据缓存等。由于 Connection 开销比较大，类似于关系数据库的连接池，因此实际使用中会将该 Connection 缓存起来重复使用：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HBaseConn</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> HBaseConn INSTANCE = <span class="keyword">new</span> HBaseConn();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Configuration config;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Connection conn;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">HBaseConn</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (config == <span class="keyword">null</span>) &#123;</span><br><span class="line">                config = HBaseConfiguration.create();</span><br><span class="line">                config.set(<span class="string">"hbase.zookeeper.quorum"</span>, <span class="string">"127.0.0.1:2181"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取连接</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> Connection <span class="title">getConnection</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (conn == <span class="keyword">null</span> || conn.isClosed()) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                conn = ConnectionFactory.createConnection(config);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> conn;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 关闭连接</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">closeConnection</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (conn != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                conn.close();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取连接</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Connection <span class="title">create</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> INSTANCE.getConnection();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 关闭连接</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        INSTANCE.closeConnection();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="2-创建表"><a href="#2-创建表" class="headerlink" title="2. 创建表"></a>2. 创建表</h3><p>可以使用 Admin 类的 <code>createTable()</code> 方法在 HBase 中创建表。此类属于 <code>org.apache.hadoop.hbase.client</code> 包中。Admin 类需要通过 Connection 对象来获取。使用 <code>TableDescriptorBuilder</code> 来构建表名以及列族。然后使用 Admin 类的 <code>createTable()</code> 方法创建表：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">create</span><span class="params">(String name, String... columnFamilies)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    Connection connection = HBaseConn.create();</span><br><span class="line">    Admin admin = connection.getAdmin();</span><br><span class="line"></span><br><span class="line">    TableName tableName =  TableName.valueOf(name);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (admin.tableExists(tableName)) &#123;</span><br><span class="line">        System.out.println(<span class="string">"table "</span> + tableName + <span class="string">" already exists"</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    TableDescriptorBuilder builder = TableDescriptorBuilder.newBuilder(tableName);</span><br><span class="line">    <span class="keyword">for</span> (String cf : columnFamilies) &#123;</span><br><span class="line">        builder.setColumnFamily(ColumnFamilyDescriptorBuilder.of(cf));</span><br><span class="line">    &#125;</span><br><span class="line">    admin.createTable(builder.build());</span><br><span class="line">    System.out.println(<span class="string">"create table "</span> + tableName + <span class="string">" success"</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><code>HTableDescriptor</code>、<code>HColumnDescriptor</code> 在 2.0.0 版本开始废弃，并在 3.0.0 版本中移除：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">HBaseAdmin admin = <span class="keyword">new</span> HBaseAdmin(conf);</span><br><span class="line">HTableDescriptor tableDescriptor = <span class="keyword">new</span> HTableDescriptor(TableName.valueOf(name));</span><br><span class="line"><span class="keyword">for</span> (String cf : columnFamilies) &#123;</span><br><span class="line">    tableDescriptor.addFamily(<span class="keyword">new</span> HColumnDescriptor(cf));</span><br><span class="line">&#125;</span><br><span class="line">admin.createTable(tableDescriptor);</span><br></pre></td></tr></table></figure></p>
-<h3 id="3-判断表是否存在"><a href="#3-判断表是否存在" class="headerlink" title="3. 判断表是否存在"></a>3. 判断表是否存在</h3><p>要使用 HBase Shell 验证表是否存在，可以使用 exist 命令。同样，使用 Java API，我们可以调用 Admin 类的 <code>tableExists()</code> 方法来验证表是否存在：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">exists</span><span class="params">(Admin admin, String name)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="keyword">boolean</span> result = admin.tableExists(TableName.valueOf(name));</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="4-禁用表"><a href="#4-禁用表" class="headerlink" title="4. 禁用表"></a>4. 禁用表</h3><p>如果要禁用表，可以使用 Admin 类的 <code>disableTable()</code> 方法。在禁用表之前，我们需要先验证表是否已禁用，可以使用 Admin 类的 <code>isTableDisabled()</code> 方法来验证表是否禁用：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">disable</span><span class="params">(String name)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    Connection connection = HBaseConn.create();</span><br><span class="line">    Admin admin = connection.getAdmin();</span><br><span class="line"></span><br><span class="line">    TableName tableName = TableName.valueOf(name);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!admin.tableExists(tableName)) &#123;</span><br><span class="line">        System.out.println(<span class="string">"table "</span> + tableName + <span class="string">" not exists"</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">boolean</span> isDisabled = admin.isTableDisabled(tableName);</span><br><span class="line">    <span class="keyword">if</span> (!isDisabled) &#123;</span><br><span class="line">        System.out.println(<span class="string">"disable table "</span> + name);</span><br><span class="line">        admin.disableTable(tableName);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="5-启用表"><a href="#5-启用表" class="headerlink" title="5. 启用表"></a>5. 启用表</h3><p>如果要启用表，可以使用 Admin 类的 <code>enableTable()</code> 方法。在启用表之前，我们需要先验证表是否已启用，可以使用 Admin 类的 <code>isTableEnabled()</code> 方法来验证表是否启用：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">enable</span><span class="params">(String name)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    Connection connection = HBaseConn.create();</span><br><span class="line">    Admin admin = connection.getAdmin();</span><br><span class="line"></span><br><span class="line">    TableName tableName = TableName.valueOf(name);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!admin.tableExists(tableName)) &#123;</span><br><span class="line">        System.out.println(<span class="string">"table "</span> + tableName + <span class="string">" not exists"</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">boolean</span> isEnabled = admin.isTableEnabled(tableName);</span><br><span class="line">    <span class="keyword">if</span> (!isEnabled) &#123;</span><br><span class="line">        System.out.println(<span class="string">"enable table "</span> + name);</span><br><span class="line">        admin.enableTable(tableName);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="6-删除表"><a href="#6-删除表" class="headerlink" title="6. 删除表"></a>6. 删除表</h3><p>如果要删除表，可以使用 Admin 类中的 <code>deleteTable()</code> 方法删除表。在删除表之前，我们需要先验证表是否已被禁用：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">delete</span><span class="params">(String name)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    Connection connection = HBaseConn.create();</span><br><span class="line">    Admin admin = connection.getAdmin();</span><br><span class="line"></span><br><span class="line">    TableName tableName = TableName.valueOf(name);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!admin.tableExists(tableName)) &#123;</span><br><span class="line">        System.out.println(<span class="string">"table "</span> + tableName + <span class="string">" not exists"</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 禁用表</span></span><br><span class="line">    admin.disableTable(tableName);</span><br><span class="line">    <span class="comment">// 删除表</span></span><br><span class="line">    admin.deleteTable(tableName);</span><br><span class="line">    System.out.println(<span class="string">"delete table "</span> + name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="7-添加列族"><a href="#7-添加列族" class="headerlink" title="7. 添加列族"></a>7. 添加列族</h3><p>如果添加列族，可以使用 Admin 类的 <code>addColumnFamily()</code> 方法将列族添加到表中。<code>addColumnFamily()</code> 方法需要提供表名以及 <code>ColumnFamilyDescriptor</code> 类对象：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">addColumnFamily</span><span class="params">(String name, String cf)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    Connection connection = HBaseConn.create();</span><br><span class="line">    Admin admin = connection.getAdmin();</span><br><span class="line"></span><br><span class="line">    TableName tableName =  TableName.valueOf(name);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!admin.tableExists(tableName)) &#123;</span><br><span class="line">        System.out.println(<span class="string">"table "</span> + tableName + <span class="string">" not exists"</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ColumnFamilyDescriptor desc = ColumnFamilyDescriptorBuilder.of(cf);</span><br><span class="line">    admin.addColumnFamily(tableName, desc);</span><br><span class="line">    System.out.println(<span class="string">"add column family "</span> + cf);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="8-删除列族"><a href="#8-删除列族" class="headerlink" title="8. 删除列族"></a>8. 删除列族</h3><p>如果要删除列族，可以使用 Admin 类的 <code>deleteColumnFamily()</code> 方法将列族从表中删除。<code>deleteColumnFamily()</code> 方法需要提供表名以及 <code>ColumnFamilyDescriptor</code> 类对象：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">deleteColumnFamily</span><span class="params">(String name, String cf)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    Connection connection = HBaseConn.create();</span><br><span class="line">    Admin admin = connection.getAdmin();</span><br><span class="line"></span><br><span class="line">    TableName tableName =  TableName.valueOf(name);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!admin.tableExists(tableName)) &#123;</span><br><span class="line">        System.out.println(<span class="string">"table "</span> + tableName + <span class="string">" not exists"</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    admin.deleteColumnFamily(tableName, cf.getBytes());</span><br><span class="line">    System.out.println(<span class="string">"delete column family "</span> + cf);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="9-停止"><a href="#9-停止" class="headerlink" title="9. 停止"></a>9. 停止</h3><p>实例化 Admin 类并调用 <code>shutdown()</code> 方法来停止 HBase：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">shutdown</span> <span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    Connection connection = HBaseConn.create();</span><br><span class="line">    Admin admin = connection.getAdmin();</span><br><span class="line">    admin.shutdown();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>创建 Connector 成功之后如下显示：</p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-inc-with-kafka-connect-jdbc-source-6.png?raw=true" alt=""></p>
+<p>在 timestamp 模式下，每次都是根据 timestamp.column.name 参数指定的列，查询大于自上次拉取成功的 gmt_modified：<br><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> stu_timestamp</span><br><span class="line"><span class="keyword">WHERE</span> gmt_modified &gt; ? <span class="keyword">AND</span> gmt_modified &lt; ?</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> gmt_modified <span class="keyword">ASC</span></span><br></pre></td></tr></table></figure></p>
+<p>现在我们向 stu_timestamp 数据表新添加 stu_id 分别为 00001 和 00002 的两条数据：</p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-inc-with-kafka-connect-jdbc-source-7.png?raw=true" alt=""></p>
+<p>导入到 Kafka connect-mysql-increment-stu_timestamp Topic 中的记录如下图所示：</p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-inc-with-kafka-connect-jdbc-source-8.png?raw=true" alt=""></p>
+<p>这种模式可以捕获行上 UPDATE 变更，同样也不能捕获 DELETE 变更：</p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-inc-with-kafka-connect-jdbc-source-9.png?raw=true" alt=""></p>
+<p>只有更新的行导入了 kafka：</p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-inc-with-kafka-connect-jdbc-source-10.png?raw=true" alt=""></p>
+<p>这种模式的缺点是可能造成数据的丢失。由于时间戳列不是唯一列字段，可能存在相同时间戳的两列或者多列，假设在导入第二条的过程中发生了崩溃，在恢复重新导入时，拥有相同时间戳的第二条以及后面几条数据都会丢失。这是因为第一条导入成功后，对应的时间戳会被记录已成功消费，恢复后会从大于该时间戳的记录开始同步。此外，也需要确保时间戳列是随着时间递增的，如果人为的修改时间戳列小于当前同步成功的最大时间戳，也会导致该变更不能同步。</p>
+<h3 id="3-timestamp-incrementing-混合模式"><a href="#3-timestamp-incrementing-混合模式" class="headerlink" title="3. timestamp+incrementing 混合模式"></a>3. timestamp+incrementing 混合模式</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> <span class="string">`stu_timestamp_inc`</span>(</span><br><span class="line">   <span class="string">`id`</span> <span class="built_in">BIGINT</span> <span class="keyword">UNSIGNED</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT,</span><br><span class="line">   <span class="string">`stu_id`</span> <span class="built_in">VARCHAR</span>(<span class="number">100</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">   <span class="string">`stu_name`</span> <span class="built_in">VARCHAR</span>(<span class="number">100</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">   <span class="string">`gmt_create`</span> DATETIME <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="keyword">CURRENT_TIMESTAMP</span>,</span><br><span class="line">   <span class="string">`gmt_modified`</span> DATETIME <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="keyword">CURRENT_TIMESTAMP</span> <span class="keyword">ON</span> <span class="keyword">UPDATE</span> <span class="keyword">CURRENT_TIMESTAMP</span>,</span><br><span class="line">   PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span> )</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8;</span><br></pre></td></tr></table></figure>
+<p>如上所述，仅使用 incrementing 或 timestamp 模式都存在缺陷。将 timestamp 和 incrementing 一起使用，可以充分利用 incrementing 模式不丢失数据的优点以及 timestamp 模式捕获更新操作变更的优点。需要使用 incrementing.column.name 参数指定严格递增列、使用 timestamp.column.name 参数指定时间戳列。如下所示使用 id 字段作为自增列、gmt_modified 字段作为时间戳列的示例：<br><figure class="highlight"><table><tr><td class="code"><pre><span class="line">curl -X POST http://localhost:8083/connectors \</span><br><span class="line">-H "Content-Type: application/json" -d '&#123;</span><br><span class="line">    "name": "jdbc_source_connector_mysql_timestamp_inc",</span><br><span class="line">    "config": &#123;</span><br><span class="line">            "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",</span><br><span class="line">            "connection.url": "jdbc:mysql://localhost:3306/kafka_connect_sample",</span><br><span class="line">            "connection.user": "root",</span><br><span class="line">            "connection.password": "root",</span><br><span class="line">            "topic.prefix": "connect-mysql-timestamp-inc-",</span><br><span class="line">            "mode":"timestamp+incrementing",</span><br><span class="line">            "timestamp.column.name":"gmt_modified",</span><br><span class="line">            "incrementing.column.name":"id",</span><br><span class="line">            "catalog.pattern" : "kafka_connect_sample",</span><br><span class="line">            "table.whitelist" : "stu_timestamp_inc"</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;'</span><br></pre></td></tr></table></figure></p>
+<p>创建 Connector 成功之后如下显示：</p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-inc-with-kafka-connect-jdbc-source-11.png?raw=true" alt=""></p>
+<p>在 timestamp+incrementing 模式下，需要根据自增列 id 和时间戳列 gmt_modified 一起来决定拉取哪些数据：<br><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> stu_timestamp_inc</span><br><span class="line"><span class="keyword">WHERE</span> gmt_modified &lt; ?</span><br><span class="line">  <span class="keyword">AND</span> ((gmt_modified = ? <span class="keyword">AND</span> <span class="keyword">id</span> &gt; ?) <span class="keyword">OR</span> gmt_modified &gt; ?)</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> gmt_modified, <span class="keyword">id</span> <span class="keyword">ASC</span></span><br></pre></td></tr></table></figure></p>
+<p>现在我们向 stu_timestamp_inc 数据表新添加 stu_id 分别为 00001 和 00002 的两条数据：</p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-inc-with-kafka-connect-jdbc-source-12.png?raw=true" alt=""></p>
+<p>导入到 Kafka connect-mysql-timestamp-inc-stu_timestamp_inc Topic 中的记录如下图所示：</p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-inc-with-kafka-connect-jdbc-source-13.png?raw=true" alt=""></p>
+<p>这种模式可以捕获行上 UPDATE 变更，还是也不能捕获 DELETE 变更：</p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-inc-with-kafka-connect-jdbc-source-14.png?raw=true" alt=""></p>
+<p>只有更新的行导入了 kafka：</p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-inc-with-kafka-connect-jdbc-source-15.png?raw=true" alt=""></p>
+<h3 id="4-总结"><a href="#4-总结" class="headerlink" title="4. 总结"></a>4. 总结</h3><p>incrementing 模式的缺点是无法捕获行上更新操作（例如，UPDATE、DELETE）、timestamp 模式存在丢数据的风险。timestamp+incrementing 混合模式充分利用了各自的优点，做到既能捕捉 UPDATE 操作变更，也能做到不丢数据。这三种模式对开发者比较友好，易配置和使用，但这三种模式还存在一些问题：</p>
+<ul>
+<li>无法获取 DELETE 操作变更，因为这三种模式都是使用 SELECT 查询来检索数据，并没有复杂的机制来检测已删除的行。</li>
+<li>由于最需要增量时间戳，处理历史遗留数据时需要额外添加时间戳列。如果无法更新 Schema，则不能使用本文中的模式。</li>
+<li>因为需要不断地运行查询，因此会对数据库产生一些负载。</li>
+</ul>
 <p>欢迎关注我的公众号和博客：</p>
-<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Other/smartsi.jpg?raw=true" alt=""></p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Other/smartsi.jpg?raw=true" alt=""></p>
+<p>参考：</p>
+<ul>
+<li><a href="https://turkogluc.com/kafka-connect-jdbc-source-connector/" target="_blank" rel="noopener">Kafka Connect JDBC Source Connector</a></li>
+</ul>
+<p>相关推荐：</p>
+<ul>
+<li><a href="http://smartsi.club/announcing-kafka-connect-building-large-scale-low-latency-data-pipelines.html">Kafka Connect 构建大规模低延迟的数据管道</a></li>
+<li><a href="http://smartsi.club/how-to-build-a-pipeline-with-kafka-connect.html">Kafka Connect 如何构建实时数据管道</a></li>
+<li><a href="http://smartsi.club/mysql-bulk-with-kafka-connect-jdbc-source.html">Kafka Connect JDBC Source MySQL 全量同步</a></li>
+</ul>
 
       
     </div>
@@ -485,11 +550,11 @@
         <ul class="post-copyright">
   <li class="post-copyright-author">
     <strong>本文作者：</strong>
-    sjf0115
+    smartsi
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://smartsi.club/hbase-java-admin-api.html" title="HBase Java Admin API">http://smartsi.club/hbase-java-admin-api.html</a>
+    <a href="http://smartsi.club/mysql-inc-with-kafka-connect-jdbc-source.html" title="Kafka Connect JDBC Source MySQL 增量同步">http://smartsi.club/mysql-inc-with-kafka-connect-jdbc-source.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -504,7 +569,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/HBase/" rel="tag"># HBase</a>
+            <a href="/tags/Kafka/" rel="tag"># Kafka</a>
           
         </div>
       
@@ -517,8 +582,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/hbase-shell-and-commands.html" rel="next" title="HBase Shell 命令">
-                <i class="fa fa-chevron-left"></i> HBase Shell 命令
+              <a href="/mysql-bulk-with-kafka-connect-jdbc-source.html" rel="next" title="Kafka Connect JDBC Source MySQL 全量同步">
+                <i class="fa fa-chevron-left"></i> Kafka Connect JDBC Source MySQL 全量同步
               </a>
             
           </div>
@@ -526,10 +591,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/questioning-the-lambda-architecture.html" rel="prev" title="Lambda架构的质疑">
-                Lambda架构的质疑 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -745,7 +806,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-连接HBase"><span class="nav-number">1.</span> <span class="nav-text">1. 连接HBase</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-创建表"><span class="nav-number">2.</span> <span class="nav-text">2. 创建表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-判断表是否存在"><span class="nav-number">3.</span> <span class="nav-text">3. 判断表是否存在</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-禁用表"><span class="nav-number">4.</span> <span class="nav-text">4. 禁用表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-启用表"><span class="nav-number">5.</span> <span class="nav-text">5. 启用表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-删除表"><span class="nav-number">6.</span> <span class="nav-text">6. 删除表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-添加列族"><span class="nav-number">7.</span> <span class="nav-text">7. 添加列族</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-删除列族"><span class="nav-number">8.</span> <span class="nav-text">8. 删除列族</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-停止"><span class="nav-number">9.</span> <span class="nav-text">9. 停止</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-incrementing-模式"><span class="nav-number">1.</span> <span class="nav-text">1. incrementing 模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-timestamp-模式"><span class="nav-number">2.</span> <span class="nav-text">2. timestamp 模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-timestamp-incrementing-混合模式"><span class="nav-number">3.</span> <span class="nav-text">3. timestamp+incrementing 混合模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-总结"><span class="nav-number">4.</span> <span class="nav-text">4. 总结</span></a></li></ol></div>
             
 
           </div>
