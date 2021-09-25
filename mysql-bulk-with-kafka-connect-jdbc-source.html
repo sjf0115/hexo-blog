@@ -97,31 +97,35 @@
 
 
   
-  <meta name="keywords" content="Spark Stream,Spark," />
+  <meta name="keywords" content="Kafka," />
 
 
-<meta name="description" content="为了初始化 Spark Streaming 程序，必须创建一个 StreamingContext 对象，它是 Spark Streaming 所有流操作的主要入口。StreamingContext 对象可以用 SparkConf 对象创建。 可以使用SparkConf对象创建JavaStreamingContext对象（对于Scala和Python语言来说，创建 StreamingContext对">
-<meta name="keywords" content="Spark Stream,Spark">
+<meta name="description" content="从数据库获取数据到 Apache Kafka 无疑是 Kafka Connect 最流行的用例。Kafka Connect 提供了将数据导入和导出 Kafka 的可扩展且可靠的方式。由于只用到了 Connector 的特定 Plugin 以及一些配置（无需编写代码），因此这是一个比较简单的数据集成方案。下面我们会介绍如何使用 Kafka Connect 将 MySQL 中的数据流式导入到 Kafk">
+<meta name="keywords" content="Kafka">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spark Streaming 2.2.0 初始化StreamingContext">
-<meta property="og:url" content="http://smartsi.club/spark-streaming-initializing-streamingcontext.html">
+<meta property="og:title" content="Kafka Connect JDBC Source MySQL 全量同步">
+<meta property="og:url" content="http://smartsi.club/mysql-bulk-with-kafka-connect-jdbc-source.html">
 <meta property="og:site_name" content="SmartSi">
-<meta property="og:description" content="为了初始化 Spark Streaming 程序，必须创建一个 StreamingContext 对象，它是 Spark Streaming 所有流操作的主要入口。StreamingContext 对象可以用 SparkConf 对象创建。 可以使用SparkConf对象创建JavaStreamingContext对象（对于Scala和Python语言来说，创建 StreamingContext对">
+<meta property="og:description" content="从数据库获取数据到 Apache Kafka 无疑是 Kafka Connect 最流行的用例。Kafka Connect 提供了将数据导入和导出 Kafka 的可扩展且可靠的方式。由于只用到了 Connector 的特定 Plugin 以及一些配置（无需编写代码），因此这是一个比较简单的数据集成方案。下面我们会介绍如何使用 Kafka Connect 将 MySQL 中的数据流式导入到 Kafk">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-26T03:57:13.000Z">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-bulk-with-kafka-connect-jdbc-source-1.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-bulk-with-kafka-connect-jdbc-source-2.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Other/smartsi.jpg?raw=true">
+<meta property="og:updated_time" content="2021-09-25T04:20:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spark Streaming 2.2.0 初始化StreamingContext">
-<meta name="twitter:description" content="为了初始化 Spark Streaming 程序，必须创建一个 StreamingContext 对象，它是 Spark Streaming 所有流操作的主要入口。StreamingContext 对象可以用 SparkConf 对象创建。 可以使用SparkConf对象创建JavaStreamingContext对象（对于Scala和Python语言来说，创建 StreamingContext对">
+<meta name="twitter:title" content="Kafka Connect JDBC Source MySQL 全量同步">
+<meta name="twitter:description" content="从数据库获取数据到 Apache Kafka 无疑是 Kafka Connect 最流行的用例。Kafka Connect 提供了将数据导入和导出 Kafka 的可扩展且可靠的方式。由于只用到了 Connector 的特定 Plugin 以及一些配置（无需编写代码），因此这是一个比较简单的数据集成方案。下面我们会介绍如何使用 Kafka Connect 将 MySQL 中的数据流式导入到 Kafk">
+<meta name="twitter:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-bulk-with-kafka-connect-jdbc-source-1.png?raw=true">
 
 
 
 
 
 
-  <link rel="canonical" href="http://smartsi.club/spark-streaming-initializing-streamingcontext.html"/>
+  <link rel="canonical" href="http://smartsi.club/mysql-bulk-with-kafka-connect-jdbc-source.html"/>
 
 
-  <title>Spark Streaming 2.2.0 初始化StreamingContext | SmartSi</title>
+  <title>Kafka Connect JDBC Source MySQL 全量同步 | SmartSi</title>
   
 
 
@@ -302,7 +306,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://smartsi.club/spark-streaming-initializing-streamingcontext.html">
+    <link itemprop="mainEntityOfPage" href="http://smartsi.club/mysql-bulk-with-kafka-connect-jdbc-source.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="sjf0115">
@@ -319,7 +323,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">Spark Streaming 2.2.0 初始化StreamingContext</h2>
+          <h2 class="post-title" itemprop="name headline">Kafka Connect JDBC Source MySQL 全量同步</h2>
         
 
         <div class="post-meta">
@@ -331,7 +335,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-03T11:28:01+08:00">2018-04-03</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-09-26T11:56:00+08:00">2021-09-26</time>
             
 
             
@@ -345,7 +349,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-10-26T11:57:13+08:00">2019-10-26</time>
+              <time title="更新于" itemprop="dateModified" datetime="2021-09-25T12:20:00+08:00">2021-09-25</time>
             
           </span>
 
@@ -361,7 +365,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Spark/" itemprop="url" rel="index"><span itemprop="name">Spark</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Kafka/" itemprop="url" rel="index"><span itemprop="name">Kafka</span></a></span>
 
                 
                 
@@ -376,8 +380,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/spark-streaming-initializing-streamingcontext.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/spark-streaming-initializing-streamingcontext.html" itemprop="commentCount"></span>
+                <a href="/mysql-bulk-with-kafka-connect-jdbc-source.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/mysql-bulk-with-kafka-connect-jdbc-source.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -385,7 +389,7 @@
 
           
           
-             <span id="/spark-streaming-initializing-streamingcontext.html" class="leancloud_visitors" data-flag-title="Spark Streaming 2.2.0 初始化StreamingContext">
+             <span id="/mysql-bulk-with-kafka-connect-jdbc-source.html" class="leancloud_visitors" data-flag-title="Kafka Connect JDBC Source MySQL 全量同步">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -416,37 +420,54 @@
       
 
       
-        <p>为了初始化 Spark Streaming 程序，必须创建一个 StreamingContext 对象，它是 Spark Streaming 所有流操作的主要入口。StreamingContext 对象可以用 SparkConf 对象创建。</p>
-<p>可以使用SparkConf对象创建JavaStreamingContext对象（对于Scala和Python语言来说，创建 StreamingContext对象）：</p>
-<p>Java版本:<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">SparkConf conf = <span class="keyword">new</span> SparkConf().setAppName(appName).setMaster(master);</span><br><span class="line">JavaStreamingContext jsc = <span class="keyword">new</span> JavaStreamingContext(conf, Durations.seconds(seconds));</span><br></pre></td></tr></table></figure></p>
-<p>Scala版本:<br><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.spark._</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.streaming._</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>().setAppName(appName).setMaster(master)</span><br><span class="line"><span class="keyword">val</span> ssc = <span class="keyword">new</span> <span class="type">StreamingContext</span>(conf, <span class="type">Seconds</span>(<span class="number">1</span>))</span><br></pre></td></tr></table></figure></p>
-<p>Python:<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pyspark <span class="keyword">import</span> SparkContext</span><br><span class="line"><span class="keyword">from</span> pyspark.streaming <span class="keyword">import</span> StreamingContext</span><br><span class="line"></span><br><span class="line">sc = SparkContext(master, appName)</span><br><span class="line">ssc = StreamingContext(sc, <span class="number">1</span>)</span><br></pre></td></tr></table></figure></p>
-<p>appName 参数是应用程序在集群UI上显示的名称。master 是Spark，Mesos或YARN集群URL，或者是以本地模式运行的特殊字符串<code>local [*]</code>。</p>
-<p>实际上，当在集群上运行时，如果你不想在程序中硬编码 master(即在程序中写死)，而是希望使用 spark-submit 启动应用程序时得到 master 的值。对于本地测试和单元测试，你可以传递 <code>local [*]</code> 来运行 Spark Streaming 进程。注意，这里内部创建的 JavaSparkContext（所有Spark功能的起始点），可以通过 jsc.sparkContext 访问。</p>
-<p>JavaStreamingContext对象也可以从现有的JavaSparkContext创建。对于Scala来说，StreamingContext对象也可以从现有的 SparkContext 创建：</p>
-<p>Java版本:<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">SparkConf conf = <span class="keyword">new</span> SparkConf().setAppName(<span class="string">"socket-spark-stream"</span>).setMaster(<span class="string">"local[2]"</span>);</span><br><span class="line"></span><br><span class="line">JavaSparkContext sparkContext = <span class="keyword">new</span> JavaSparkContext(conf);</span><br><span class="line">JavaStreamingContext jsc = <span class="keyword">new</span> JavaStreamingContext(sparkContext, Durations.seconds(seconds));</span><br></pre></td></tr></table></figure></p>
-<p>Scala版本:<br><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.spark.streaming._</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> sc = ...                <span class="comment">// existing SparkContext</span></span><br><span class="line"><span class="keyword">val</span> ssc = <span class="keyword">new</span> <span class="type">StreamingContext</span>(sc, <span class="type">Seconds</span>(<span class="number">1</span>))</span><br></pre></td></tr></table></figure></p>
-<p>批处理间隔必须根据应用程序和可用群集资源的延迟要求进行设置。 有关更多详细信息，请参阅“性能调优”部分。</p>
-<p>定义上下文后，您必须执行以下操作：</p>
+        <p>从数据库获取数据到 Apache Kafka 无疑是 Kafka Connect 最流行的用例。Kafka Connect 提供了将数据导入和导出 Kafka 的可扩展且可靠的方式。由于只用到了 Connector 的特定 Plugin 以及一些配置（无需编写代码），因此这是一个比较简单的数据集成方案。下面我们会介绍如何使用 Kafka Connect 将 MySQL 中的数据流式导入到 Kafka Topic。</p>
+<blockquote>
+<p>如果想了解 Kafka Connect 是什么以及做什么的，可以阅读 <a href="http://smartsi.club/announcing-kafka-connect-building-large-scale-low-latency-data-pipelines.html">Kafka Connect 构建大规模低延迟的数据管道</a> 博文；如果想了解 Kafka Connect 是如何使用的，可以阅读 <a href="http://smartsi.club/how-to-build-a-pipeline-with-kafka-connect.html">Kafka Connect 如何构建实时数据管道</a> 博文。</p>
+</blockquote>
+<h3 id="1-安装-Connect-插件"><a href="#1-安装-Connect-插件" class="headerlink" title="1. 安装 Connect 插件"></a>1. 安装 Connect 插件</h3><p>从 Confluent hub 下载 <a href="https://www.confluent.io/hub/confluentinc/kafka-connect-jdbc" target="_blank" rel="noopener">Kafka Connect JDBC</a> 插件并将 zip 文件解压到 /opt/share/kafka/plugins 目录下：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/opt/share/kafka/plugins</span><br><span class="line">└── confluentinc-kafka-connect-jdbc-10.2.2</span><br><span class="line">    ├── doc</span><br><span class="line">    │   ├── LICENSE</span><br><span class="line">    │   └── README.md</span><br><span class="line">    ├── etc</span><br><span class="line">        …</span><br><span class="line">    ├── lib</span><br><span class="line">        …</span><br><span class="line">    │   ├── kafka-connect-jdbc-10.2.2.jar</span><br><span class="line">    │   ├── sqlite-jdbc-3.25.2.jar</span><br><span class="line">    │   ├── postgresql-42.2.19.jar</span><br><span class="line">    │   ├── xmlparserv2-19.7.0.0.jar</span><br><span class="line">        …</span><br><span class="line">    └── manifest.json</span><br></pre></td></tr></table></figure></p>
+<p>在 Kafka Connect 配置文件 connect-standalone.properties（或 connect-distributed.properties）中，修改 plugin.path 配置参数指向我们存放插件的目录：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">plugin.path=/opt/share/kafka/plugins</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>有关详安装 Connect 插件细信息，请查阅 <a href="http://smartsi.club/how-to-install-connector-plugins-in-kafka-connect">Kafka Connect 如何安装 Connect 插件</a></p>
+</blockquote>
+<h3 id="2-安装-JDBC-驱动"><a href="#2-安装-JDBC-驱动" class="headerlink" title="2. 安装 JDBC 驱动"></a>2. 安装 JDBC 驱动</h3><p>因为 Connector 需要与数据库进行通信，所以还需要 JDBC 驱动程序。JDBC Connector 插件也没有内置 MySQL 驱动程序，需要我们单独下载驱动程序。MySQL 为许多平台提供了 <a href="https://downloads.mysql.com/archives/c-j/" target="_blank" rel="noopener">JDBC 驱动程序</a>。</p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-bulk-with-kafka-connect-jdbc-source-1.png?raw=true" alt=""></p>
+<p>选择 Platform Independent 选项，然后下载压缩的 TAR 文件。该文件包含 JAR 文件和源代码。将此 tar.gz 文件的内容解压到一个临时目录。将 jar 文件（例如，mysql-connector-java-8.0.17.jar），并且仅将此 JAR 文件复制到与 kafka-connect-jdbc jar 文件相同的文件夹下：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cp mysql-connector-java-8.0.17.jar /opt/share/kafka/plugins/confluentinc-kafka-connect-jdbc-10.2.2/lib/</span><br></pre></td></tr></table></figure></p>
+<h3 id="3-运行-Connect"><a href="#3-运行-Connect" class="headerlink" title="3. 运行 Connect"></a>3. 运行 Connect</h3><p>我们可以使用位于 kafka bin 目录中的 connect-distributed.sh 脚本运行 Kafka Connect。我们需要在运行此脚本时提供一个 worker 配置文件：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">bin/connect-distributed.sh config/connect-distributed.properties</span><br></pre></td></tr></table></figure></p>
+<p>我们使用 config 目录下的默认 connect-distributed.properties 配置文件来指定 worker 属性，但做一下修改，如下所示：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">bootstrap.servers=localhost:9092</span><br><span class="line">group.id=connect-cluster</span><br><span class="line">key.converter.schemas.enable=true</span><br><span class="line">value.converter.schemas.enable=true</span><br><span class="line">offset.storage.topic=connect-offsets</span><br><span class="line">offset.storage.replication.factor=1</span><br><span class="line">offset.storage.partitions=1</span><br><span class="line">config.storage.topic=connect-configs</span><br><span class="line">config.storage.replication.factor=1</span><br><span class="line">status.storage.topic=connect-status</span><br><span class="line">status.storage.replication.factor=1</span><br><span class="line">status.storage.partitions=1</span><br><span class="line">offset.flush.interval.ms=10000</span><br><span class="line"># 核心配置</span><br><span class="line">plugin.path=/opt/share/kafka/plugins</span><br></pre></td></tr></table></figure></p>
+<p>需要特别注意的是 plugin.path 参数是我们需要放置我们下载插件的路径。运行 Connect 后，我们可以通过调用 <a href="http://localhost:8083/connector-plugins" target="_blank" rel="noopener">http://localhost:8083/connector-plugins</a> REST API 来确认 JDBC 插件是否安装成功：<br><figure class="highlight json"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">"class"</span>: <span class="string">"io.confluent.connect.jdbc.JdbcSinkConnector"</span>,</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"sink"</span>,</span><br><span class="line">    <span class="attr">"version"</span>: <span class="string">"10.2.2"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">"class"</span>: <span class="string">"io.confluent.connect.jdbc.JdbcSourceConnector"</span>,</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"source"</span>,</span><br><span class="line">    <span class="attr">"version"</span>: <span class="string">"10.2.2"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">"class"</span>: <span class="string">"org.apache.kafka.connect.file.FileStreamSinkConnector"</span>,</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"sink"</span>,</span><br><span class="line">    <span class="attr">"version"</span>: <span class="string">"2.4.0"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">"class"</span>: <span class="string">"org.apache.kafka.connect.file.FileStreamSourceConnector"</span>,</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"source"</span>,</span><br><span class="line">    <span class="attr">"version"</span>: <span class="string">"2.4.0"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">"class"</span>: <span class="string">"org.apache.kafka.connect.mirror.MirrorCheckpointConnector"</span>,</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"source"</span>,</span><br><span class="line">    <span class="attr">"version"</span>: <span class="string">"1"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">"class"</span>: <span class="string">"org.apache.kafka.connect.mirror.MirrorHeartbeatConnector"</span>,</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"source"</span>,</span><br><span class="line">    <span class="attr">"version"</span>: <span class="string">"1"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">"class"</span>: <span class="string">"org.apache.kafka.connect.mirror.MirrorSourceConnector"</span>,</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"source"</span>,</span><br><span class="line">    <span class="attr">"version"</span>: <span class="string">"1"</span></span><br><span class="line">  &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-创建-MySQL-表"><a href="#4-创建-MySQL-表" class="headerlink" title="4. 创建 MySQL 表"></a>4. 创建 MySQL 表</h3><p>准备测试数据，如下创建 kafka_connect_sample 数据库，并创建 student、address、course 三张表：<br><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> kafka_connect_sample;</span><br><span class="line"><span class="keyword">USE</span> kafka_connect_sample;</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> <span class="string">`student`</span>(</span><br><span class="line">   <span class="string">`id`</span> <span class="built_in">INT</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">   <span class="string">`name`</span> <span class="built_in">VARCHAR</span>(<span class="number">100</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">   <span class="string">`address_id`</span> <span class="built_in">INT</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">   PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span> )</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8;</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> <span class="string">`address`</span>(</span><br><span class="line">   <span class="string">`id`</span> <span class="built_in">INT</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">   <span class="string">`prov`</span> <span class="built_in">VARCHAR</span>(<span class="number">100</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">   <span class="string">`city`</span> <span class="built_in">VARCHAR</span>(<span class="number">100</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">   PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span> )</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8;</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> <span class="string">`course`</span>(</span><br><span class="line">   <span class="string">`id`</span> <span class="built_in">INT</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">   <span class="string">`name`</span> <span class="built_in">VARCHAR</span>(<span class="number">100</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">   PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span> )</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8;</span><br></pre></td></tr></table></figure></p>
+<p>每个表都插入一些测试数据：<br><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> address <span class="keyword">VALUES</span> (<span class="number">1</span>, <span class="string">'山东省'</span>, <span class="string">'青岛市'</span>),</span><br><span class="line">  (<span class="number">2</span>, <span class="string">'北京市'</span>, <span class="string">'朝阳区'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> student <span class="keyword">VALUES</span> (<span class="number">1</span>, <span class="string">'Bill'</span>, <span class="number">1</span>),</span><br><span class="line">  (<span class="number">2</span>, <span class="string">'Lucy'</span>, <span class="number">1</span>), (<span class="number">3</span>, <span class="string">'Tom'</span>, <span class="number">2</span>), (<span class="number">4</span>, <span class="string">'Lily'</span>, <span class="number">2</span>), (<span class="number">5</span>, <span class="string">'Rock'</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> course <span class="keyword">VALUES</span> (<span class="number">1</span>, <span class="string">'语文'</span>),</span><br><span class="line">    (<span class="number">2</span>, <span class="string">'英文'</span>), (<span class="number">3</span>, <span class="string">'物理'</span>), (<span class="number">4</span>, <span class="string">'数学'</span>);</span><br></pre></td></tr></table></figure></p>
+<h3 id="5-指定要获取的表"><a href="#5-指定要获取的表" class="headerlink" title="5. 指定要获取的表"></a>5. 指定要获取的表</h3><p>现在我们已经正确安装了 Connect JDBC 插件、驱动程序并成功运行了 Connect，我们可以配置 Kafka Connect 以从数据库中获取数据。如下是最少的配置：<br><figure class="highlight"><table><tr><td class="code"><pre><span class="line">curl -X POST http://localhost:9083/connectors \</span><br><span class="line">-H "Content-Type: application/json" -d '&#123;</span><br><span class="line">    "name": "jdbc_source_connector_mysql_bulk",</span><br><span class="line">    "config": &#123;</span><br><span class="line">            "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",</span><br><span class="line">            "connection.url": "jdbc:mysql://localhost:3306/kafka_connect_sample",</span><br><span class="line">            "connection.user": "root",</span><br><span class="line">            "connection.password": "root",</span><br><span class="line">            "topic.prefix": "connect-mysql-bulk-",</span><br><span class="line">            "mode":"bulk"</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;'</span><br></pre></td></tr></table></figure></p>
+<p>mode 参数指定了工作模式，在这我们使用 bulk 批量模式来同步全量数据（mode 还可以指定 timestamp、incrementing 或者 timestamp+incrementing 模式来实现增量同步，后续系列文章会单独介绍如何使用 Connect 实现 MySQL 的增量同步）。除了 mode 参数之外其他都是我们经常用到最小集合配置参数：</p>
 <ul>
-<li>通过创建输入DStreams定义输入源</li>
-<li>通过对DStreams应用转换操作（transformation）和输出操作（output）来定义流计算</li>
-<li>可以使用streamingContext.start()方法接收和处理数据</li>
-<li>可以使用streamingContext.awaitTermination()方法等待流计算完成（手动或由于任何错误），来防止应用退出</li>
-<li>可以使用streamingContext.stop（）手动停止处理。</li>
-</ul>
-<p>注意点:</p>
-<ul>
-<li>一旦上下文已经开始，则不能设置或添加新的流计算。</li>
-<li>上下文停止后，无法重新启动。</li>
-<li>在同一时间只有一个StreamingContext可以在JVM中处于活动状态。</li>
-<li>在StreamingContext上调用stop()方法，也会关闭SparkContext对象。如果只想关闭StreamingContext对象，设置stop()的可选参数为false。</li>
-<li>一个SparkContext可以重复利用创建多个StreamingContext，只要在创建下一个StreamingContext之前停止前一个StreamingContext（而不停止SparkContext）即可。</li>
+<li>connector.class：Connector 对应的 Java 类</li>
+<li>connection.url：JDBC 连接 URL。</li>
+<li>connection.user：JDBC 连接账号。</li>
+<li>connection.password：JDBC 连接密码。</li>
+<li>topic.prefix：为每个表创建一个 kafka Topic。Topic 以 topic.prefix + <table_name> 的格式命名。</table_name></li>
 </ul>
 <blockquote>
-<p>Spark Streaming 版本: 2.2.0</p>
+<p>当我们在分布式模式下运行时，我们需要使用 REST API 以及 JOSN 配置来创建 Connector。</p>
 </blockquote>
-<p>原文：<a href="http://spark.apache.org/docs/2.2.0/streaming-programming-guide.html#initializing-streamingcontext" target="_blank" rel="noopener">http://spark.apache.org/docs/2.2.0/streaming-programming-guide.html#initializing-streamingcontext</a></p>
+<p>使用此配置，每个表（用户有权访问的）都将被完整复制到 Kafka 中。通过如下命令列出 Kafka 集群上的 Topic，我们可以很容易地看到这一点：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">localhost:kafka wy$ bin/kafka-topics.sh --bootstrap-server localhost:9092 --list --topic &quot;connect-mysql-bulk.*&quot;</span><br><span class="line">connect-mysql-bulk-address</span><br><span class="line">connect-mysql-bulk-course</span><br><span class="line">connect-mysql-bulk-student</span><br><span class="line">connect-mysql-bulk-test_table</span><br></pre></td></tr></table></figure></p>
+<p>请注意 onnect-mysql-bulk- 前缀。表内容的完整副本默认每 5 秒发生一次：</p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Kafka/mysql-bulk-with-kafka-connect-jdbc-source-2.png?raw=true" alt=""></p>
+<p>我们可以通过将 poll.interval.ms 设置为每 10s 一次：<br><figure class="highlight"><table><tr><td class="code"><pre><span class="line">curl -X POST http://localhost:8083/connectors \</span><br><span class="line">-H "Content-Type: application/json" -d '&#123;</span><br><span class="line">    "name": "jdbc_source_connector_mysql_bulk",</span><br><span class="line">    "config": &#123;</span><br><span class="line">            "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",</span><br><span class="line">            "connection.url": "jdbc:mysql://localhost:3306/kafka_connect_sample",</span><br><span class="line">            "connection.user": "root",</span><br><span class="line">            "connection.password": "root",</span><br><span class="line">            "topic.prefix": "connect-mysql-bulk-",</span><br><span class="line">            "mode":"bulk",</span><br><span class="line">            "poll.interval.ms" : 10000</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;'</span><br></pre></td></tr></table></figure></p>
+<p>上述配置获取了所有有权限的表，这可能不是我们想要的。也许我们只想包含来自特定模式的表，通过 catalog.pattern 配置从指定的数据库获取表：<br><figure class="highlight"><table><tr><td class="code"><pre><span class="line">curl -X POST http://localhost:9083/connectors \</span><br><span class="line">-H "Content-Type: application/json" -d '&#123;</span><br><span class="line">    "name": "jdbc_source_connector_mysql_catalog",</span><br><span class="line">    "config": &#123;</span><br><span class="line">            "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",</span><br><span class="line">            "connection.url": "jdbc:mysql://localhost:3306/kafka_connect_sample",</span><br><span class="line">            "connection.user": "root",</span><br><span class="line">            "connection.password": "root",</span><br><span class="line">            "topic.prefix": "connect-mysql-catalog-",</span><br><span class="line">            "mode":"bulk",</span><br><span class="line">            "poll.interval.ms" : 10000,</span><br><span class="line">            "catalog.pattern" : "kafka_connect_sample"</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;'</span><br></pre></td></tr></table></figure></p>
+<p>现在我们只从 kafka_connect_sample 数据库中获取表：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">localhost:kafka wy$ bin/kafka-topics.sh --bootstrap-server localhost:9092 --list --topic &quot;connect-mysql-catalog.*&quot;</span><br><span class="line">connect-mysql-catalog-address</span><br><span class="line">connect-mysql-catalog-course</span><br><span class="line">connect-mysql-catalog-student</span><br></pre></td></tr></table></figure></p>
+<p>还可以使用 table.whitelist（白名单）或 table.blacklist（黑名单）配置来控制获取的表。如下所示只把 student 表导入到 Kafka：<br><figure class="highlight"><table><tr><td class="code"><pre><span class="line">curl -X POST http://localhost:9083/connectors \</span><br><span class="line">-H "Content-Type: application/json" -d '&#123;</span><br><span class="line">    "name": "jdbc_source_connector_mysql_whitelist",</span><br><span class="line">    "config": &#123;</span><br><span class="line">            "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",</span><br><span class="line">            "connection.url": "jdbc:mysql://localhost:3306/kafka_connect_sample",</span><br><span class="line">            "connection.user": "root",</span><br><span class="line">            "connection.password": "root",</span><br><span class="line">            "topic.prefix": "connect-mysql-whitelist-",</span><br><span class="line">            "mode":"bulk",</span><br><span class="line">            "poll.interval.ms" : 10000,</span><br><span class="line">            "catalog.pattern" : "kafka_connect_sample",</span><br><span class="line">            "table.whitelist" : "student"</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;'</span><br></pre></td></tr></table></figure></p>
+<p>正如预期的那样，现在只有 student 表从数据库流式传输到 Kafka：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">localhost:kafka wy$ bin/kafka-topics.sh --bootstrap-server localhost:9092 --list --topic &quot;connect-mysql-whitelist.*&quot;</span><br><span class="line">connect-mysql-whitelist-student</span><br></pre></td></tr></table></figure></p>
+<p>由于只是一张表，所以这个配置：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&quot;catalog.pattern&quot; : &quot;kafka_connect_sample&quot;,</span><br><span class="line">&quot;table.whitelist&quot; : &quot;student&quot;,</span><br></pre></td></tr></table></figure></p>
+<p>上述配置跟如下配置效果一样：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&quot;table.whitelist&quot; : &quot;kafka_connect_sample.student&quot;,</span><br></pre></td></tr></table></figure></p>
+<p>我们可以在单个 schema 中指定多个表，如下所示：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&quot;catalog.pattern&quot; : &quot;kafka_connect_sample&quot;,</span><br><span class="line">&quot;table.whitelist&quot; : &quot;student, address&quot;,</span><br></pre></td></tr></table></figure></p>
+<p>或跨多个数据库：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&quot;table.whitelist&quot; : &quot;kafka_connect_sample.student, test.test_db&quot;,</span><br></pre></td></tr></table></figure></p>
+<p>欢迎关注我的公众号和博客：</p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Other/smartsi.jpg?raw=true" alt=""></p>
+<p>相关推荐：</p>
+<ul>
+<li><a href="http://smartsi.club/announcing-kafka-connect-building-large-scale-low-latency-data-pipelines.html">Kafka Connect 构建大规模低延迟的数据管道</a></li>
+<li><a href="http://smartsi.club/how-to-build-a-pipeline-with-kafka-connect.html">Kafka Connect 如何构建实时数据管道</a></li>
+</ul>
 
       
     </div>
@@ -492,11 +513,11 @@
         <ul class="post-copyright">
   <li class="post-copyright-author">
     <strong>本文作者：</strong>
-    sjf0115
+    smartsi
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://smartsi.club/spark-streaming-initializing-streamingcontext.html" title="Spark Streaming 2.2.0 初始化StreamingContext">http://smartsi.club/spark-streaming-initializing-streamingcontext.html</a>
+    <a href="http://smartsi.club/mysql-bulk-with-kafka-connect-jdbc-source.html" title="Kafka Connect JDBC Source MySQL 全量同步">http://smartsi.club/mysql-bulk-with-kafka-connect-jdbc-source.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -511,9 +532,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Spark-Stream/" rel="tag"># Spark Stream</a>
-          
-            <a href="/tags/Spark/" rel="tag"># Spark</a>
+            <a href="/tags/Kafka/" rel="tag"># Kafka</a>
           
         </div>
       
@@ -526,8 +545,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/spark-streaming-first-example.html" rel="next" title="Spark Streaming 2.2.0 Example">
-                <i class="fa fa-chevron-left"></i> Spark Streaming 2.2.0 Example
+              <a href="/how-to-install-connector-plugins-in-kafka-connect.html" rel="next" title="Kafka Connect 如何安装 Connect 插件">
+                <i class="fa fa-chevron-left"></i> Kafka Connect 如何安装 Connect 插件
               </a>
             
           </div>
@@ -535,10 +554,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/spark-streaming-discretized-streams-dstreams.html" rel="prev" title="Spark Streaming 2.2.0 DStreams">
-                Spark Streaming 2.2.0 DStreams <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -630,8 +645,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -735,6 +759,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-安装-Connect-插件"><span class="nav-number">1.</span> <span class="nav-text">1. 安装 Connect 插件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-安装-JDBC-驱动"><span class="nav-number">2.</span> <span class="nav-text">2. 安装 JDBC 驱动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-运行-Connect"><span class="nav-number">3.</span> <span class="nav-text">3. 运行 Connect</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-创建-MySQL-表"><span class="nav-number">4.</span> <span class="nav-text">4. 创建 MySQL 表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-指定要获取的表"><span class="nav-number">5.</span> <span class="nav-text">5. 指定要获取的表</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
