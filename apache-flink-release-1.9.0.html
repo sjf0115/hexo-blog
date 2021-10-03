@@ -97,38 +97,37 @@
 
 
   
-  <meta name="keywords" content="Docker,ZooKeeper," />
+  <meta name="keywords" content="Flink," />
 
 
-<meta name="description" content="这篇文章中我们将使用 Docker 创建 Zookeeper 镜像，包括如何将 Zookeeper 安装到容器，如何配置 ZooKeeper 应用程序以及如何在宿主机和容器之间共享数据卷。 本教程利用 Dockerfile 来指定容器的内容。如果您需要有关编写 Dockerfile 的更多信息，请参阅官方文档。 1. 指定基础镜像Docker 容器基于基础 Linux 映像构建而成。这些镜像提供了">
-<meta name="keywords" content="Docker,ZooKeeper">
+<meta name="description" content="2021年8月22日，Apache Flink 社区宣布 Apache Flink 1.9.0 正式发布。这也是阿里内部版本 Blink 合并入 Flink 后的首次版本发布。Apache Flink 项目的目标是开发一个流处理系统，以统一和支持多种形式的实时和离线数据处理应用程序以及事件驱动的应用程序。在 1.9 版本中，社区在这方面取得了巨大的进步，将 Flink 的流处理和批处理能力集成在了">
+<meta name="keywords" content="Flink">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用Docker构建ZooKeeper镜像">
-<meta property="og:url" content="http://smartsi.club/build-zookeeper-image-with-docker.html">
+<meta property="og:title" content="Flink 1.9 发布中的新功能与改进">
+<meta property="og:url" content="http://smartsi.club/apache-flink-release-1.9.0.html">
 <meta property="og:site_name" content="SmartSi">
-<meta property="og:description" content="这篇文章中我们将使用 Docker 创建 Zookeeper 镜像，包括如何将 Zookeeper 安装到容器，如何配置 ZooKeeper 应用程序以及如何在宿主机和容器之间共享数据卷。 本教程利用 Dockerfile 来指定容器的内容。如果您需要有关编写 Dockerfile 的更多信息，请参阅官方文档。 1. 指定基础镜像Docker 容器基于基础 Linux 映像构建而成。这些镜像提供了">
+<meta property="og:description" content="2021年8月22日，Apache Flink 社区宣布 Apache Flink 1.9.0 正式发布。这也是阿里内部版本 Blink 合并入 Flink 后的首次版本发布。Apache Flink 项目的目标是开发一个流处理系统，以统一和支持多种形式的实时和离线数据处理应用程序以及事件驱动的应用程序。在 1.9 版本中，社区在这方面取得了巨大的进步，将 Flink 的流处理和批处理能力集成在了">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/docker/build-zookeeper-image-with-docker-1.jpg?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/docker/build-zookeeper-image-with-docker-2.jpg?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/docker/build-zookeeper-image-with-docker-3.jpg?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/docker/build-zookeeper-image-with-docker-4.jpg?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/ZooKeeper/zookeeper-study.jpg?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Other/smartsi.jpg?raw=true">
-<meta property="og:updated_time" content="2020-08-29T08:36:05.000Z">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/apache-flink-release-1.9.0-1.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/apache-flink-release-1.9.0-2.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/apache-flink-release-1.9.0-3.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/apache-flink-release-1.9.0-4.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Other/smartsi.jpg?raw=true">
+<meta property="og:updated_time" content="2021-10-03T14:16:36.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用Docker构建ZooKeeper镜像">
-<meta name="twitter:description" content="这篇文章中我们将使用 Docker 创建 Zookeeper 镜像，包括如何将 Zookeeper 安装到容器，如何配置 ZooKeeper 应用程序以及如何在宿主机和容器之间共享数据卷。 本教程利用 Dockerfile 来指定容器的内容。如果您需要有关编写 Dockerfile 的更多信息，请参阅官方文档。 1. 指定基础镜像Docker 容器基于基础 Linux 映像构建而成。这些镜像提供了">
-<meta name="twitter:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/docker/build-zookeeper-image-with-docker-1.jpg?raw=true">
+<meta name="twitter:title" content="Flink 1.9 发布中的新功能与改进">
+<meta name="twitter:description" content="2021年8月22日，Apache Flink 社区宣布 Apache Flink 1.9.0 正式发布。这也是阿里内部版本 Blink 合并入 Flink 后的首次版本发布。Apache Flink 项目的目标是开发一个流处理系统，以统一和支持多种形式的实时和离线数据处理应用程序以及事件驱动的应用程序。在 1.9 版本中，社区在这方面取得了巨大的进步，将 Flink 的流处理和批处理能力集成在了">
+<meta name="twitter:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/apache-flink-release-1.9.0-1.png?raw=true">
 
 
 
 
 
 
-  <link rel="canonical" href="http://smartsi.club/build-zookeeper-image-with-docker.html"/>
+  <link rel="canonical" href="http://smartsi.club/apache-flink-release-1.9.0.html"/>
 
 
-  <title>使用Docker构建ZooKeeper镜像 | SmartSi</title>
+  <title>Flink 1.9 发布中的新功能与改进 | SmartSi</title>
   
 
 
@@ -309,7 +308,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://smartsi.club/build-zookeeper-image-with-docker.html">
+    <link itemprop="mainEntityOfPage" href="http://smartsi.club/apache-flink-release-1.9.0.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="sjf0115">
@@ -326,7 +325,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">使用Docker构建ZooKeeper镜像</h2>
+          <h2 class="post-title" itemprop="name headline">Flink 1.9 发布中的新功能与改进</h2>
         
 
         <div class="post-meta">
@@ -338,7 +337,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-24T15:37:43+08:00">2020-08-24</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-22T20:08:12+08:00">2019-08-22</time>
             
 
             
@@ -352,7 +351,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-08-29T16:36:05+08:00">2020-08-29</time>
+              <time title="更新于" itemprop="dateModified" datetime="2021-10-03T22:16:36+08:00">2021-10-03</time>
             
           </span>
 
@@ -368,7 +367,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Flink/" itemprop="url" rel="index"><span itemprop="name">Flink</span></a></span>
 
                 
                 
@@ -383,8 +382,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/build-zookeeper-image-with-docker.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/build-zookeeper-image-with-docker.html" itemprop="commentCount"></span>
+                <a href="/apache-flink-release-1.9.0.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/apache-flink-release-1.9.0.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -392,7 +391,7 @@
 
           
           
-             <span id="/build-zookeeper-image-with-docker.html" class="leancloud_visitors" data-flag-title="使用Docker构建ZooKeeper镜像">
+             <span id="/apache-flink-release-1.9.0.html" class="leancloud_visitors" data-flag-title="Flink 1.9 发布中的新功能与改进">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -423,43 +422,62 @@
       
 
       
-        <p>这篇文章中我们将使用 Docker 创建 Zookeeper 镜像，包括如何将 Zookeeper 安装到容器，如何配置 ZooKeeper 应用程序以及如何在宿主机和容器之间共享数据卷。</p>
-<p>本教程利用 Dockerfile 来指定容器的内容。如果您需要有关编写 Dockerfile 的更多信息，请参阅<a href="https://docs.docker.com/engine/reference/builder/" target="_blank" rel="noopener">官方文档</a>。</p>
-<h3 id="1-指定基础镜像"><a href="#1-指定基础镜像" class="headerlink" title="1. 指定基础镜像"></a>1. 指定基础镜像</h3><p>Docker 容器基于基础 Linux 映像构建而成。这些镜像提供了容器的核心功能，并使用 FROM 命令来指定。FROM 命令允许我们同时指定镜像以及 Tag，其中 Tag 标记了镜像的版本。在下面 Dockerfile 中，我们使用 openjdk 镜像构建容器：<br><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">FROM openjdk:8-jre-alpine</span><br></pre></td></tr></table></figure></p>
+        <p>2021年8月22日，Apache Flink 社区宣布 Apache Flink 1.9.0 正式发布。这也是阿里内部版本 Blink 合并入 Flink 后的首次版本发布。Apache Flink 项目的目标是开发一个流处理系统，以统一和支持多种形式的实时和离线数据处理应用程序以及事件驱动的应用程序。在 1.9 版本中，社区在这方面取得了巨大的进步，将 Flink 的流处理和批处理能力集成在了一个统一的 Runtime 之上。</p>
+<p>此次版本更新带来的重大功能包括批处理作业的批式恢复以及用于 Table API 和 SQL 查询的基于 Blink 的新查询引擎（预览版）。我们还很高兴地宣布推出可用的 State Processor API，这是社区最迫切的功能之一，该 API 可以让用户能够使用 Flink DataSet 作业读取和写入 Savepoint。最后，Flink 1.9 还包括一个重新设计的 WebUI、新的 Python Table API（预览版）以及与 Apache Hive 生态系统的集成（预览版）。</p>
+<p>这篇博文主要介绍 Apache Flink 1.9 版本主要的新功能、改进、需要注意的重要变化以及未来的发展计划。有关更多详细信息，请查看完整的<a href="https://issues.apache.org/jira/secure/ReleaseNote.jspa?projectId=12315522&amp;version=12344601" target="_blank" rel="noopener">版本变更日志</a>。</p>
+<p>现在可以通过 Flink 项目的<a href="https://flink.apache.org/downloads.html" target="_blank" rel="noopener">下载页面</a>以及更新的<a href="https://nightlies.apache.org/flink/flink-docs-release-1.9/" target="_blank" rel="noopener">文档</a>获得此版本的二进制分发和源工件。Flink 1.9 与之前的 1.x 版本的 API 兼容，用于使用 @Public 注释注释的 API。</p>
+<h2 id="1-新功能和改进"><a href="#1-新功能和改进" class="headerlink" title="1. 新功能和改进"></a>1. 新功能和改进</h2><h3 id="1-1-细粒度批作业恢复"><a href="#1-1-细粒度批作业恢复" class="headerlink" title="1.1 细粒度批作业恢复"></a>1.1 细粒度批作业恢复</h3><p>批作业（DataSet、Table API 和 SQL）从失败的 Task 恢复的时间被显著减少。在 Flink 1.9 之前，批处理作业中某个 Task 失败会将所有 Task 取消并重新启动整个作业来恢复，即作业从头开始，所有进度都会废弃。在 1.9 版本中，Flink 可以配置为只恢复在同一故障区中的那些任务。故障区是指通过 Pipelined 数据交换方式连接的一组 Task。因此，作业中 batch-shuffle 的连接定义了故障区的边界。有关更多详细信息，请参见 <a href="https://cwiki.apache.org/confluence/display/FLINK/FLIP-1+%3A+Fine+Grained+Recovery+from+Task+Failures" target="_blank" rel="noopener">FLIP-1</a>。</p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/apache-flink-release-1.9.0-1.png?raw=true" alt=""></p>
+<p>要使用这种新的故障策略，我们需要在 flink-conf.yaml 文件中进行如下配置：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">jobmanager.execution.failover-strategy: region</span><br></pre></td></tr></table></figure></p>
 <blockquote>
-<p>使用jdk镜像就不用我们自己安装jdk，操作比较方便。</p>
+<p>注意：Flink 1.9 发布包中默认就已经包含了该配置项，如果是从之前版本升级上来，复用之前的配置，则需要手动加上该配置。</p>
 </blockquote>
-<p>上述命令足以构建我们的 Docker 镜像，使用如下命令构建 docker-zookeeper 镜像：<br><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">wy:Dockerfile wy$ docker build -f Dockerfile-jdk -t smartsi/docker-jdk .</span><br><span class="line">Sending build context to Docker daemon  10.24kB</span><br><span class="line">Step 1/1 : FROM openjdk:8-jre-alpine</span><br><span class="line">8-jre-alpine: Pulling from library/openjdk</span><br><span class="line">e7c96db7181b: Already exists</span><br><span class="line">f910a506b6cb: Already exists</span><br><span class="line">b6abafe80f63: Already exists</span><br><span class="line">Digest: sha256:f362b165b870ef129cbe730f29065ff37399c0aa8bcab3e44b51c302938c9193</span><br><span class="line">Status: Downloaded newer image for openjdk:8-jre-alpine</span><br><span class="line"><span class="meta"> ---&gt;</span> f7a292bbb70c</span><br><span class="line">Successfully built f7a292bbb70c</span><br><span class="line">Successfully tagged smartsi/docker-jdk:latest</span><br></pre></td></tr></table></figure></p>
-<h3 id="2-安装ZooKeeper"><a href="#2-安装ZooKeeper" class="headerlink" title="2. 安装ZooKeeper"></a>2. 安装ZooKeeper</h3><p>现在我们有了基础镜像，我们可以使用 RUN 命令在镜像上安装 Zookeeper。RUN 允许我们在镜像上执行任意命令。在此示例中，我们将 3.5.8 版本的 Zookeeper 安装到 <code>/opt/zookeeper</code> 目录下：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">FROM openjdk:8-jre-alpine</span><br><span class="line"></span><br><span class="line"># 安装bash</span><br><span class="line">RUN apk add --no-cache wget bash</span><br><span class="line"></span><br><span class="line"># 安装zookeeper</span><br><span class="line">RUN wget -q -O - https://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper/zookeeper-3.5.8/apache-zookeeper-3.5.8-bin.tar.gz</span><br><span class="line">RUN tar -xzf - -C /opt</span><br><span class="line">RUN mv /opt/apache-zookeeper-3.5.8-bin /opt/zookeeper \</span><br><span class="line">RUN cp /opt/zookeeper/conf/zoo_sample.cfg /opt/zookeeper/conf/zoo.cfg</span><br></pre></td></tr></table></figure></p>
-<p>在 Dockerfile 中执行的每个命令都会创建一个额外的镜像层。每层都复制它前一层的内容，因此每一层都会增加 Docker 镜像的大小。因此，通过组合 Dockerfile 中的语句来最大程度地减少层数被认为是最佳实践。我们需要在可读性和性能之间取得一个平衡，并根据需要调整 Dockerfile。<br><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">FROM openjdk:8-jre-alpine</span><br><span class="line"></span><br><span class="line">RUN apk add --no-cache wget bash \</span><br><span class="line">    &amp;&amp; wget -q -O - https://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper/zookeeper-3.5.8/apache-zookeeper-3.5.8-bin.tar.gz | tar -xzf - -C /opt \</span><br><span class="line">    &amp;&amp; mv /opt/apache-zookeeper-3.5.8-bin /opt/zookeeper \</span><br><span class="line">    &amp;&amp; cp /opt/zookeeper/conf/zoo_sample.cfg /opt/zookeeper/conf/zoo.cfg</span><br></pre></td></tr></table></figure></p>
-<h3 id="3-公开端口"><a href="#3-公开端口" class="headerlink" title="3. 公开端口"></a>3. 公开端口</h3><p>Zookeeper 需要打开多个端口才能与其他 Zookeeper 节点和客户端进行通信。我们可以使用 EXPOSE 关键字告诉容器需要侦听的网络端口：<br><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">FROM openjdk:8-jre-alpine</span><br><span class="line"></span><br><span class="line">RUN apk add --no-cache wget bash \</span><br><span class="line">    &amp;&amp; wget -q -O - https://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper/zookeeper-3.5.8/apache-zookeeper-3.5.8-bin.tar.gz | tar -xzf - -C /opt \</span><br><span class="line">    &amp;&amp; mv /opt/apache-zookeeper-3.5.8-bin /opt/zookeeper \</span><br><span class="line">    &amp;&amp; cp /opt/zookeeper/conf/zoo_sample.cfg /opt/zookeeper/conf/zoo.cfg</span><br><span class="line"></span><br><span class="line">EXPOSE 2181 2888 3888</span><br></pre></td></tr></table></figure></p>
-<p>如果要将主机端口映射到容器的端口上，可以使用 -p 命令运行容器。例如，公开容器中的端口并将宿主机端口映射到容器的端口上，我们可以指定要绑定到的多个端口：<br><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run -d -p 2181:2181 -p 2888:2888 -p 3888:3888 smartsi/docker-zookeeper:test</span><br></pre></td></tr></table></figure></p>
-<h3 id="4-设置工作目录"><a href="#4-设置工作目录" class="headerlink" title="4. 设置工作目录"></a>4. 设置工作目录</h3><p>我们将 Zookeeper 安装到 <code>/opt/zookeeper</code> 目录下。由于我们在这个容器上仅运行 Zookeeper，因此将我们的安装目录 <code>/opt/zookeeper</code> 设置为工作目录是最便捷的。这可以通过 WORKDIR 关键字来完成：<br><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">FROM openjdk:8-jre-alpine</span><br><span class="line"></span><br><span class="line">RUN apk add --no-cache wget bash \</span><br><span class="line">    &amp;&amp; wget -q -O - https://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper/zookeeper-3.5.8/apache-zookeeper-3.5.8-bin.tar.gz | tar -xzf - -C /opt \</span><br><span class="line">    &amp;&amp; mv /opt/apache-zookeeper-3.5.8-bin /opt/zookeeper \</span><br><span class="line">    &amp;&amp; cp /opt/zookeeper/conf/zoo_sample.cfg /opt/zookeeper/conf/zoo.cfg</span><br><span class="line"></span><br><span class="line">EXPOSE 2181 2888 3888</span><br><span class="line"></span><br><span class="line">WORKDIR /opt/zookeeper</span><br></pre></td></tr></table></figure></p>
-<h3 id="5-设置配置文件"><a href="#5-设置配置文件" class="headerlink" title="5. 设置配置文件"></a>5. 设置配置文件</h3><p>VOLUME 关键字可以将数据挂载到 Docker 容器上。如果要配置 Zookeeper 实例，我们可以在本地声明我们的配置文件，并让 Docker 使用 VOLUME 命令指定的挂载数据卷读取这些配置文件：<br><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">FROM openjdk:8-jre-alpine</span><br><span class="line"></span><br><span class="line">RUN apk add --no-cache wget bash \</span><br><span class="line">    &amp;&amp; wget -q -O - https://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper/zookeeper-3.5.8/apache-zookeeper-3.5.8-bin.tar.gz | tar -xzf - -C /opt \</span><br><span class="line">    &amp;&amp; mv /opt/apache-zookeeper-3.5.8-bin /opt/zookeeper \</span><br><span class="line">    &amp;&amp; cp /opt/zookeeper/conf/zoo_sample.cfg /opt/zookeeper/conf/zoo.cfg</span><br><span class="line"></span><br><span class="line">EXPOSE 2181 2888 3888</span><br><span class="line"></span><br><span class="line">WORKDIR /opt/zookeeper</span><br><span class="line"></span><br><span class="line">VOLUME ["/opt/zookeeper/conf"]</span><br></pre></td></tr></table></figure></p>
-<p>如果要将本地目录映射到我们创建的数据卷上，可以使用 docker run 命令的 -v 选项运行容器。在以下示例中，<code>./conf</code> 目录中的所有文件都被映射到容器上的 <code>/opt/zookeeper/conf</code> 目录中：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker run -it -v conf:/opt/zookeeper/conf smartsi/docker-zookeeper:test /bin/bash</span><br></pre></td></tr></table></figure></p>
-<p>OS X 用户需要使用完整路径而不是相对目录来限定本地目录。</p>
-<h3 id="6-共享数据"><a href="#6-共享数据" class="headerlink" title="6. 共享数据"></a>6. 共享数据</h3><p>Zookeeper 数据默认保存在 <code>/tmp/zookeeper</code> 目录下。我们可以通过 Docker 挂载数据卷将数据保存在宿主机上，从而达到宿主机与容器共享数据：<br><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">FROM openjdk:8-jre-alpine</span><br><span class="line"></span><br><span class="line">RUN apk add --no-cache wget bash \</span><br><span class="line">    &amp;&amp; wget -q -O - https://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper/zookeeper-3.5.8/apache-zookeeper-3.5.8-bin.tar.gz | tar -xzf - -C /opt \</span><br><span class="line">    &amp;&amp; mv /opt/apache-zookeeper-3.5.8-bin /opt/zookeeper \</span><br><span class="line">    &amp;&amp; cp /opt/zookeeper/conf/zoo_sample.cfg /opt/zookeeper/conf/zoo.cfg</span><br><span class="line"></span><br><span class="line">EXPOSE 2181 2888 3888</span><br><span class="line"></span><br><span class="line">WORKDIR /opt/zookeeper</span><br><span class="line"></span><br><span class="line">VOLUME ["/opt/zookeeper/conf", "/tmp/zookeeper"]</span><br></pre></td></tr></table></figure></p>
-<p>如果我们的 Zookeeper 配置与默认配置不同，请为数据卷使用恰当的挂载点。</p>
-<h3 id="7-运行Zookeeper"><a href="#7-运行Zookeeper" class="headerlink" title="7. 运行Zookeeper"></a>7. 运行Zookeeper</h3><p>此时，我们的 Dockerfile 将会安装 Zookeeper，将端口暴露给宿主机，并为配置和数据文件进行挂载。我们需要的做的最后一件事就是运行 Zookeeper。为此，我们使用 ENTRYPOINT 和 CMD 关键字：<br><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">FROM openjdk:8-jre-alpine</span><br><span class="line"></span><br><span class="line">RUN apk add --no-cache wget bash \</span><br><span class="line">    &amp;&amp; wget -q -O - https://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper/zookeeper-3.5.8/apache-zookeeper-3.5.8-bin.tar.gz | tar -xzf - -C /opt \</span><br><span class="line">    &amp;&amp; mv /opt/apache-zookeeper-3.5.8-bin /opt/zookeeper \</span><br><span class="line">    &amp;&amp; cp /opt/zookeeper/conf/zoo_sample.cfg /opt/zookeeper/conf/zoo.cfg</span><br><span class="line"></span><br><span class="line">EXPOSE 2181 2888 3888</span><br><span class="line"></span><br><span class="line">WORKDIR /opt/zookeeper</span><br><span class="line"></span><br><span class="line">VOLUME ["/opt/zookeeper/conf", "/tmp/zookeeper"]</span><br><span class="line"></span><br><span class="line">ENTRYPOINT ["/opt/zookeeper/bin/zkServer.sh"]</span><br><span class="line">CMD ["start-foreground"]</span><br></pre></td></tr></table></figure></p>
-<p>ENTRYPOINT 和 CMD 关键字提供了默认可执行文件，默认可执行文件在启动容器时会执行。在此示例中，我们以前台方式启动 Zookeeper 服务器。</p>
-<h3 id="8-构建容器"><a href="#8-构建容器" class="headerlink" title="8. 构建容器"></a>8. 构建容器</h3><p>至此，我们有了一个有效的 Dockerfile，用于构建 Docker 镜像来运行 Zookeeper 实例。要构建 Docker 镜像，需要运行如下命令：<br><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker build -t smartsi/docker-zookeeper:3.5.8 .</span><br></pre></td></tr></table></figure></p>
+<p>除此之外，还需要在 ExecutionConfig 中将批处理作业的 ExecutionMode 设置成 BATCH，这样批作业才能有多个故障区。’Region’ 故障策略也能同时提升 ‘embarrassingly parallel’ 类型的流作业恢复速度，即不包含像 keyBy、rebalance 等 shuffle 的作业。当这种作业在恢复时，只有受影响的 Pipeline（故障区）的 Task 需要重启。对于其他类型的流作业，故障恢复行为与之前的版本一样。</p>
+<h3 id="1-2-State-Processor-API"><a href="#1-2-State-Processor-API" class="headerlink" title="1.2 State Processor API"></a>1.2 State Processor API</h3><p>在 Flink 1.9 之前，从外部访问作业的状态仅局限于 Queryable State 的实验性功能。此版本中引入了一种新的强大类库，使用批处理 DataSet 来读取、写入、和修改状态快照。实践中，这意味着：</p>
+<ul>
+<li>Flink 作业状态可以通过从外部系统读取数据，例如，外部数据库，并将其转换为 Savepoint 来引导。</li>
+<li>可以通过 Flink 批处理 API（DataSet、Table、SQL）来查询 Savepoint 中的状态。例如，分析相关的状态模式或者检查状态差异以支持应用程序审核或故障排查。</li>
+<li>Savepoint 中的状态 schema 可以离线迁移了，而之前只能在访问状态时在线迁移。</li>
+<li>Savepoint 中的无效数据可以被识别出来并纠正。</li>
+</ul>
+<p>新的 State Processor API 覆盖了所有类型的快照：Savepoint，全量 Checkpoint 以及增量 Checkpoint。有关更多详细信息，请参见 <a href="https://cwiki.apache.org/confluence/display/FLINK/FLIP-43%3A+State+Processor+API" target="_blank" rel="noopener">FLIP-43</a>。</p>
+<h3 id="1-3-Stop-with-Savepoint"><a href="#1-3-Stop-with-Savepoint" class="headerlink" title="1.3 Stop-with-Savepoint"></a>1.3 Stop-with-Savepoint</h3><p><a href="https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/ops/state/savepoints/" target="_blank" rel="noopener">带 Savepoit 取消作业</a>是停止/重启、新分支以及升级 Flink 作业的一种常见操作。然而，现有的实现并不能为 Exactly-Once Sink 输出到外部存储系统的数据做持久化。为了在停止作业时改进端到端语义，Flink 1.9 引入了一种新的 SUSPEND 模式，可以带 Savepoint 停止作业，保证了输出数据的一致性。我们可以使用 Flink 的 CLI 客户端暂停作业，如下所示：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">bin/flink stop -p [:targetDirectory] :jobId</span><br></pre></td></tr></table></figure></p>
+<p>最终作业的状态会在成功时设置成 FINISHED 状态，方便用户区别操作是否失败。<a href="https://cwiki.apache.org/confluence/pages/viewpage.action?pageId=103090212" target="_blank" rel="noopener">FLIP-34</a> 中提供了更多详细信息。</p>
+<h3 id="1-4-Flink-WebUI-重构"><a href="#1-4-Flink-WebUI-重构" class="headerlink" title="1.4 Flink WebUI 重构"></a>1.4 Flink WebUI 重构</h3><p>在讨论了 Flink WebUI 现代化内部实现，决定使用 Angular 最新的稳定版来重建（从 Angular 1.x 升级到 7.x）。重新设计的版本是 1.9.0 中的默认版本，但是有一个链接可以切换到旧的 WebUI。</p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/apache-flink-release-1.9.0-2.png?raw=true" alt=""></p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/apache-flink-release-1.9.0-3.png?raw=true" alt=""></p>
+<h3 id="1-5-新-Blink-SQL-查询处理器的预览"><a href="#1-5-新-Blink-SQL-查询处理器的预览" class="headerlink" title="1.5 新 Blink SQL 查询处理器的预览"></a>1.5 新 Blink SQL 查询处理器的预览</h3><p>在 Blink 捐赠给 Apache Flink 之后，社区就致力于为 Table API 和 SQL 集成 Blink 的查询优化器和 Runtime。第一步，我们将 flink-table 单模块重构成了多个小模块（<a href="https://cwiki.apache.org/confluence/display/FLINK/FLIP-32%3A+Restructure+flink-table+for+future+contributions" target="_blank" rel="noopener">FLIP-32</a>）。这对于 Java 和 Scala API 模块、优化器、以及 Runtime 模块来说，有了一个更清晰的分层以及定义明确的接口。</p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/apache-flink-release-1.9.0-4.png?raw=true" alt=""></p>
+<p>接下来，我们扩展 Blink 的 planner 来实现新的优化器接口，这样现在有两个可插拔的查询处理器来执行 Table API 和 SQL 语句：1.9 之前的 Flink 处理器以及新的基于 Blink 的查询处理器。基于 Blink 的查询处理器提供更好的 SQL 覆盖率（1.9 完整支持 TPC-H，TPC-DS 的支持计划在下一个版本实现）并通过更广泛的查询优化（基于成本的执行计划选择和更多的优化规则）、改进的代码生成机制、和调优过的算子实现来提升批处理查询的性能。基于 Blink 的查询处理器还提供了更强大的流运行器，包括一些新功能（例如，维表 Join、TopN、去重）、聚合场景的数据倾斜问题优化以及更有用的内置函数。</p>
 <blockquote>
-<p>使用默认Dockerfile文件</p>
+<p>注意：查询处理器的语义和支持的操作集大部分是一致的，但并不完全一致。</p>
 </blockquote>
-<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/docker/build-zookeeper-image-with-docker-1.jpg?raw=true" alt=""></p>
-<h3 id="9-运行"><a href="#9-运行" class="headerlink" title="9. 运行"></a>9. 运行</h3><p>构建镜像之后运行如下命令启动容器以及 Zookeeper：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker run -p 2181:2818 -p 2888:2888 -p 3888:3888 --name standalone-zookeeper  smartsi/docker-zookeeper:3.5.8</span><br></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/docker/build-zookeeper-image-with-docker-2.jpg?raw=true" alt=""></p>
-<p>上述命令启动一个名为 <code>standalone-zookeeper</code> 的容器。通过 <code>docker ps</code> 命令查看运行中的 Zookeeper 容器：</p>
-<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/docker/build-zookeeper-image-with-docker-3.jpg?raw=true" alt=""></p>
-<p>通过如下命令进入容器：<br><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker exec -it standalone-zookeeper /bin/bash</span><br></pre></td></tr></table></figure></p>
-<p>可以通过 <code>zkServer.sh status</code> 命令查看 ZooKeeper 服务状态：<br><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">bash-4.4# ./bin/zkServer.sh status</span><br><span class="line">ZooKeeper JMX enabled by default</span><br><span class="line">Using config: /opt/zookeeper/bin/../conf/zoo.cfg</span><br><span class="line">Client port found: 2181. Client address: localhost.</span><br><span class="line">Mode: standalone</span><br></pre></td></tr></table></figure></p>
-<p>通过如下命令连接 ZooKeeper 服务：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">./bin/zkCli.sh -server localhost:2181</span><br></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/docker/build-zookeeper-image-with-docker-4.jpg?raw=true" alt=""></p>
-<p>给大家推荐一个ZooKeeper课程：</p>
-<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/ZooKeeper/zookeeper-study.jpg?raw=true" alt=""></p>
+<p>但是，Blink 查询处理器的集成还没有完全完成。因此，在 Flink 1.9 版本中，1.9 之前的 Flink 处理器仍然是默认处理器，并推荐用于生产中。我们可以在创建 TableEnvironment 时通过 EnvironmentSettings 配置来启用 Blink 处理器。被选择的处理器必须要在正在执行的 Java 进程的类路径中。对于集群设置，两个查询处理器都会自动加载默认配置。在 IDE 运行查询时，我们需要在项目中显式添加 planner 依赖项。</p>
+<h3 id="1-6-Table-API-和-SQL-的其他改进"><a href="#1-6-Table-API-和-SQL-的其他改进" class="headerlink" title="1.6 Table API 和 SQL 的其他改进"></a>1.6 Table API 和 SQL 的其他改进</h3><p>除了围绕 Blink planner 的令人兴奋的进展外，社区还对一些接口进行了一整套的改进，包括：</p>
+<ul>
+<li>为 Java 用户去除 Table API / SQL 的 Scala 依赖 （<a href="https://cwiki.apache.org/confluence/display/FLINK/FLIP-32%3A+Restructure+flink-table+for+future+contributions" target="_blank" rel="noopener">FLIP-32</a>）：作为 flink-table 模块重构和拆分工作的一部分，为 Java 和 Scala 创建了两个单独的 API 模块。对于 Scala 用户，没有什么真正改变，不过 Java 用户现在在使用 Table API 和 SQL 时，可以不用再引入 Scala 依赖了。</li>
+<li>Table API / SQL 的类型系统重构（<a href="https://cwiki.apache.org/confluence/display/FLINK/FLIP-37%3A+Rework+of+the+Table+API+Type+System" target="_blank" rel="noopener">FLIP-37</a>）：社区实现了一个<a href="https://nightlies.apache.org/flink/flink-docs-release-1.9/dev/table/types.html#data-types" target="_blank" rel="noopener">新的数据类型系统</a>，将 Table API 从 Flink TypeInformation 中分离出来，并提高其对 SQL 标准的遵从性。不过还在进行中，预计将在下一版本完工。在 Flink 1.9 中，UDF 还没有移植到新的类型系统上。</li>
+<li>Table API 的多行多列转换（<a href="https://cwiki.apache.org/confluence/pages/viewpage.action?pageId=97552739" target="_blank" rel="noopener">FLIP-29</a>）：Table API 扩展了一组支持多行和多列输入和输出的转换功能。这些转换能够极大简化处理逻辑的实现，如果使用关系运算符来实现就会相对麻烦。</li>
+<li>崭新的统一的 Catalog API(<a href="https://cwiki.apache.org/confluence/display/FLINK/FLIP-30%3A+Unified+Catalog+APIs" target="_blank" rel="noopener">FLIP-30</a>)：我们重新设计了 Catalog API 以存储元数据并统一处理内部和外部 Catalog。这项工作虽然主要是为了 Hive 集成而发起的，但同时也全面提升了 Flink 在管理 Catalog 元数据的整体便利性。除了改进 Catalog 接口外，我们还扩展了它们的功能。以前 Table API 或 SQL 查询的表都是临时的。在 Flink 1.9 中，使用 SQL DDL 语句注册的表的元数据可以保存在 Catalog 中。这意味着您可以将一个由 Kafka 主题支持的表添加到 Metastore Catalog，然后当我们的 Catalog 连接到 Metastore 时可以查询该表。</li>
+<li>SQL API 中的 DDL 支持 （<a href="https://issues.apache.org/jira/browse/FLINK-10232" target="_blank" rel="noopener">FLINK-10232</a>）：到目前为止，Flink SQL 仅支持 DML 语句（例如，SELECT、INSERT）。外部表（表源和接收器）必须通过 Java/Scala 代码或配置文件进行注册。 对于 1.9，我们添加了对 SQL DDL 语句的支持以注册和删除表和视图（CREATE TABLE、DROP TABLE）。不过目前还没有增加流特定的语法扩展来定义时间戳抽取和 watermark 生成策略等。流式的需求也将会在下一版本中完整支持。</li>
+</ul>
+<h3 id="1-7-Hive-集成预览"><a href="#1-7-Hive-集成预览" class="headerlink" title="1.7 Hive 集成预览"></a>1.7 Hive 集成预览</h3><p>Apache Hive 在 Hadoop 生态系统中被广泛用于存储和查询大量结构化数据。除了作为查询处理器之外，Hive 还提供了一个名为 Metastore 的 Catalog 来管理和组织大型数据集。查询处理器的一个常见集成点是与 Hive 的 Metastore 集成，以便能够利用 Hive 管理的数据。</p>
+<p>最近，社区开始为 Flink Table API 和 SQL 实现一个连接到 Hive Metastore 的外部 Catalog。在 Flink 1.9 中，用户将能够查询和处理存储在 Hive 中的所有数据。如前所述，我们还可以在 Metastore 中持久化 Flink 表的元数据。此外，Hive 集成包括支持在 Flink Table API 或 SQL 查询中使用 Hive 的 UDF。<a href="https://issues.apache.org/jira/browse/FLINK-10556" target="_blank" rel="noopener">FLINK-10556</a> 中提供了更多详细信息。</p>
+<p>虽然以前 Table API 或 SQL 查询的表一直是临时的，但新的 Catalog 连接器允许在 Metastore 中持久保存使用 SQL DDL 语句创建的表。这意味着我们可以直接连接到 Metastore 并注册一个表。从现在开始，只要我们的 Catalog 连接到 Metastore，我们就可以查询该表。</p>
+<blockquote>
+<p>Flink 1.9 中的 Hive 支持是实验性的。我们计划在下一个版本中稳定这些功能。</p>
+</blockquote>
+<h3 id="1-8-新-Python-Table-API-预览"><a href="#1-8-新-Python-Table-API-预览" class="headerlink" title="1.8 新 Python Table API 预览"></a>1.8 新 Python Table API 预览</h3><p>此版本还引入了 Python Table API (<a href="https://cwiki.apache.org/confluence/display/FLINK/FLIP-38%3A+Python+Table+API" target="_blank" rel="noopener">FLIP-38</a>) 的第一个版本。这标志着我们开始为 Flink 提供全面的 Python 支持。该功能围绕着 Table API 设计了很薄的一层 Python API 包装器，基本上将 Python Table API 方法的调用都转换为 Java Table API 调用。在 Flink 1.9 版本中，Python Table API 尚不支持 UDF，只是标准的关系操作。在 Python 中支持 UDF 的功能已规划在未来版本的路线图中。</p>
+<p>如果想尝试新的 Python API，则需要手动安装PyFlink。然后，可以看一看文档中的演练并尝试自己探索。社区目前正在准备 一个 pyflink 的 Python 包，该包将可以通过 pip 进行安装。</p>
+<h2 id="2-重要变化"><a href="#2-重要变化" class="headerlink" title="2. 重要变化"></a>2. 重要变化</h2><ul>
+<li>Table API 和 SQL 现在是 Flink 发行版默认配置的一部分。以前，必须通过将相应的 JAR 文件从 ./opt 移动到 ./lib 来启用 Table API 和 SQL。</li>
+<li>为 <a href="https://docs.google.com/document/d/1StObo1DLp8iiy0rbukx8kwAJb0BwDZrQrMWub3DzsEo/edit" target="_blank" rel="noopener">FLIP-39</a> 做准备，机器学习库 (flink-ml) 已被删除，。</li>
+<li>为了支持 <a href="https://cwiki.apache.org/confluence/display/FLINK/FLIP-38%3A+Python+Table+API" target="_blank" rel="noopener">FLIP-38</a>，旧的 DataSet 和 DataStream Python API 已被删除。</li>
+<li>Flink 可以在 Java 9 上编译和运行。需要注意的是与外部系统（连接器、文件系统、报告器）交互的某些组件可能无法工作，因为相应的项目可能已不支持 Java 9。</li>
+</ul>
 <p>欢迎关注我的公众号和博客：</p>
-<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Other/smartsi.jpg?raw=true" alt=""></p>
-<p>参考：<a href="https://sookocheff.com/post/docker/containerizing-zookeeper-a-guided-tour/" target="_blank" rel="noopener">Docker Step By Step: Containerizing Zookeeper</a></p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Other/smartsi.jpg?raw=true" alt=""></p>
+<p>原文:<a href="https://flink.apache.org/news/2019/08/22/release-1.9.0.html" target="_blank" rel="noopener">Apache Flink 1.9.0 Release Announcement</a></p>
 
       
     </div>
@@ -509,7 +527,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://smartsi.club/build-zookeeper-image-with-docker.html" title="使用Docker构建ZooKeeper镜像">http://smartsi.club/build-zookeeper-image-with-docker.html</a>
+    <a href="http://smartsi.club/apache-flink-release-1.9.0.html" title="Flink 1.9 发布中的新功能与改进">http://smartsi.club/apache-flink-release-1.9.0.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -524,9 +542,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Docker/" rel="tag"># Docker</a>
-          
-            <a href="/tags/ZooKeeper/" rel="tag"># ZooKeeper</a>
+            <a href="/tags/Flink/" rel="tag"># Flink</a>
           
         </div>
       
@@ -539,8 +555,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/practice-of-user-grouping-on-bitmap-in-beike-dmp.html" rel="next" title="Bitmap用户分群在贝壳DMP的实践和应用">
-                <i class="fa fa-chevron-left"></i> Bitmap用户分群在贝壳DMP的实践和应用
+              <a href="/how-hbase-rowkey-is-designed-of-opentsdb.html" rel="next" title="OpenTSDB 底层 HBase 的 Rowkey 是如何设计的">
+                <i class="fa fa-chevron-left"></i> OpenTSDB 底层 HBase 的 Rowkey 是如何设计的
               </a>
             
           </div>
@@ -549,8 +565,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/hive-install-and-config.html" rel="prev" title="Hive 安装与配置">
-                Hive 安装与配置 <i class="fa fa-chevron-right"></i>
+              <a href="/java-api-in-zookeeper.html" rel="prev" title="ZooKeeper Java API">
+                ZooKeeper Java API <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -767,7 +783,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-指定基础镜像"><span class="nav-number">1.</span> <span class="nav-text">1. 指定基础镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-安装ZooKeeper"><span class="nav-number">2.</span> <span class="nav-text">2. 安装ZooKeeper</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-公开端口"><span class="nav-number">3.</span> <span class="nav-text">3. 公开端口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-设置工作目录"><span class="nav-number">4.</span> <span class="nav-text">4. 设置工作目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-设置配置文件"><span class="nav-number">5.</span> <span class="nav-text">5. 设置配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-共享数据"><span class="nav-number">6.</span> <span class="nav-text">6. 共享数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-运行Zookeeper"><span class="nav-number">7.</span> <span class="nav-text">7. 运行Zookeeper</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-构建容器"><span class="nav-number">8.</span> <span class="nav-text">8. 构建容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-运行"><span class="nav-number">9.</span> <span class="nav-text">9. 运行</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-新功能和改进"><span class="nav-number">1.</span> <span class="nav-text">1. 新功能和改进</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-细粒度批作业恢复"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 细粒度批作业恢复</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-State-Processor-API"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 State Processor API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-Stop-with-Savepoint"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 Stop-with-Savepoint</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-Flink-WebUI-重构"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 Flink WebUI 重构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-新-Blink-SQL-查询处理器的预览"><span class="nav-number">1.5.</span> <span class="nav-text">1.5 新 Blink SQL 查询处理器的预览</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-6-Table-API-和-SQL-的其他改进"><span class="nav-number">1.6.</span> <span class="nav-text">1.6 Table API 和 SQL 的其他改进</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-7-Hive-集成预览"><span class="nav-number">1.7.</span> <span class="nav-text">1.7 Hive 集成预览</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-8-新-Python-Table-API-预览"><span class="nav-number">1.8.</span> <span class="nav-text">1.8 新 Python Table API 预览</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-重要变化"><span class="nav-number">2.</span> <span class="nav-text">2. 重要变化</span></a></li></ol></div>
             
 
           </div>
