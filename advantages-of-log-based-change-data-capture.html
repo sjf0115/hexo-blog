@@ -97,38 +97,33 @@
 
 
   
-  <meta name="keywords" content="Flink," />
+  <meta name="keywords" content="Debezium," />
 
 
-<meta name="description" content="Flink 1.11 引入了 CDC，在此基础上， JDBC Connector 也发生比较大的变化，本文由 Apache Flink Contributor，阿里巴巴高级开发工程师徐榜江（雪尽）分享，主要介绍 Flink 1.11 JDBC Connector 的最佳实践。大纲如下：  JDBC connector JDBC Catalog JDBC Dialect Demo  1. JDBC-">
-<meta name="keywords" content="Flink">
+<meta name="description" content="1. 简介CDC 的全称是 Change Data Capture，在广义的概念上，只要是能捕获数据变更的技术，我们都可以称之为 CDC。目前通常描述的 CDC 技术主要面向数据库的变更，是一种用于捕获数据库中数据变更的技术。CDC 技术的应用场景非常广泛：  数据同步：用于备份，容灾； 数据分发：一个数据源分发给多个下游系统； 数据采集：面向数据仓库 / 数据湖的 ETL 数据集成，是非常重要的">
+<meta name="keywords" content="Debezium">
 <meta property="og:type" content="article">
-<meta property="og:title" content="&lt;转&gt;Flink JDBC Connector：Flink 与数据库集成最佳实践">
-<meta property="og:url" content="http://smartsi.club/flink-jdbc-connector-with-database.html">
+<meta property="og:title" content="为什么选择基于日志的 CDC">
+<meta property="og:url" content="http://smartsi.club/advantages-of-log-based-change-data-capture.html">
 <meta property="og:site_name" content="SmartSi">
-<meta property="og:description" content="Flink 1.11 引入了 CDC，在此基础上， JDBC Connector 也发生比较大的变化，本文由 Apache Flink Contributor，阿里巴巴高级开发工程师徐榜江（雪尽）分享，主要介绍 Flink 1.11 JDBC Connector 的最佳实践。大纲如下：  JDBC connector JDBC Catalog JDBC Dialect Demo  1. JDBC-">
+<meta property="og:description" content="1. 简介CDC 的全称是 Change Data Capture，在广义的概念上，只要是能捕获数据变更的技术，我们都可以称之为 CDC。目前通常描述的 CDC 技术主要面向数据库的变更，是一种用于捕获数据库中数据变更的技术。CDC 技术的应用场景非常广泛：  数据同步：用于备份，容灾； 数据分发：一个数据源分发给多个下游系统； 数据采集：面向数据仓库 / 数据湖的 ETL 数据集成，是非常重要的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-jdbc-connector-with-database-1.png?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-jdbc-connector-with-database-2.png?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-jdbc-connector-with-database-3.png?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-jdbc-connector-with-database-4.png?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-jdbc-connector-with-database-5.png?raw=true">
 <meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Other/smartsi.jpg?raw=true">
-<meta property="og:updated_time" content="2021-06-25T01:02:06.000Z">
+<meta property="og:updated_time" content="2021-10-09T08:55:54.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="&lt;转&gt;Flink JDBC Connector：Flink 与数据库集成最佳实践">
-<meta name="twitter:description" content="Flink 1.11 引入了 CDC，在此基础上， JDBC Connector 也发生比较大的变化，本文由 Apache Flink Contributor，阿里巴巴高级开发工程师徐榜江（雪尽）分享，主要介绍 Flink 1.11 JDBC Connector 的最佳实践。大纲如下：  JDBC connector JDBC Catalog JDBC Dialect Demo  1. JDBC-">
-<meta name="twitter:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-jdbc-connector-with-database-1.png?raw=true">
+<meta name="twitter:title" content="为什么选择基于日志的 CDC">
+<meta name="twitter:description" content="1. 简介CDC 的全称是 Change Data Capture，在广义的概念上，只要是能捕获数据变更的技术，我们都可以称之为 CDC。目前通常描述的 CDC 技术主要面向数据库的变更，是一种用于捕获数据库中数据变更的技术。CDC 技术的应用场景非常广泛：  数据同步：用于备份，容灾； 数据分发：一个数据源分发给多个下游系统； 数据采集：面向数据仓库 / 数据湖的 ETL 数据集成，是非常重要的">
+<meta name="twitter:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Other/smartsi.jpg?raw=true">
 
 
 
 
 
 
-  <link rel="canonical" href="http://smartsi.club/flink-jdbc-connector-with-database.html"/>
+  <link rel="canonical" href="http://smartsi.club/advantages-of-log-based-change-data-capture.html"/>
 
 
-  <title><转>Flink JDBC Connector：Flink 与数据库集成最佳实践 | SmartSi</title>
+  <title>为什么选择基于日志的 CDC | SmartSi</title>
   
 
 
@@ -309,7 +304,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://smartsi.club/flink-jdbc-connector-with-database.html">
+    <link itemprop="mainEntityOfPage" href="http://smartsi.club/advantages-of-log-based-change-data-capture.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="sjf0115">
@@ -326,7 +321,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline"><转>Flink JDBC Connector：Flink 与数据库集成最佳实践</h2>
+          <h2 class="post-title" itemprop="name headline">为什么选择基于日志的 CDC</h2>
         
 
         <div class="post-meta">
@@ -338,7 +333,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-06-24T08:39:01+08:00">2021-06-24</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-10-09T08:40:21+08:00">2021-10-09</time>
             
 
             
@@ -352,7 +347,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-06-25T09:02:06+08:00">2021-06-25</time>
+              <time title="更新于" itemprop="dateModified" datetime="2021-10-09T16:55:54+08:00">2021-10-09</time>
             
           </span>
 
@@ -368,7 +363,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Flink/" itemprop="url" rel="index"><span itemprop="name">Flink</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Debezium/" itemprop="url" rel="index"><span itemprop="name">Debezium</span></a></span>
 
                 
                 
@@ -383,8 +378,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/flink-jdbc-connector-with-database.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/flink-jdbc-connector-with-database.html" itemprop="commentCount"></span>
+                <a href="/advantages-of-log-based-change-data-capture.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/advantages-of-log-based-change-data-capture.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -392,7 +387,7 @@
 
           
           
-             <span id="/flink-jdbc-connector-with-database.html" class="leancloud_visitors" data-flag-title="<转>Flink JDBC Connector：Flink 与数据库集成最佳实践">
+             <span id="/advantages-of-log-based-change-data-capture.html" class="leancloud_visitors" data-flag-title="为什么选择基于日志的 CDC">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -423,86 +418,34 @@
       
 
       
-        <p>Flink 1.11 引入了 CDC，在此基础上， JDBC Connector 也发生比较大的变化，本文由 Apache Flink Contributor，阿里巴巴高级开发工程师徐榜江（雪尽）分享，主要介绍 Flink 1.11 JDBC Connector 的最佳实践。大纲如下：</p>
+        <h2 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h2><p>CDC 的全称是 Change Data Capture，在广义的概念上，只要是能捕获数据变更的技术，我们都可以称之为 CDC。目前通常描述的 CDC 技术主要面向数据库的变更，是一种用于捕获数据库中数据变更的技术。CDC 技术的应用场景非常广泛：</p>
 <ul>
-<li>JDBC connector</li>
-<li>JDBC Catalog</li>
-<li>JDBC Dialect</li>
-<li>Demo</li>
+<li>数据同步：用于备份，容灾；</li>
+<li>数据分发：一个数据源分发给多个下游系统；</li>
+<li>数据采集：面向数据仓库 / 数据湖的 ETL 数据集成，是非常重要的数据源。</li>
 </ul>
-<h3 id="1-JDBC-Connector-的重构"><a href="#1-JDBC-Connector-的重构" class="headerlink" title="1. JDBC-Connector 的重构"></a>1. JDBC-Connector 的重构</h3><p>JDBC Connector 在 Flink 1.11 版本发生了比较大的变化，我们先从以下几个 Feature 来具体了解一下 Flink 社区在这个版本上对 JDBC 所做的改进。</p>
+<p>CDC 的技术方案非常多，目前业界主流的实现机制可以分为两种：</p>
 <ul>
-<li>FLINK-15782 ：Rework JDBC Sinks[1] （重写 JDBC Sink）</li>
+<li>基于轮询的 CDC：用户通常会在数据源表的某个字段中，保存上次更新的时间戳或版本号等信息，然后下游通过不断的查询和与上次的记录做对比，来确定数据是否有变动。这种方式优点是不涉及数据库底层特性，实现比较通用；缺点是要对业务表做改造，且实时性不高，不能确保跟踪到所有的变更记录，且持续的频繁查询对数据库的压力较大。一般用于离线调度查询批处理作业。</li>
+<li>基于日志的 CDC：可以通过触发器（Trigger）或者日志（例如 Transaction log、Binary log、Write-ahead log 等）来实现。当数据源表发生变动时，会通过附加在表上的触发器或者 binlog 等途径，将操作记录下来。下游可以通过数据库底层的协议，订阅并消费这些事件，然后对数据库变动记录做重放，从而实现同步。这种方式的优点是实时性高，可以精确捕捉上游的各种变动；缺点是部署数据库的事件接收和解析器（例如 Debezium、Canal 等），有一定的学习和运维成本，对一些冷门的数据库支持不够。</li>
 </ul>
-<p>这个 issue 主要为 DataStream API 新增了 JdbcSink，对于使用 DataStream 编程的用户会更加方便地把数据写入到 JDBC；并且规范了一些命名规则，以前命名使用的是 JDBC 加上连接器名称，目前命名规范为 Jdbc+ 连接器名称</p>
-<ul>
-<li>FLINK-17537：Refactor flink-jdbc connector structure[2] （重构 flink-jdbc 连接器的结构）</li>
-</ul>
-<p>这个 issue 将 flink-jdbc 包名重命名为 flink-connector-jdbc，与 Flink 的其他 connector 统一，将所有接口和类从 org.apache.flink.java.io.jdbc（旧包）规范为新包路径 org.apache.flink.connector.jdbc（新包），通过这种重命名用户在对底层源代码的阅读上面会更加容易的理解和统一。</p>
-<ul>
-<li>FLIP-95: New TableSource and TableSink interfaces[3] （新的 TableSource 和 TableSink 接口）</li>
-</ul>
-<p>由于早期数据类型系统并不是很完善，导致了比较多的 Connector 在使用上会经常报数据类型相关的异常，例如 DECIMAL 精度类型，在以往的 Flink 1.10 版本中有可能出现下图问题：</p>
-<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-jdbc-connector-with-database-1.png?raw=true" alt=""></p>
-<p>基于 FLIP-95 新的 TableSource 和 TableSink 在精度支持方面做了重构，目前数据精度方面的支持已经很完善了。</p>
-<ul>
-<li>FLIP-122：New Connector Property Keys for New Factory[4]（新的连接器参数）</li>
-</ul>
-<p>在 Flink 1.11 版本中，我们对 DDL 的 WITH 参数相对于 1.10 版本做了简化，从用户视角看上就是简化和规范了参数，如表格所示：</p>
-<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-jdbc-connector-with-database-2.png?raw=true" alt=""></p>
-<p>大家可以看到表格中有 3 个标红的地方，这个是相对于 1.10 有发生变化比较多的地方。这次 FLIP 希望进一步简化连接器属性，以便使属性更加简洁和可读，并更好地与 FLIP-107 协作。如果需要了解更多的 Connector 参数可以进一步参考官方文档和 FLIP-122 中提到的改变，这样有助于从旧版本迁移到新版本并了解参数的变化。</p>
-<ul>
-<li>FLIP-87：Primary key Constraints in Table API[5] (Table API 接口中的主键约束问题)</li>
-</ul>
-<p>Flink 1.10 存在某些 Query 无法推断出主键导致无法进行 Upsert 更新操作（如下图所示错误）。所以在 FLIP-87 中为 Flink SQL 引入的 Primary Key 约束。Flink 的主键约束遵循 SQL 标准，主键约束分为 PRIMARY KEY NOT ENFORCED 和 PRIMARY KEY ENFORCED， ENFORCED 表示是否对数据进行校验。我们常见数据库的主键约束属于 PRIMARY KEY ENFORCED，会对数据进行校验。因为 Flink 并不持有数据，因此 Flink 支持的主键模式是 PRIMARY KEY NOT ENFORCED,  这意味着 Flink 不会校验数据，而是由用户确保主键的完整性。例如 HBase 里面对应的主键应该是 RowKey，在 MySQL 中对应的主键是在用户数据库的表中对应的主键。</p>
-<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-jdbc-connector-with-database-3.png?raw=true" alt=""></p>
-<h3 id="2-JDBC-Catalog"><a href="#2-JDBC-Catalog" class="headerlink" title="2. JDBC Catalog"></a>2. JDBC Catalog</h3><p>目前 Flink 支持 Catalog 主要有 JDBC Catalog 和 Hive Catalog 。在关系数据库中的表，如果要在 Flink 中使用，用户需要手动写表的 DDL，一旦表的 Schema 发生改变，用户需要手动修改， 这是比较繁琐的事情。JDBC Catalog 提供了接口用于连接到各种关系型数据库，使得 Flink 能够自动检索表，不用用户手动输入和修改。目前 JDBC Catalog 内置目前实现了 Postgres Catalog。Postgres catalog 是一个 read-only （只读）的 Catalog，只支持读取 Postgres 表，支持的功能比较有限。下面代码展示了目前 Postgres catalog 支持的 6 个功能：数据库是否存在、数据库列表、获取数据库、根据数据库名获取表列表、获得表、表是否存在。<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">// The supported methods by Postgres Catalog.</span><br><span class="line">PostgresCatalog.databaseExists(String databaseName)</span><br><span class="line">PostgresCatalog.listDatabases()</span><br><span class="line">PostgresCatalog.getDatabase(String databaseName)</span><br><span class="line">PostgresCatalog.listTables(String databaseName)</span><br><span class="line">PostgresCatalog.getTable(ObjectPath tablePath)</span><br><span class="line">PostgresCatalog.tableExists(ObjectPath tablePath)</span><br></pre></td></tr></table></figure></p>
-<p>如果需要支持其他 DB (如 MySQL)，需要用户根据 FLIP-93 的 JdbcCatalog 接口实现对应不同的 JDBC Catalog。</p>
-<h3 id="3-JDBC-Dialect"><a href="#3-JDBC-Dialect" class="headerlink" title="3. JDBC Dialect"></a>3. JDBC Dialect</h3><h4 id="3-1-什么是-Dialect？"><a href="#3-1-什么是-Dialect？" class="headerlink" title="3.1 什么是 Dialect？"></a>3.1 什么是 Dialect？</h4><p>Dialect (方言)对各个数据库来说，Dialect 体现各个数据库的特性，比如语法、数据类型等。如果需要查看详细的差异，可以点击这里[6]查看详细差异。下面通过对比 MySQL 和 Postgres 的一些常见场景举例：</p>
-<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-jdbc-connector-with-database-4.png?raw=true" alt=""></p>
-<p>在数据类型上面，Flink SQL 的数据类型目前映射规则如下：</p>
-<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-jdbc-connector-with-database-5.png?raw=true" alt=""></p>
-<p>Flink 目前支持三种 Dialect: Derby、MySQL、PostgreSQL，Derby 主要用于测试，更多的类型映射可以点击下方链接前往官方文档查看。</p>
-<blockquote>
-<p><a href="https://ci.apache.org/projects/flink/flink-docs-release-1.11/zh/dev/table/connectors/jdbc.html#data-type-mapping" target="_blank" rel="noopener">https://ci.apache.org/projects/flink/flink-docs-release-1.11/zh/dev/table/connectors/jdbc.html#data-type-mapping</a></p>
-</blockquote>
-<h4 id="3-2-如何保证-Dialect-Upsert-的幂等性？"><a href="#3-2-如何保证-Dialect-Upsert-的幂等性？" class="headerlink" title="3.2 如何保证 Dialect Upsert 的幂等性？"></a>3.2 如何保证 Dialect Upsert 的幂等性？</h4><p>如果定义了主键，JDBC 写入时是能够保证 Upsert 语义的， 如果 DB 不支持 Upsert 语法，则会退化成 DELETE + INSERT 语义。Upsert query 是原子执行的，可以保证幂等性。这个在官方文档中也详细描述了更新失败或者存在故障时候如何做出的处理，下面的表格是不同的 DB 对应不同的 Upsert 语法：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Database</th>
-<th style="text-align:left">Upsert Grammar</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">MySQL</td>
-<td style="text-align:left">INSERT .. ON DUPLICATE KEY UPDATE ..</td>
-</tr>
-<tr>
-<td style="text-align:left">PostgreSQL</td>
-<td style="text-align:left">INSERT .. ON CONFLICT .. DO UPDATE SET ..</td>
-</tr>
-</tbody>
-</table>
-<h4 id="3-3-如何自定义-Dialect？"><a href="#3-3-如何自定义-Dialect？" class="headerlink" title="3.3 如何自定义 Dialect？"></a>3.3 如何自定义 Dialect？</h4><p>目前如果要实现自定义 Dialect (比如 SQL Server、Oracle 等), 需要用户自己实现对应 Dialect 修改源码并重新打包 flink-connector-jdbc。社区正在讨论提供一种插件化 dialect 的机制, 让用户可以不用修改源码打包就能实现自定义 Dialect，这个机制需要把 Dialect 接口暴露给用户。目前的 Dialect 接口不够清晰，没有考虑 DataStream API 的使用场景，也没有考虑到 一些复杂的 SQL 场景，所以这个接口目前不太稳定(后续版本会修改) 。</p>
-<p>社区目前之所以没有把这个 API 开放给用户，是从用户使用的体验角度考虑，希望把这种顶级 API 设计得尽量稳定、简洁后再开放出来给用户使用，避免用户在后续 Flink 版本的迭代中多次修改代码。目前社区已经有相应的计划去做了，大家可以留意 FLINK-16833[7] 提出的 JDBCDialect 插件化设计。</p>
-<h4 id="3-4-实践-Demo"><a href="#3-4-实践-Demo" class="headerlink" title="3.4 实践 Demo"></a>3.4 实践 Demo</h4><p>大家看完上述 Flink 1.11 在 JDBC 所做的改动后，大家可以尝试下面这个关于商品表 CDC 同步和 ETL 的小案例，有助于理解 JDBC Catalog 和 CDC 的同步机制。</p>
-<p>环境与版本：Flink 1.11.1、Docker、Kafka 1.11.1、MySQL Driver 5.1.48、PostgreSQL Driver 42.2.14</p>
-<p>流程如下：</p>
-<ul>
-<li>Flink standalone 环境准备并在提供的地址下载好对应的安装包和 connector jar。</li>
-<li>测试数据准备，通过拉起容器运行已经打包好的镜像。其中 Kafka 中的 changelog 数据是通过 debezium connector 抓取的 MySQL orders 表 的 binlog。</li>
-<li>通过 SQL Client 编写 SQL 作业，分别创建 Flink 订单表，维表，用户表，产品表，并创建 Function UDF。从 PG Catalog 获取结果表信息之后，把作业提交至集群执行运行。</li>
-<li>测试 CDC 数据同步和维表 join，通过新增订单、修改订单、删除订单、维表数据更新等一系列操作验证 CDC 在 Flink 上如何运行以及写入结果表。</li>
-</ul>
-<blockquote>
-<p><a href="https://github.com/leonardBang/flink-sql-etl" target="_blank" rel="noopener">https://github.com/leonardBang/flink-sql-etl</a></p>
-</blockquote>
-<h3 id="4-总结"><a href="#4-总结" class="headerlink" title="4. 总结"></a>4. 总结</h3><p>本文从 JDBC Connector 的重构、数据精度、主键约束、命名规范等方面详细介绍，分享了社区目前实现的 Postgres Catalog 功能点；介绍了 Flink 如何实现 JDBC Dialect 的统一以及目前社区对 Dialect 做的一些计划；最后的实践 Demo 环节演示了通过 SQL Client 进行维表 JOIN 和 ETL 操作以及解答了大家在实际生产中所遇到的问题，希望对大家进一步了解 Flink CDC 新功能有所帮助。</p>
+<h2 id="2-优势"><a href="#2-优势" class="headerlink" title="2. 优势"></a>2. 优势</h2><p>下面是我详细列出基于日志的 CDC 相对于基于轮询的 CDC 的五个优点。</p>
+<h3 id="2-1-捕获所有数据变更"><a href="#2-1-捕获所有数据变更" class="headerlink" title="2.1 捕获所有数据变更"></a>2.1 捕获所有数据变更</h3><p>通过读取数据库的日志，我们可以获得变更数据以正确顺序的完整列表。对完整变更历史数据感兴趣的用例来说至关重要。相比之下，使用基于轮询的方法，发生在两次轮循之间数据变更可能会丢失。例如，可能会在两次轮询之间插入或者删除记录，在这种情况下，基于轮询的 CDC 永远不会捕获该记录。</p>
+<p>与此相关的是另一个话题是停机，例如，CDC 工具停止更新时。使用基于轮询的 CDC，一旦 CDC 工具重新上线，也只会捕获给定记录的最新状态，在停机期间发生的数据变更都会被忽略。基于日志的 CDC 工具能够从关闭之前停止的点位恢复继续读取数据库日志，从而捕获数据变更的完整历史记录。</p>
+<h3 id="2-2-事件延迟低且避免增加-CPU-负载"><a href="#2-2-事件延迟低且避免增加-CPU-负载" class="headerlink" title="2.2 事件延迟低且避免增加 CPU 负载"></a>2.2 事件延迟低且避免增加 CPU 负载</h3><p>基于轮询的 CDC，我们可能会尝试增加轮询的频率，以降低中间数据变更丢失的概率。虽然在一定程度上有效，但轮询过于频繁可能会导致性能问题（因为用于轮询的查询会导致源数据库负载）。另一方面，增大轮询间隔可以降低 CPU 负载，但这样不仅会导致变更事件的丢失，还会导致数据变更收集延迟的增大。基于日志的 CDC 允许我们近乎实时地对数据变更做出反应，更不需要以花费 CPU 为代价来反复运行轮询查询。</p>
+<h3 id="2-3-对数据模型没有影响"><a href="#2-3-对数据模型没有影响" class="headerlink" title="2.3 对数据模型没有影响"></a>2.3 对数据模型没有影响</h3><p>基于轮询的 CDC 需要一些标识来识别自上次轮询以来发生变更的记录。因此，捕获表上需要有一些列，例如，可以使用 LAST_UPDATE_TIMESTAMP 列来查找变更的行。在某些情况下可能没问题，但在一些情况下，这种要求可能并不理想。我们需要确保捕获表上时间戳更新的正确性，无论是通过程序写入还是通过触发器触发。此外，如果要对历史创建的一些表进行捕获，可能会比较麻烦，因为这些表不一定有这样的列可供我们捕获。</p>
+<h3 id="2-4-可以捕获删除事件"><a href="#2-4-可以捕获删除事件" class="headerlink" title="2.4 可以捕获删除事件"></a>2.4 可以捕获删除事件</h3><p>基于轮询的 CDC，我们无法识别自上次轮询以来被删除的记录。这对于类似副本复制的用例来说是一个大问题，我们希望在源数据库和复制目标上拥有相同的数据集，这意味着如果它们已在源数据库中被删除，我们希望目标端中也能被删除。</p>
+<h3 id="2-5-可以捕获旧记录状态以及更多元数据"><a href="#2-5-可以捕获旧记录状态以及更多元数据" class="headerlink" title="2.5 可以捕获旧记录状态以及更多元数据"></a>2.5 可以捕获旧记录状态以及更多元数据</h3><p>根据源数据库的能力，基于日志的 CDC 可以为更新和删除事件提供旧记录状态（更新前或者删除前的记录状态）。而基于轮询的 CDC 只能获得行当前状态。在一个变更事件中获取旧行的状态对于许多用例来说非常有用，例如，我们可以使用带有新旧值的完整变更数据进行审计。</p>
+<p>此外，基于日志的 CDC 通常可以提供 schema 变更流（例如，以 DDL 语句的形式）并提供其他元数据，例如，事务 ID 或应用特定变更的用户。这些事情通常也可以通过基于查询的方法来实现（取决于数据库的能力），不过我还没有真正看到它在实践中完成。</p>
+<h2 id="3-结论"><a href="#3-结论" class="headerlink" title="3. 结论"></a>3. 结论</h2><p>通过上面我们知道基于日志的 CDC 的五个优势。请注意，这并不是说基于轮询的 CDC 没有了应用市场。例如，如果我们可以接受每一小时变更数据的传输，并且丢失一些中间版本的记录也没有问题或者我们就只是想要数据的当前状态，那么完全可以使用基于轮询的 CDC。</p>
+<p>但是，如果您对近实时地数据变捕获更感兴趣，并要求不能丢失任何变更事件（包括删除），那么我非常建议您探索基于日志的 CDC 的方案。如果数据源是 MySQL、PostgreSQL、MongoDB 等常见的数据库实现，建议使用 <a href="http://smartsi.club/introduction-debezium.html">Debezium</a> 来实现变更数据的捕获。</p>
 <p>欢迎关注我的公众号和博客：</p>
 <p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Other/smartsi.jpg?raw=true" alt=""></p>
-<p>原文：<a href="https://mp.weixin.qq.com/s/guHl9hnNgD22sBseiGDZ2g" target="_blank" rel="noopener">Flink JDBC Connector：Flink 与数据库集成最佳实践</a></p>
+<p>参考:</p>
+<ul>
+<li><a href="https://debezium.io/blog/2018/07/19/advantages-of-log-based-change-data-capture/" target="_blank" rel="noopener">Five Advantages of Log-Based Change Data Capture</a></li>
+<li><a href="https://mp.weixin.qq.com/s/_khnjLbX56Ud4yYFvHnmkA" target="_blank" rel="noopener">Flink CDC 原理、实践和优化</a></li>
+</ul>
 
       
     </div>
@@ -548,11 +491,11 @@
         <ul class="post-copyright">
   <li class="post-copyright-author">
     <strong>本文作者：</strong>
-    徐榜江
+    wy
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://smartsi.club/flink-jdbc-connector-with-database.html" title="<转>Flink JDBC Connector：Flink 与数据库集成最佳实践">http://smartsi.club/flink-jdbc-connector-with-database.html</a>
+    <a href="http://smartsi.club/advantages-of-log-based-change-data-capture.html" title="为什么选择基于日志的 CDC">http://smartsi.club/advantages-of-log-based-change-data-capture.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -567,7 +510,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Flink/" rel="tag"># Flink</a>
+            <a href="/tags/Debezium/" rel="tag"># Debezium</a>
           
         </div>
       
@@ -580,8 +523,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/queryable-states-in-apache-flink-how-it-works.html" rel="next" title="Flink中可查询状态是如何工作的">
-                <i class="fa fa-chevron-left"></i> Flink中可查询状态是如何工作的
+              <a href="/java-lambda-expressions-in-flink.html" rel="next" title="Flink DataStream Java Lambda 表达式的限制">
+                <i class="fa fa-chevron-left"></i> Flink DataStream Java Lambda 表达式的限制
               </a>
             
           </div>
@@ -589,10 +532,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/state-ttl-for-apache-flink-how-to-limit-the-lifetime-of-state.html" rel="prev" title="Flink 状态TTL如何限制状态的生命周期">
-                Flink 状态TTL如何限制状态的生命周期 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -808,7 +747,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-JDBC-Connector-的重构"><span class="nav-number">1.</span> <span class="nav-text">1. JDBC-Connector 的重构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-JDBC-Catalog"><span class="nav-number">2.</span> <span class="nav-text">2. JDBC Catalog</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-JDBC-Dialect"><span class="nav-number">3.</span> <span class="nav-text">3. JDBC Dialect</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-什么是-Dialect？"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 什么是 Dialect？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-如何保证-Dialect-Upsert-的幂等性？"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 如何保证 Dialect Upsert 的幂等性？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-如何自定义-Dialect？"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 如何自定义 Dialect？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-实践-Demo"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 实践 Demo</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-总结"><span class="nav-number">4.</span> <span class="nav-text">4. 总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-简介"><span class="nav-number">1.</span> <span class="nav-text">1. 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-优势"><span class="nav-number">2.</span> <span class="nav-text">2. 优势</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-捕获所有数据变更"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 捕获所有数据变更</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-事件延迟低且避免增加-CPU-负载"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 事件延迟低且避免增加 CPU 负载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-对数据模型没有影响"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 对数据模型没有影响</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-可以捕获删除事件"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 可以捕获删除事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-可以捕获旧记录状态以及更多元数据"><span class="nav-number">2.5.</span> <span class="nav-text">2.5 可以捕获旧记录状态以及更多元数据</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-结论"><span class="nav-number">3.</span> <span class="nav-text">3. 结论</span></a></li></ol></div>
             
 
           </div>
