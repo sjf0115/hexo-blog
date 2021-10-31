@@ -97,33 +97,35 @@
 
 
   
-  <meta name="keywords" content="Storm,Storm 基础," />
+  <meta name="keywords" content="Flink," />
 
 
-<meta name="description" content="Storm-redis 使用 Jedis 作为 Redis 客户端。 1. 如何使用添加Maven依赖：&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;org.apache.storm&amp;lt;/groupId&amp;gt;    &amp;lt;artifactId&amp;gt;storm-redis&amp;lt;/artifactId&amp;gt;    &amp;lt;version&amp;gt;$&amp;#123;s">
-<meta name="keywords" content="Storm,Storm 基础">
+<meta name="description" content="Flink 1.11 features 已经冻结，流批一体在新版中是浓墨重彩的一笔，在此提前对 Flink 1.11 中流批一体方面的改善进行深度解读，大家可期待正式版本的发布。 Flink 1.11 中流计算结合 Hive 批处理数仓，给离线数仓带来 Flink 流处理实时且 Exactly-once 的能力。另外，Flink 1.11 完善了 Flink 自身的 Filesystem conn">
+<meta name="keywords" content="Flink">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Storm与Redis集成">
-<meta property="og:url" content="http://smartsi.club/how-to-use-redis-in-storm.html">
+<meta property="og:title" content="Flink SQL 1.11 流批一体 Hive 数仓">
+<meta property="og:url" content="http://smartsi.club/how-to-use-hive-in-flink-sql-1.11.html">
 <meta property="og:site_name" content="SmartSi">
-<meta property="og:description" content="Storm-redis 使用 Jedis 作为 Redis 客户端。 1. 如何使用添加Maven依赖：&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;org.apache.storm&amp;lt;/groupId&amp;gt;    &amp;lt;artifactId&amp;gt;storm-redis&amp;lt;/artifactId&amp;gt;    &amp;lt;version&amp;gt;$&amp;#123;s">
+<meta property="og:description" content="Flink 1.11 features 已经冻结，流批一体在新版中是浓墨重彩的一笔，在此提前对 Flink 1.11 中流批一体方面的改善进行深度解读，大家可期待正式版本的发布。 Flink 1.11 中流计算结合 Hive 批处理数仓，给离线数仓带来 Flink 流处理实时且 Exactly-once 的能力。另外，Flink 1.11 完善了 Flink 自身的 Filesystem conn">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Other/smartsi.jpg?raw=true">
-<meta property="og:updated_time" content="2019-05-26T13:17:05.000Z">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/how-to-use-hive-in-flink-sql-1.11-1.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/how-to-use-hive-in-flink-sql-1.11-2.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Other/smartsi.jpg?raw=true">
+<meta property="og:updated_time" content="2021-10-31T03:46:10.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Storm与Redis集成">
-<meta name="twitter:description" content="Storm-redis 使用 Jedis 作为 Redis 客户端。 1. 如何使用添加Maven依赖：&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;org.apache.storm&amp;lt;/groupId&amp;gt;    &amp;lt;artifactId&amp;gt;storm-redis&amp;lt;/artifactId&amp;gt;    &amp;lt;version&amp;gt;$&amp;#123;s">
-<meta name="twitter:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Other/smartsi.jpg?raw=true">
+<meta name="twitter:title" content="Flink SQL 1.11 流批一体 Hive 数仓">
+<meta name="twitter:description" content="Flink 1.11 features 已经冻结，流批一体在新版中是浓墨重彩的一笔，在此提前对 Flink 1.11 中流批一体方面的改善进行深度解读，大家可期待正式版本的发布。 Flink 1.11 中流计算结合 Hive 批处理数仓，给离线数仓带来 Flink 流处理实时且 Exactly-once 的能力。另外，Flink 1.11 完善了 Flink 自身的 Filesystem conn">
+<meta name="twitter:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/how-to-use-hive-in-flink-sql-1.11-1.png?raw=true">
 
 
 
 
 
 
-  <link rel="canonical" href="http://smartsi.club/how-to-use-redis-in-storm.html"/>
+  <link rel="canonical" href="http://smartsi.club/how-to-use-hive-in-flink-sql-1.11.html"/>
 
 
-  <title>Storm与Redis集成 | SmartSi</title>
+  <title>Flink SQL 1.11 流批一体 Hive 数仓 | SmartSi</title>
   
 
 
@@ -304,7 +306,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://smartsi.club/how-to-use-redis-in-storm.html">
+    <link itemprop="mainEntityOfPage" href="http://smartsi.club/how-to-use-hive-in-flink-sql-1.11.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="sjf0115">
@@ -321,7 +323,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">Storm与Redis集成</h2>
+          <h2 class="post-title" itemprop="name headline">Flink SQL 1.11 流批一体 Hive 数仓</h2>
         
 
         <div class="post-meta">
@@ -333,7 +335,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-27T11:05:34+08:00">2019-05-27</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-20T15:47:21+08:00">2020-05-20</time>
             
 
             
@@ -347,7 +349,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-05-26T21:17:05+08:00">2019-05-26</time>
+              <time title="更新于" itemprop="dateModified" datetime="2021-10-31T11:46:10+08:00">2021-10-31</time>
             
           </span>
 
@@ -363,7 +365,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Storm/" itemprop="url" rel="index"><span itemprop="name">Storm</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Flink/" itemprop="url" rel="index"><span itemprop="name">Flink</span></a></span>
 
                 
                 
@@ -378,8 +380,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/how-to-use-redis-in-storm.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/how-to-use-redis-in-storm.html" itemprop="commentCount"></span>
+                <a href="/how-to-use-hive-in-flink-sql-1.11.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/how-to-use-hive-in-flink-sql-1.11.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -387,7 +389,7 @@
 
           
           
-             <span id="/how-to-use-redis-in-storm.html" class="leancloud_visitors" data-flag-title="Storm与Redis集成">
+             <span id="/how-to-use-hive-in-flink-sql-1.11.html" class="leancloud_visitors" data-flag-title="Flink SQL 1.11 流批一体 Hive 数仓">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -418,31 +420,104 @@
       
 
       
-        <p>Storm-redis 使用 Jedis 作为 Redis 客户端。</p>
-<h3 id="1-如何使用"><a href="#1-如何使用" class="headerlink" title="1. 如何使用"></a>1. 如何使用</h3><p>添加Maven依赖：<br><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.storm<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>storm-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;storm.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">type</span>&gt;</span>jar<span class="tag">&lt;/<span class="name">type</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="2-常用Bolt"><a href="#2-常用Bolt" class="headerlink" title="2. 常用Bolt"></a>2. 常用Bolt</h3><p>Storm-redis 提供了基本的 Bolt 实现：RedisLookupBolt，RedisStoreBolt 以及 RedisFilterBolt。</p>
-<p>根据名字我们就可以知道其功能，RedisLookupBolt 从 Redis 中检索指定键的值，RedisStoreBolt 将键/值存储到 Redis 上。RedisFilterBolt 过滤键或字段不在 Redis 上的元组。</p>
-<p>一个元组匹配一个键/值对，你可以在 TupleMapper 中定义匹配模式。你还可以从 RedisDataTypeDescription 中选择你需要的数据类型。通过  RedisDataTypeDescription.RedisDataType 来查看支持哪些数据类型。一些数据类型，例如散列，有序集，还需要指定额外的键来将元组转换为元素：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">RedisDataTypeDescription</span><span class="params">(RedisDataType dataType, String additionalKey)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.dataType = dataType;</span><br><span class="line">    <span class="keyword">this</span>.additionalKey = additionalKey;</span><br><span class="line">    <span class="keyword">if</span> (dataType == RedisDataType.HASH ||</span><br><span class="line">            dataType == RedisDataType.SORTED_SET || dataType == RedisDataType.GEO) &#123;</span><br><span class="line">        <span class="keyword">if</span> (additionalKey == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Hash, Sorted Set and GEO should have additional key"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这些接口与 RedisLookupMapper，RedisStoreMapper 以及 RedisFilterMapper 组合使用，分别适用于 RedisLookupBolt，RedisStoreBolt 以及 RedisFilterBolt。当你实现 RedisFilterMapper 时，请确保在 declareOutputFields() 中声明与输入流相同的字段，因为 FilterBolt 只是转发存在 Redis 上输入元组。</p>
-<h4 id="2-1-RedisLookupBolt"><a href="#2-1-RedisLookupBolt" class="headerlink" title="2.1 RedisLookupBolt"></a>2.1 RedisLookupBolt</h4><p>实现RedisLookupMapper：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WordCountRedisLookupMapper</span> <span class="keyword">implements</span> <span class="title">RedisLookupMapper</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> RedisDataTypeDescription description;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String hashKey = <span class="string">"wordCount"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">WordCountRedisLookupMapper</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        description = <span class="keyword">new</span> RedisDataTypeDescription(</span><br><span class="line">                RedisDataTypeDescription.RedisDataType.HASH, hashKey);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Values&gt; <span class="title">toTuple</span><span class="params">(ITuple input, Object value)</span> </span>&#123;</span><br><span class="line">        String member = getKeyFromTuple(input);</span><br><span class="line">        List&lt;Values&gt; values = Lists.newArrayList();</span><br><span class="line">        values.add(<span class="keyword">new</span> Values(member, value));</span><br><span class="line">        <span class="keyword">return</span> values;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">declareOutputFields</span><span class="params">(OutputFieldsDeclarer declarer)</span> </span>&#123;</span><br><span class="line">        declarer.declare(<span class="keyword">new</span> Fields(<span class="string">"wordName"</span>, <span class="string">"count"</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedisDataTypeDescription <span class="title">getDataTypeDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> description;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getKeyFromTuple</span><span class="params">(ITuple tuple)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> tuple.getStringByField(<span class="string">"word"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getValueFromTuple</span><span class="params">(ITuple tuple)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>根据如下方式使用：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">JedisPoolConfig poolConfig = <span class="keyword">new</span> JedisPoolConfig.Builder()</span><br><span class="line">        .setHost(host).setPort(port).build();</span><br><span class="line">RedisLookupMapper lookupMapper = <span class="keyword">new</span> WordCountRedisLookupMapper();</span><br><span class="line">RedisLookupBolt lookupBolt = <span class="keyword">new</span> RedisLookupBolt(poolConfig, lookupMapper);</span><br></pre></td></tr></table></figure></p>
-<h4 id="2-2-RedisStoreBolt"><a href="#2-2-RedisStoreBolt" class="headerlink" title="2.2 RedisStoreBolt"></a>2.2 RedisStoreBolt</h4><p>实现RedisStoreMapper：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WordCountStoreMapper</span> <span class="keyword">implements</span> <span class="title">RedisStoreMapper</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> RedisDataTypeDescription description;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String hashKey = <span class="string">"wordCount"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">WordCountStoreMapper</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        description = <span class="keyword">new</span> RedisDataTypeDescription(</span><br><span class="line">            RedisDataTypeDescription.RedisDataType.HASH, hashKey);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedisDataTypeDescription <span class="title">getDataTypeDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> description;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getKeyFromTuple</span><span class="params">(ITuple tuple)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> tuple.getStringByField(<span class="string">"word"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getValueFromTuple</span><span class="params">(ITuple tuple)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> tuple.getStringByField(<span class="string">"count"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>根据如下方式使用：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">JedisPoolConfig poolConfig = <span class="keyword">new</span> JedisPoolConfig.Builder()</span><br><span class="line">                .setHost(host).setPort(port).build();</span><br><span class="line">RedisStoreMapper storeMapper = <span class="keyword">new</span> WordCountStoreMapper();</span><br><span class="line">RedisStoreBolt storeBolt = <span class="keyword">new</span> RedisStoreBolt(poolConfig, storeMapper);</span><br></pre></td></tr></table></figure></p>
-<h4 id="2-3-RedisFilterBolt"><a href="#2-3-RedisFilterBolt" class="headerlink" title="2.3 RedisFilterBolt"></a>2.3 RedisFilterBolt</h4><p>实现RedisFilterMapper：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BlacklistWordFilterMapper</span> <span class="keyword">implements</span> <span class="title">RedisFilterMapper</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> RedisDataTypeDescription description;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String setKey = <span class="string">"blacklist"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BlacklistWordFilterMapper</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        description = <span class="keyword">new</span> RedisDataTypeDescription(</span><br><span class="line">                RedisDataTypeDescription.RedisDataType.SET, setKey);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">declareOutputFields</span><span class="params">(OutputFieldsDeclarer declarer)</span> </span>&#123;</span><br><span class="line">        declarer.declare(<span class="keyword">new</span> Fields(<span class="string">"word"</span>, <span class="string">"count"</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedisDataTypeDescription <span class="title">getDataTypeDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> description;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getKeyFromTuple</span><span class="params">(ITuple tuple)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> tuple.getStringByField(<span class="string">"word"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getValueFromTuple</span><span class="params">(ITuple tuple)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>根据如下方式使用：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">JedisPoolConfig poolConfig = <span class="keyword">new</span> JedisPoolConfig.Builder()</span><br><span class="line">        .setHost(host).setPort(port).build();</span><br><span class="line">RedisFilterMapper filterMapper = <span class="keyword">new</span> BlacklistWordFilterMapper();</span><br><span class="line">RedisFilterBolt filterBolt = <span class="keyword">new</span> RedisFilterBolt(poolConfig, filterMapper);</span><br></pre></td></tr></table></figure></p>
-<h3 id="3-自定义Bolt"><a href="#3-自定义Bolt" class="headerlink" title="3. 自定义Bolt"></a>3. 自定义Bolt</h3><p>如果你的场景不适合 RedisStoreBolt，RedisLookupBolt 以及 RedisFilterBolt，那么 storm-redis 还提供了 AbstractRedisBolt，你可以自定义自己的业务逻辑。<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">LookupWordTotalCountBolt</span> <span class="keyword">extends</span> <span class="title">AbstractRedisBolt</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger LOG = LoggerFactory.getLogger(LookupWordTotalCountBolt.class);</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Random RANDOM = <span class="keyword">new</span> Random();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LookupWordTotalCountBolt</span><span class="params">(JedisPoolConfig config)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(config);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LookupWordTotalCountBolt</span><span class="params">(JedisClusterConfig config)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(config);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(Tuple input)</span> </span>&#123;</span><br><span class="line">        JedisCommands jedisCommands = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            jedisCommands = getInstance();</span><br><span class="line">            String wordName = input.getStringByField(<span class="string">"word"</span>);</span><br><span class="line">            String countStr = jedisCommands.get(wordName);</span><br><span class="line">            <span class="keyword">if</span> (countStr != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">int</span> count = Integer.parseInt(countStr);</span><br><span class="line">                <span class="keyword">this</span>.collector.emit(<span class="keyword">new</span> Values(wordName, count));</span><br><span class="line"></span><br><span class="line">                <span class="comment">// print lookup result with low probability</span></span><br><span class="line">                <span class="keyword">if</span>(RANDOM.nextInt(<span class="number">1000</span>) &gt; <span class="number">995</span>) &#123;</span><br><span class="line">                    LOG.info(<span class="string">"Lookup result - word : "</span> + wordName + <span class="string">" / count : "</span> + count);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">// skip</span></span><br><span class="line">                LOG.warn(<span class="string">"Word not found in Redis - word : "</span> + wordName);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (jedisCommands != <span class="keyword">null</span>) &#123;</span><br><span class="line">                returnInstance(jedisCommands);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">this</span>.collector.ack(input);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">declareOutputFields</span><span class="params">(OutputFieldsDeclarer declarer)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// wordName, count</span></span><br><span class="line">        declarer.declare(<span class="keyword">new</span> Fields(<span class="string">"wordName"</span>, <span class="string">"count"</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="4-Trident-State-用法"><a href="#4-Trident-State-用法" class="headerlink" title="4. Trident State 用法"></a>4. Trident State 用法</h3><ul>
-<li>RedisState 和 RedisMapState，为单机 Redis 模式提供了 Jedis 接口。</li>
-<li>RedisClusterState 和 RedisClusterMapState，为 Redis 集群模式提供了 JedisCluster 接口。</li>
+        <p>Flink 1.11 features 已经冻结，流批一体在新版中是浓墨重彩的一笔，在此提前对 Flink 1.11 中流批一体方面的改善进行深度解读，大家可期待正式版本的发布。</p>
+<p>Flink 1.11 中流计算结合 Hive 批处理数仓，给离线数仓带来 Flink 流处理实时且 Exactly-once 的能力。另外，Flink 1.11 完善了 Flink 自身的 Filesystem connector，大大提高了 Flink 的易用性。</p>
+<h2 id="1-数仓架构"><a href="#1-数仓架构" class="headerlink" title="1. 数仓架构"></a>1. 数仓架构</h2><h3 id="1-1-离线数仓"><a href="#1-1-离线数仓" class="headerlink" title="1.1 离线数仓"></a>1.1 离线数仓</h3><p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/how-to-use-hive-in-flink-sql-1.11-1.png?raw=true" alt=""></p>
+<p>传统的离线数仓是由 Hive 加上 HDFS 的方案，Hive 数仓有着成熟和稳定的大数据分析能力，结合调度和上下游工具，构建一个完整的数据处理分析平台，流程如下：</p>
+<ul>
+<li>Flume 把数据导入 Hive 数仓</li>
+<li>调度工具，调度 ETL 作业进行数据处理</li>
+<li>在 Hive 数仓的表上，可以进行灵活的 Ad-hoc 查询</li>
+<li>调度工具，调度聚合作业输出到BI层的数据库中</li>
 </ul>
-<p>RedisState:<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">JedisPoolConfig poolConfig = <span class="keyword">new</span> JedisPoolConfig.Builder()</span><br><span class="line">    .setHost(redisHost).setPort(redisPort)</span><br><span class="line">    .build();</span><br><span class="line">RedisStoreMapper storeMapper = <span class="keyword">new</span> WordCountStoreMapper();</span><br><span class="line">RedisLookupMapper lookupMapper = <span class="keyword">new</span> WordCountLookupMapper();</span><br><span class="line">RedisState.Factory factory = <span class="keyword">new</span> RedisState.Factory(poolConfig);</span><br><span class="line"></span><br><span class="line">TridentTopology topology = <span class="keyword">new</span> TridentTopology();</span><br><span class="line">Stream stream = topology.newStream(<span class="string">"spout1"</span>, spout);</span><br><span class="line"></span><br><span class="line">stream.partitionPersist(factory,</span><br><span class="line">    fields,</span><br><span class="line">    <span class="keyword">new</span> RedisStateUpdater(storeMapper).withExpire(<span class="number">86400000</span>),</span><br><span class="line">    <span class="keyword">new</span> Fields()</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">TridentState state = topology.newStaticState(factory);</span><br><span class="line">stream = stream.stateQuery(state, <span class="keyword">new</span> Fields(<span class="string">"word"</span>),</span><br><span class="line">    <span class="keyword">new</span> RedisStateQuerier(lookupMapper),</span><br><span class="line">    <span class="keyword">new</span> Fields(<span class="string">"columnName"</span>,<span class="string">"columnValue"</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure></p>
-<p>RedisClusterState:<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Set&lt;InetSocketAddress&gt; nodes = <span class="keyword">new</span> HashSet&lt;InetSocketAddress&gt;();</span><br><span class="line"><span class="keyword">for</span> (String hostPort : redisHostPort.split(<span class="string">","</span>)) &#123;</span><br><span class="line">    String[] host_port = hostPort.split(<span class="string">":"</span>);</span><br><span class="line">    nodes.add(<span class="keyword">new</span> InetSocketAddress(host_port[<span class="number">0</span>], Integer.valueOf(host_port[<span class="number">1</span>])));</span><br><span class="line">&#125;</span><br><span class="line">JedisClusterConfig clusterConfig = <span class="keyword">new</span> JedisClusterConfig.Builder().setNodes(nodes).build();</span><br><span class="line">RedisStoreMapper storeMapper = <span class="keyword">new</span> WordCountStoreMapper();</span><br><span class="line">RedisLookupMapper lookupMapper = <span class="keyword">new</span> WordCountLookupMapper();</span><br><span class="line">RedisClusterState.Factory factory = <span class="keyword">new</span> RedisClusterState.Factory(clusterConfig);</span><br><span class="line"></span><br><span class="line">TridentTopology topology = <span class="keyword">new</span> TridentTopology();</span><br><span class="line">Stream stream = topology.newStream(<span class="string">"spout1"</span>, spout);</span><br><span class="line"></span><br><span class="line">stream.partitionPersist(factory, fields,</span><br><span class="line">    <span class="keyword">new</span> RedisClusterStateUpdater(storeMapper).withExpire(<span class="number">86400000</span>,</span><br><span class="line">    <span class="keyword">new</span> Fields()</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">TridentState state = topology.newStaticState(factory);</span><br><span class="line">stream = stream.stateQuery(state, <span class="keyword">new</span> Fields(<span class="string">"word"</span>),</span><br><span class="line">    <span class="keyword">new</span> RedisClusterStateQuerier(lookupMapper),</span><br><span class="line">    <span class="keyword">new</span> Fields(<span class="string">"columnName"</span>,<span class="string">"columnValue"</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure></p>
-<blockquote>
-<p>storm版本:2.0.0-SNAPSHOT</p>
-</blockquote>
+<p>这个流程下的问题是：</p>
+<ul>
+<li>导入过程不够灵活，这应该是一个灵活 SQL 流计算的过程</li>
+<li>基于调度作业的级联计算，实时性太差</li>
+<li>ETL 不能有流式的增量计算</li>
+</ul>
+<h3 id="1-2-实时数仓"><a href="#1-2-实时数仓" class="headerlink" title="1.2 实时数仓"></a>1.2 实时数仓</h3><p>针对离线数仓的特点，随着实时计算的流行，越来越多的公司引入实时数仓，实时数仓基于 Kafka + Flink streaming，定义全流程的流计算作业，有着秒级甚至毫秒的实时性。</p>
+<p>但是，实时数仓的一个问题是历史数据只有 3-15 天，无法在其上做 Ad-hoc 的查询。如果搭建 Lambda 的离线+实时的架构，维护成本、计算存储成本、一致性保证、重复的开发会带来很大的负担。</p>
+<h2 id="2-Hive-实时化"><a href="#2-Hive-实时化" class="headerlink" title="2. Hive 实时化"></a>2. Hive 实时化</h2><p>Flink 1.11 为解决离线数仓的问题，给 Hive 数仓带来了实时化的能力，加强各环节的实时性的同时，又不会给架构造成太大的负担。</p>
+<h3 id="2-1-Hive-Streaming-Sink"><a href="#2-1-Hive-Streaming-Sink" class="headerlink" title="2.1 Hive Streaming Sink"></a>2.1 Hive Streaming Sink</h3><p>实时数据导入 Hive 数仓，你是怎么做的？Flume、Spark Streaming 还是 Flink Datastream？千呼万唤，Table / SQL 层的 Streaming File Sink 来啦，Flink 1.11 支持 <a href="https://cwiki.apache.org/confluence/display/FLINK/FLIP-115%3A+Filesystem+connector+in+Table" target="_blank" rel="noopener">Filesystem Connector</a> 和 Hive Connector 的 <a href="https://issues.apache.org/jira/browse/FLINK-14255" target="_blank" rel="noopener">Streaming Sink</a>。</p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/how-to-use-hive-in-flink-sql-1.11-2.png?raw=true" alt=""></p>
+<p>Table/SQL 层的 Streaming Sink 不仅：</p>
+<ul>
+<li>带来 Flink Streaming 的实时/准实时的能力</li>
+<li>支持 Filesystem Connector 的全部 Formats(csv,json,avro,parquet,orc)</li>
+<li>支持 Hive table 的所有 Formats</li>
+<li>继承 Datastream StreamingFileSink 的所有特性：Exactly-once、支持 HDFS, S3。</li>
+</ul>
+<p>而且引入了新的机制：Partition Commit。</p>
+<p>一个合理的数仓的数据导入，不仅包含数据文件的写入，也包含 Partition 的可见性提交。当某个 Partition 完成写入时，需要通知 Hive Metastore 或者在文件夹内添加 SUCCESS 文件。Flink 1.11 的 Partition Commit 机制可以让你：</p>
+<ul>
+<li>Trigger：控制 Partition 提交的时机，可以根据 Watermark 加上从 Partition 中提取的时间来判断，也可以通过 Processing Time 来判断。你可以控制：是想先尽快看到没写完的 Partition；还是保证写完 Partition 之后，再让下游看到它。</li>
+<li>Policy：提交策略，内置支持 SUCCESS 文件和 Metastore 的提交，你也可以扩展提交的实现，比如在提交阶段触发 Hive 的 analysis 来生成统计信息，或者进行小文件的合并等等。</li>
+</ul>
+<p>一个例子：<br><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 结合Hive dialect使用Hive DDL语法</span></span><br><span class="line"><span class="keyword">SET</span> table.sql-dialect=hive;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> hive_table (</span><br><span class="line">  user_id <span class="keyword">STRING</span>,</span><br><span class="line">  order_amount <span class="keyword">DOUBLE</span></span><br><span class="line">) PARTITIONED <span class="keyword">BY</span> (</span><br><span class="line">  dt <span class="keyword">STRING</span>,</span><br><span class="line">  <span class="keyword">hour</span> <span class="keyword">STRING</span></span><br><span class="line">) <span class="keyword">STORED</span> <span class="keyword">AS</span> PARQUET TBLPROPERTIES (</span><br><span class="line">  <span class="comment">-- 使用partition中抽取时间，加上watermark决定partiton commit的时机</span></span><br><span class="line">  <span class="string">'sink.partition-commit.trigger'</span>=<span class="string">'partition-time'</span>,</span><br><span class="line">  <span class="comment">-- 配置hour级别的partition时间抽取策略，这个例子中dt字段是yyyy-MM-dd格式的天，hour是0-23的小时</span></span><br><span class="line">  <span class="comment">-- timestamp-pattern定义了如何从这两个partition字段推出完整的timestamp</span></span><br><span class="line">  <span class="string">'partition.time-extractor.timestamp-pattern'</span>=<span class="string">'$dt $hour:00:00'</span>,</span><br><span class="line">  <span class="comment">-- 配置dalay为小时级，当 watermark &gt; partition时间 + 1小时，会commit这个partition</span></span><br><span class="line">  <span class="string">'sink.partition-commit.delay'</span>=<span class="string">'1 h'</span>,</span><br><span class="line">  <span class="comment">-- partitiion commit的策略是：先更新metastore(addPartition)，再写SUCCESS文件</span></span><br><span class="line">  <span class="string">'sink.partition-commit.policy.kind'</span>=<span class="string">'metastore,success-file'</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">SET</span> table.sql-dialect=<span class="keyword">default</span>;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> kafka_table (</span><br><span class="line">  user_id <span class="keyword">STRING</span>,</span><br><span class="line">  order_amount <span class="keyword">DOUBLE</span>,</span><br><span class="line">  log_ts <span class="keyword">TIMESTAMP</span>(<span class="number">3</span>),</span><br><span class="line">  WATERMARK <span class="keyword">FOR</span> log_ts <span class="keyword">AS</span> log_ts - <span class="built_in">INTERVAL</span> <span class="string">'5'</span> <span class="keyword">SECOND</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 可以结合Table Hints动态指定table properties [3]</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="keyword">TABLE</span> hive_table</span><br><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">  user_id, order_amount,</span><br><span class="line">  <span class="keyword">DATE_FORMAT</span>(log_ts, <span class="string">'yyyy-MM-dd'</span>),</span><br><span class="line">  <span class="keyword">DATE_FORMAT</span>(log_ts, <span class="string">'HH'</span>)</span><br><span class="line"><span class="keyword">FROM</span> kafka_table;</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-2-Hive-Streaming-Source"><a href="#2-2-Hive-Streaming-Source" class="headerlink" title="2.2 Hive Streaming Source"></a>2.2 Hive Streaming Source</h3><p>Hive 数仓中存在大量的 ETL 任务，这些任务往往是通过调度工具来周期性的运行，这样做主要有两个问题：</p>
+<ul>
+<li>实时性不强，往往调度最小是小时级。</li>
+<li>流程复杂，组件多，容易出现问题。</li>
+</ul>
+<p>针对这些离线的 ETL 作业，Flink 1.11 为此开发了实时化的 Hive 流读，支持：</p>
+<ul>
+<li><a href="https://issues.apache.org/jira/browse/FLINK-17434" target="_blank" rel="noopener">Partition 表</a>，监控 Partition 的生成，增量读取新的 Partition。</li>
+<li><a href="https://issues.apache.org/jira/browse/FLINK-17435" target="_blank" rel="noopener">非 Partition 表</a>，监控文件夹内新文件的生成，增量读取新的文件。</li>
+</ul>
+<p>你甚至可以使用10分钟级别的分区策略，使用 Flink 的 Hive Streaming Source 和 Hive Streaming Sink 可以大大提高 Hive 数仓的实时性到准实时分钟级，在实时化的同时，也支持针对 Table 全量的 Ad-hoc 查询，提高灵活性。<br><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> hive_table</span><br><span class="line"><span class="comment">/*+ OPTIONS('streaming-source.enable'='true',</span></span><br><span class="line"><span class="comment">'streaming-source.consume-start-offset'='2020-05-20') */</span>;</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-3-实时数据关联-Hive-表"><a href="#2-3-实时数据关联-Hive-表" class="headerlink" title="2.3 实时数据关联 Hive 表"></a>2.3 实时数据关联 Hive 表</h3><p>在 Flink 与 Hive 集成的功能发布以后，我们收到最多的用户反馈之一就是希望能够将 Flink 的实时数据与离线的 Hive 表进行关联。因此，在 Flink 1.11 中，我们支持将实时表与 Hive 表进行 <a href="https://issues.apache.org/jira/browse/FLINK-17387" target="_blank" rel="noopener">Temporal Join</a>。沿用 Flink 官方文档中的例子，假定 Orders 是实时表，而 LatestRates 是一张 Hive 表，用户可以通过以下语句进行 Temporal Join：<br><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">  o.amout, o.currency, r.rate, o.amount * r.rate</span><br><span class="line"><span class="keyword">FROM</span> Orders <span class="keyword">AS</span> o</span><br><span class="line"><span class="keyword">JOIN</span> LatestRates <span class="keyword">FOR</span> SYSTEM_TIME <span class="keyword">AS</span> <span class="keyword">OF</span> o.proctime <span class="keyword">AS</span> r</span><br><span class="line"><span class="keyword">ON</span> r.currency = o.currency</span><br></pre></td></tr></table></figure></p>
+<p>与 Hive 表进行 Temporal Join 目前只支持 Processing Time，我们会把 Hive 表的数据缓存到内存中，并按照固定的时间间隔去更新缓存的数据。用户可以通过参数 ‘lookup.join.cache.ttl’ 来控制缓存更新的间隔，默认间隔为一个小时。’lookup.join.cache.ttl’ 需要配置到 Hive 表的 property 当中，因此每张表可以有不同的配置。另外，由于需要将整张 Hive 表加载到内存中，因此目前只适用于 Hive 表较小的场景。</p>
+<h2 id="3-Hive-增强"><a href="#3-Hive-增强" class="headerlink" title="3. Hive 增强"></a>3. Hive 增强</h2><h3 id="3-1-Hive-Dialect-语法兼容"><a href="#3-1-Hive-Dialect-语法兼容" class="headerlink" title="3.1 Hive Dialect 语法兼容"></a>3.1 Hive Dialect 语法兼容</h3><p>Flink on Hive 用户并不能很好的使用 DDL，主要是因为：</p>
+<ul>
+<li>Flink 1.10 中进一步完善了 DDL，但由于 Flink 与 Hive 在元数据语义上的差异，通过 Flink DDL 来操作 Hive 元数据的可用性比较差，仅能覆盖很少的应用场景。</li>
+<li>使用 Flink 对接 Hive 的用户经常需要切换到 Hive CLI 来执行 DDL。</li>
+</ul>
+<p>针对上述两个问题，我们提出了 <a href="https://cwiki.apache.org/confluence/display/FLINK/FLIP-123%3A+DDL+and+DML+compatibility+for+Hive+connector" target="_blank" rel="noopener">FLIP-123</a>，通过 Hive Dialect 为用户提供 Hive 语法兼容。该功能的最终目标，是为用户提供近似 Hive CLI/Beeline 的使用体验，让用户无需在 Flink 和 Hive 的 CLI 之间进行切换，甚至可以直接迁移部分 Hive 脚本到 Flink 中执行。</p>
+<p>在 Flink 1.11 中，Hive Dialect 可以支持大部分常用的 DDL，比如 CREATE/ALTER TABLE、CHANGE/REPLACE COLUMN、ADD/DROP PARTITION 等等。为此，我们为 Hive Dialect 实现了一个独立的 parser，Flink 会根据用户指定的 Dialect 决定使用哪个 parser 来解析 SQL 语句。用户可以通过配置项 ‘ table.sql-dialect’ 来指定使用的 SQL Dialect，默认值为 ‘default’，即 Flink 原生的 Dialect。如果将其设置为 ‘hive’ 时就开启了 Hive Dialect。对于 SQL 用户，可以在 yaml 文件中设置 ‘table.sql-dialect’ 来指定 session 的初始 Dialect，也可以通过 set 命令来动态调整需要使用的 Dialect，而无需重启 session。</p>
+<p>Hive Dialect 目前所支持的具体功能可以参考 FLIP-123 或 Flink 的官方文档。另外，该功能的一些设计原则和使用注意事项如下：</p>
+<ul>
+<li>Hive Dialect 只能用于操作 Hive 表，而不是 Flink 原生的表（如 Kafka、ES 的表），这也意味着 Hive Dialect 需要配合 HiveCatalog 使用。</li>
+<li>使用 Hive Dialect 时，原有的 Flink 的一些语法可能会无法使用（例如 Flink 定义的类型别名），在需要使用 Flink 语法时可以动态切换到默认的 Dialect。</li>
+<li>Hive Dialect 的 DDL 语法定义基于 Hive 的官方文档，而不同 Hive 版本之间语法可能会有轻微的差异，需要用户进行一定的调整。</li>
+<li>Hive Dialect 的语法实现基于 Calcite，而 Calcite 与 Hive 有不同的保留关键字。因此，某些在 Hive 中可以直接作为标识符的关键字（如 ‘default’）,在 Hive Dialect 中可能需要进行转义。</li>
+</ul>
+<h3 id="3-2-向量化读取"><a href="#3-2-向量化读取" class="headerlink" title="3.2 向量化读取"></a>3.2 向量化读取</h3><p>Flink 1.10 中，Flink 已经支持了 ORC (Hive 2+) 的向量化读取支持，但是这很局限，为此，Flink 1.11 增加了更多的向量化支持：</p>
+<ul>
+<li>ORC for Hive 1.x [8]</li>
+<li>Parquet for Hive 1,2,3 [9]</li>
+</ul>
+<p>也就是说已经补全了所有版本的 Parquet 和 ORC 向量化支持，默认是开启的，提供开关。</p>
+<h3 id="3-3-简化-Hive-依赖"><a href="#3-3-简化-Hive-依赖" class="headerlink" title="3.3 简化 Hive 依赖"></a>3.3 简化 Hive 依赖</h3><p>Flink 1.10 中，Flink 文档中列出了所需的 Hive 相关依赖，推荐用户自行下载。但是这仍然稍显麻烦，所以在 1.11 中，Flink 提供了内置的<a href="https://issues.apache.org/jira/browse/FLINK-16455" target="_blank" rel="noopener">依赖支持</a>：</p>
+<ul>
+<li>flink-sql-connector-hive-1.2.2_2.11-1.11.jar：Hive 1 的依赖版本。</li>
+<li>flink-sql-connector-hive-2.2.0_2.11-1.11.jar：Hive 2.0 - 2.2 的依赖版本。</li>
+<li>flink-sql-connector-hive-2.3.6_2.11-1.11.jar：Hive 2.3 的依赖版本。</li>
+<li>flink-sql-connector-hive-3.1.2_2.11-1.11.jar：Hive 3 的依赖版本。</li>
+</ul>
+<p>现在，你只需要单独下一个包，再搞定 HADOOP_CLASSPATH，即可运行 Flink on Hive。</p>
+<h2 id="4-Flink-增强"><a href="#4-Flink-增强" class="headerlink" title="4. Flink 增强"></a>4. Flink 增强</h2><p>除了 Hive 相关的 features，Flink 1.11 也完成了大量其它关于流批一体的增强。</p>
+<h3 id="4-1-Flink-Filesystem-connector"><a href="#4-1-Flink-Filesystem-connector" class="headerlink" title="4.1 Flink Filesystem connector"></a>4.1 Flink Filesystem connector</h3><p>Flink table 在长久以来只支持一个 csv 的 file system table，而且它还不支持 Partition，行为上在某些方面也有些不符合大数据计算的直觉。在 Flink 1.11，重构了整个 Filesystem connector 的实现：</p>
+<ul>
+<li>结合 Partition，现在，Filesystem connector 支持 SQL 中 Partition 的所有语义，支持 Partition 的 DDL，支持 Partition Pruning，支持静态/动态 Partition 的插入，支持 overwrite 的插入。</li>
+<li>支持各种 Formats：<ul>
+<li>CSV</li>
+<li>JSON</li>
+<li>Aparch AVRO</li>
+<li>Apache Parquet</li>
+<li>Apache ORC.</li>
+</ul>
+</li>
+<li>支持 Batch 的读写。</li>
+<li>支持 Streaming sink，也支持上述 Hive 支持的 Partition commit，支持写 Success 文件。</li>
+</ul>
+<p>例子：<br><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> fs_table (</span><br><span class="line">  user_id <span class="keyword">STRING</span>,</span><br><span class="line">  order_amount <span class="keyword">DOUBLE</span>,</span><br><span class="line">  dt <span class="keyword">STRING</span>,</span><br><span class="line">  <span class="keyword">hour</span> <span class="keyword">STRING</span></span><br><span class="line">) PARTITIONED <span class="keyword">BY</span> (dt, <span class="keyword">hour</span>) <span class="keyword">WITH</span> (</span><br><span class="line">  <span class="string">'connector'</span>=<span class="string">'filesystem'</span>,</span><br><span class="line">  <span class="string">'path'</span>=<span class="string">'...'</span>,</span><br><span class="line">  <span class="string">'format'</span>=<span class="string">'parquet'</span>,</span><br><span class="line">  <span class="string">'partition.time-extractor.timestamp-pattern'</span>=<span class="string">'$dt $hour:00:00'</span>,</span><br><span class="line">  <span class="string">'sink.partition-commit.delay'</span>=<span class="string">'1 h'</span>,</span><br><span class="line">  <span class="string">'sink.partition-commit.policy.kind'</span>=<span class="string">'success-file'</span>)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- stream environment or batch environment</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="keyword">TABLE</span> fs_table</span><br><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">  user_id, order_amount,</span><br><span class="line">  <span class="keyword">DATE_FORMAT</span>(log_ts, <span class="string">'yyyy-MM-dd'</span>),</span><br><span class="line">  <span class="keyword">DATE_FORMAT</span>(log_ts, <span class="string">'HH'</span>)</span><br><span class="line"><span class="keyword">FROM</span> kafka_table;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 通过 Partition 查询</span></span><br><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> fs_table</span><br><span class="line"><span class="keyword">WHERE</span> dt=<span class="string">'2020-05-20'</span> <span class="keyword">and</span> <span class="keyword">hour</span>=<span class="string">'12'</span>;</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-2-引入-Max-Slot"><a href="#4-2-引入-Max-Slot" class="headerlink" title="4.2 引入 Max Slot"></a>4.2 引入 Max Slot</h3><p>Yarn perJob 或者 session 模式在 1.11 之前是无限扩张的，没有办法限制它的资源使用，只能用 Yarn queue 等方式来限制。但是传统的批作业其实都是大并发，运行在局限的资源上，一部分一部分阶段性的运行，为此，Flink 1.11 引入 Max Slot 的配置[11]，限制 Yarn application 的资源使用。<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">slotmanager.number-of-slots.max</span><br></pre></td></tr></table></figure></p>
+<p>定义 Flink 集群分配的最大 Slot 数。此配置选项用于限制批处理工作负载的资源消耗。不建议为流作业配置此选项，如果没有足够的 Slot，则流作业可能会失败。</p>
+<h2 id="5-结语"><a href="#5-结语" class="headerlink" title="5. 结语"></a>5. 结语</h2><p>Flink 1.11 也是一个大版本，社区做了大量的 Features 和 Improvements，Flink 的大目标是帮助业务构建流批一体的数仓，提供完善、顺滑、高性能的一体式数仓。希望大家多多参与社区，积极反馈问题和想法，甚至参与社区的讨论和开发，一起把 Flink 做得越来越好！</p>
 <p>欢迎关注我的公众号和博客：</p>
-<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Other/smartsi.jpg?raw=true" alt=""></p>
-<p>原文：<a href="https://storm.apache.org/releases/2.0.0-SNAPSHOT/storm-redis.html" target="_blank" rel="noopener">Storm Redis Integration</a></p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Other/smartsi.jpg?raw=true" alt=""></p>
+<p>原文:<a href="https://mp.weixin.qq.com/s/5GjZw0A0kMLEv2eLd6Dsag" target="_blank" rel="noopener">深度解读 Flink 1.11：流批一体 Hive 数仓</a></p>
 
       
     </div>
@@ -488,11 +563,11 @@
         <ul class="post-copyright">
   <li class="post-copyright-author">
     <strong>本文作者：</strong>
-    sjf0115
+    Flink 中文社区
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://smartsi.club/how-to-use-redis-in-storm.html" title="Storm与Redis集成">http://smartsi.club/how-to-use-redis-in-storm.html</a>
+    <a href="http://smartsi.club/how-to-use-hive-in-flink-sql-1.11.html" title="Flink SQL 1.11 流批一体 Hive 数仓">http://smartsi.club/how-to-use-hive-in-flink-sql-1.11.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -507,9 +582,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Storm/" rel="tag"># Storm</a>
-          
-            <a href="/tags/Storm-基础/" rel="tag"># Storm 基础</a>
+            <a href="/tags/Flink/" rel="tag"># Flink</a>
           
         </div>
       
@@ -522,8 +595,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/how-to-choose-basicbolt-and-richbolt-of-storm.html" rel="next" title="Storm BasicBolt vs RichBolt">
-                <i class="fa fa-chevron-left"></i> Storm BasicBolt vs RichBolt
+              <a href="/how-to-use-hive-in-flink-sql-1.10.html" rel="next" title="Flink SQL 1.10 Hive 集成生产就绪">
+                <i class="fa fa-chevron-left"></i> Flink SQL 1.10 Hive 集成生产就绪
               </a>
             
           </div>
@@ -532,8 +605,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/trouble-shooting-cannot-access-port-50070-in-hadoop.html" rel="prev" title="Hadoop无法访问50070端口">
-                Hadoop无法访问50070端口 <i class="fa fa-chevron-right"></i>
+              <a href="/presto-web-ui.html" rel="prev" title="Presto Web UI">
+                Presto Web UI <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -750,7 +823,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-如何使用"><span class="nav-number">1.</span> <span class="nav-text">1. 如何使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-常用Bolt"><span class="nav-number">2.</span> <span class="nav-text">2. 常用Bolt</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-RedisLookupBolt"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 RedisLookupBolt</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-RedisStoreBolt"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 RedisStoreBolt</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-RedisFilterBolt"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 RedisFilterBolt</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-自定义Bolt"><span class="nav-number">3.</span> <span class="nav-text">3. 自定义Bolt</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Trident-State-用法"><span class="nav-number">4.</span> <span class="nav-text">4. Trident State 用法</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-数仓架构"><span class="nav-number">1.</span> <span class="nav-text">1. 数仓架构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-离线数仓"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 离线数仓</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-实时数仓"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 实时数仓</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Hive-实时化"><span class="nav-number">2.</span> <span class="nav-text">2. Hive 实时化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-Hive-Streaming-Sink"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 Hive Streaming Sink</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-Hive-Streaming-Source"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 Hive Streaming Source</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-实时数据关联-Hive-表"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 实时数据关联 Hive 表</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Hive-增强"><span class="nav-number">3.</span> <span class="nav-text">3. Hive 增强</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-Hive-Dialect-语法兼容"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 Hive Dialect 语法兼容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-向量化读取"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 向量化读取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-简化-Hive-依赖"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 简化 Hive 依赖</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Flink-增强"><span class="nav-number">4.</span> <span class="nav-text">4. Flink 增强</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-Flink-Filesystem-connector"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 Flink Filesystem connector</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-引入-Max-Slot"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 引入 Max Slot</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-结语"><span class="nav-number">5.</span> <span class="nav-text">5. 结语</span></a></li></ol></div>
             
 
           </div>
