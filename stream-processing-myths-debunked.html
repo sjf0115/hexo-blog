@@ -97,33 +97,35 @@
 
 
   
-  <meta name="keywords" content="HBase," />
+  <meta name="keywords" content="Stream," />
 
 
-<meta name="description" content="HBase 使用 Java 语言开发，因而 HBase 原生提供了一个 Java 语言客户端。这篇文章介绍 HBase Admin API，包括创建、启用、禁用、删除表等。如果项目使用 Maven 进行依赖管理，只需添加如下依赖即可以使用 Java 客户端访问 HBase 集群：&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;org.apache.hbase&amp;lt;/gr">
-<meta name="keywords" content="HBase">
+<meta name="description" content="我们花了很多时间来思考流处理。更酷的是：我们也花了很多时间帮助其他人思考流处理以及如何使用流应用解决他们的数据问题。这个过程的第一步是纠正对现代流处理的误解（作为一个快速变化的领域，这里有很多误见值得我们思考）。在这篇文章中，我们选择了其中的 6 个进行讲解，由于 Apache Flink 是我们最熟悉的开源流处理框架，所以我们会基于 Flink 来讲解这些例子。  误解1：如果不使用批处理就不能">
+<meta name="keywords" content="Stream">
 <meta property="og:type" content="article">
-<meta property="og:title" content="HBase Java Admin API">
-<meta property="og:url" content="http://smartsi.club/hbase-java-admin-api.html">
+<meta property="og:title" content="对流处理的误解">
+<meta property="og:url" content="http://smartsi.club/stream-processing-myths-debunked.html">
 <meta property="og:site_name" content="SmartSi">
-<meta property="og:description" content="HBase 使用 Java 语言开发，因而 HBase 原生提供了一个 Java 语言客户端。这篇文章介绍 HBase Admin API，包括创建、启用、禁用、删除表等。如果项目使用 Maven 进行依赖管理，只需添加如下依赖即可以使用 Java 客户端访问 HBase 集群：&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;org.apache.hbase&amp;lt;/gr">
+<meta property="og:description" content="我们花了很多时间来思考流处理。更酷的是：我们也花了很多时间帮助其他人思考流处理以及如何使用流应用解决他们的数据问题。这个过程的第一步是纠正对现代流处理的误解（作为一个快速变化的领域，这里有很多误见值得我们思考）。在这篇文章中，我们选择了其中的 6 个进行讲解，由于 Apache Flink 是我们最熟悉的开源流处理框架，所以我们会基于 Flink 来讲解这些例子。  误解1：如果不使用批处理就不能">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Other/smartsi.jpg?raw=true">
-<meta property="og:updated_time" content="2019-12-29T06:42:22.000Z">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Stream/stream-processing-myths-debunked-1.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Stream/stream-processing-myths-debunked-2.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Stream/stream-processing-myths-debunked-4.png?raw=true">
+<meta property="og:updated_time" content="2022-02-01T06:13:45.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="HBase Java Admin API">
-<meta name="twitter:description" content="HBase 使用 Java 语言开发，因而 HBase 原生提供了一个 Java 语言客户端。这篇文章介绍 HBase Admin API，包括创建、启用、禁用、删除表等。如果项目使用 Maven 进行依赖管理，只需添加如下依赖即可以使用 Java 客户端访问 HBase 集群：&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;org.apache.hbase&amp;lt;/gr">
-<meta name="twitter:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Other/smartsi.jpg?raw=true">
+<meta name="twitter:title" content="对流处理的误解">
+<meta name="twitter:description" content="我们花了很多时间来思考流处理。更酷的是：我们也花了很多时间帮助其他人思考流处理以及如何使用流应用解决他们的数据问题。这个过程的第一步是纠正对现代流处理的误解（作为一个快速变化的领域，这里有很多误见值得我们思考）。在这篇文章中，我们选择了其中的 6 个进行讲解，由于 Apache Flink 是我们最熟悉的开源流处理框架，所以我们会基于 Flink 来讲解这些例子。  误解1：如果不使用批处理就不能">
+<meta name="twitter:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Stream/stream-processing-myths-debunked-1.png?raw=true">
 
 
 
 
 
 
-  <link rel="canonical" href="http://smartsi.club/hbase-java-admin-api.html"/>
+  <link rel="canonical" href="http://smartsi.club/stream-processing-myths-debunked.html"/>
 
 
-  <title>HBase Java Admin API | SmartSi</title>
+  <title>对流处理的误解 | SmartSi</title>
   
 
 
@@ -304,7 +306,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://smartsi.club/hbase-java-admin-api.html">
+    <link itemprop="mainEntityOfPage" href="http://smartsi.club/stream-processing-myths-debunked.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="sjf0115">
@@ -321,7 +323,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">HBase Java Admin API</h2>
+          <h2 class="post-title" itemprop="name headline">对流处理的误解</h2>
         
 
         <div class="post-meta">
@@ -333,7 +335,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-29T14:37:11+08:00">2019-12-29</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-01-31T10:25:01+08:00">2022-01-31</time>
             
 
             
@@ -347,7 +349,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-12-29T14:42:22+08:00">2019-12-29</time>
+              <time title="更新于" itemprop="dateModified" datetime="2022-02-01T14:13:45+08:00">2022-02-01</time>
             
           </span>
 
@@ -363,7 +365,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/HBase/" itemprop="url" rel="index"><span itemprop="name">HBase</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Stream/" itemprop="url" rel="index"><span itemprop="name">Stream</span></a></span>
 
                 
                 
@@ -378,8 +380,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/hbase-java-admin-api.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/hbase-java-admin-api.html" itemprop="commentCount"></span>
+                <a href="/stream-processing-myths-debunked.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/stream-processing-myths-debunked.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -387,7 +389,7 @@
 
           
           
-             <span id="/hbase-java-admin-api.html" class="leancloud_visitors" data-flag-title="HBase Java Admin API">
+             <span id="/stream-processing-myths-debunked.html" class="leancloud_visitors" data-flag-title="对流处理的误解">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -418,28 +420,95 @@
       
 
       
-        <p>HBase 使用 Java 语言开发，因而 HBase 原生提供了一个 Java 语言客户端。这篇文章介绍 HBase Admin API，包括创建、启用、禁用、删除表等。如果项目使用 Maven 进行依赖管理，只需添加如下依赖即可以使用 Java 客户端访问 HBase 集群：<br><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hbase<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hbase-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1.6<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hbase<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hbase-server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1.6<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<blockquote>
-<p>需要注意的是，客户端版本和 HBase 版本需要保持一致，否则可能会遇到不兼容的问题。</p>
-</blockquote>
-<p>如果要是遇到 Protobuf 等类冲突时，可以使用 HBase 提供的一个非常方便的 Jar：<br><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hbase<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hbase-shaded-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1.6<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hbase<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hbase-shaded-server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1.6<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<blockquote>
-<p><a href="https://issues.apache.org/jira/browse/HBASE-13517" target="_blank" rel="noopener">HBASE-13517</a></p>
-</blockquote>
-<p><code>hbase-shaded-client</code> 和 <code>hbase-shaded-server</code> 是在无法以其他方式解决依赖冲突的场景下使用的。在没有冲突的情况下，我们应首选：<code>hbase-client</code> 和 <code>hbase-server</code>。不要在协处理器内部使用 <code>hbase-shaded-server</code>或 <code>hbase-shaded-client</code>，因为这样可能会发生不好的事情。</p>
-<h3 id="1-连接HBase"><a href="#1-连接HBase" class="headerlink" title="1. 连接HBase"></a>1. 连接HBase</h3><p>构建一个 Configuration 示例，该示例包含了一些客户端配置，最重要的必须配置是 HBase 集群的 ZooKeeper 地址与端口。ConnectionFactory 根据 Configuration 示例创建一个 Connection 对象，该 Connection 对象线程安全，封装了连接到 HBase 集群所需要的所有信息，如元数据缓存等。由于 Connection 开销比较大，类似于关系数据库的连接池，因此实际使用中会将该 Connection 缓存起来重复使用：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HBaseConn</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> HBaseConn INSTANCE = <span class="keyword">new</span> HBaseConn();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Configuration config;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Connection conn;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">HBaseConn</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (config == <span class="keyword">null</span>) &#123;</span><br><span class="line">                config = HBaseConfiguration.create();</span><br><span class="line">                config.set(<span class="string">"hbase.zookeeper.quorum"</span>, <span class="string">"127.0.0.1:2181"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取连接</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> Connection <span class="title">getConnection</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (conn == <span class="keyword">null</span> || conn.isClosed()) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                conn = ConnectionFactory.createConnection(config);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> conn;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 关闭连接</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">closeConnection</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (conn != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                conn.close();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取连接</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Connection <span class="title">create</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> INSTANCE.getConnection();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 关闭连接</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        INSTANCE.closeConnection();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="2-创建表"><a href="#2-创建表" class="headerlink" title="2. 创建表"></a>2. 创建表</h3><p>可以使用 Admin 类的 <code>createTable()</code> 方法在 HBase 中创建表。此类属于 <code>org.apache.hadoop.hbase.client</code> 包中。Admin 类需要通过 Connection 对象来获取。使用 <code>TableDescriptorBuilder</code> 来构建表名以及列族。然后使用 Admin 类的 <code>createTable()</code> 方法创建表：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">create</span><span class="params">(String name, String... columnFamilies)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    Connection connection = HBaseConn.create();</span><br><span class="line">    Admin admin = connection.getAdmin();</span><br><span class="line"></span><br><span class="line">    TableName tableName =  TableName.valueOf(name);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (admin.tableExists(tableName)) &#123;</span><br><span class="line">        System.out.println(<span class="string">"table "</span> + tableName + <span class="string">" already exists"</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    TableDescriptorBuilder builder = TableDescriptorBuilder.newBuilder(tableName);</span><br><span class="line">    <span class="keyword">for</span> (String cf : columnFamilies) &#123;</span><br><span class="line">        builder.setColumnFamily(ColumnFamilyDescriptorBuilder.of(cf));</span><br><span class="line">    &#125;</span><br><span class="line">    admin.createTable(builder.build());</span><br><span class="line">    System.out.println(<span class="string">"create table "</span> + tableName + <span class="string">" success"</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><code>HTableDescriptor</code>、<code>HColumnDescriptor</code> 在 2.0.0 版本开始废弃，并在 3.0.0 版本中移除：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">HBaseAdmin admin = <span class="keyword">new</span> HBaseAdmin(conf);</span><br><span class="line">HTableDescriptor tableDescriptor = <span class="keyword">new</span> HTableDescriptor(TableName.valueOf(name));</span><br><span class="line"><span class="keyword">for</span> (String cf : columnFamilies) &#123;</span><br><span class="line">    tableDescriptor.addFamily(<span class="keyword">new</span> HColumnDescriptor(cf));</span><br><span class="line">&#125;</span><br><span class="line">admin.createTable(tableDescriptor);</span><br></pre></td></tr></table></figure></p>
-<h3 id="3-判断表是否存在"><a href="#3-判断表是否存在" class="headerlink" title="3. 判断表是否存在"></a>3. 判断表是否存在</h3><p>要使用 HBase Shell 验证表是否存在，可以使用 exist 命令。同样，使用 Java API，我们可以调用 Admin 类的 <code>tableExists()</code> 方法来验证表是否存在：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">exists</span><span class="params">(Admin admin, String name)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="keyword">boolean</span> result = admin.tableExists(TableName.valueOf(name));</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="4-禁用表"><a href="#4-禁用表" class="headerlink" title="4. 禁用表"></a>4. 禁用表</h3><p>如果要禁用表，可以使用 Admin 类的 <code>disableTable()</code> 方法。在禁用表之前，我们需要先验证表是否已禁用，可以使用 Admin 类的 <code>isTableDisabled()</code> 方法来验证表是否禁用：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">disable</span><span class="params">(String name)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    Connection connection = HBaseConn.create();</span><br><span class="line">    Admin admin = connection.getAdmin();</span><br><span class="line"></span><br><span class="line">    TableName tableName = TableName.valueOf(name);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!admin.tableExists(tableName)) &#123;</span><br><span class="line">        System.out.println(<span class="string">"table "</span> + tableName + <span class="string">" not exists"</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">boolean</span> isDisabled = admin.isTableDisabled(tableName);</span><br><span class="line">    <span class="keyword">if</span> (!isDisabled) &#123;</span><br><span class="line">        System.out.println(<span class="string">"disable table "</span> + name);</span><br><span class="line">        admin.disableTable(tableName);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="5-启用表"><a href="#5-启用表" class="headerlink" title="5. 启用表"></a>5. 启用表</h3><p>如果要启用表，可以使用 Admin 类的 <code>enableTable()</code> 方法。在启用表之前，我们需要先验证表是否已启用，可以使用 Admin 类的 <code>isTableEnabled()</code> 方法来验证表是否启用：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">enable</span><span class="params">(String name)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    Connection connection = HBaseConn.create();</span><br><span class="line">    Admin admin = connection.getAdmin();</span><br><span class="line"></span><br><span class="line">    TableName tableName = TableName.valueOf(name);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!admin.tableExists(tableName)) &#123;</span><br><span class="line">        System.out.println(<span class="string">"table "</span> + tableName + <span class="string">" not exists"</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">boolean</span> isEnabled = admin.isTableEnabled(tableName);</span><br><span class="line">    <span class="keyword">if</span> (!isEnabled) &#123;</span><br><span class="line">        System.out.println(<span class="string">"enable table "</span> + name);</span><br><span class="line">        admin.enableTable(tableName);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="6-删除表"><a href="#6-删除表" class="headerlink" title="6. 删除表"></a>6. 删除表</h3><p>如果要删除表，可以使用 Admin 类中的 <code>deleteTable()</code> 方法删除表。在删除表之前，我们需要先验证表是否已被禁用：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">delete</span><span class="params">(String name)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    Connection connection = HBaseConn.create();</span><br><span class="line">    Admin admin = connection.getAdmin();</span><br><span class="line"></span><br><span class="line">    TableName tableName = TableName.valueOf(name);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!admin.tableExists(tableName)) &#123;</span><br><span class="line">        System.out.println(<span class="string">"table "</span> + tableName + <span class="string">" not exists"</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 禁用表</span></span><br><span class="line">    admin.disableTable(tableName);</span><br><span class="line">    <span class="comment">// 删除表</span></span><br><span class="line">    admin.deleteTable(tableName);</span><br><span class="line">    System.out.println(<span class="string">"delete table "</span> + name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="7-添加列族"><a href="#7-添加列族" class="headerlink" title="7. 添加列族"></a>7. 添加列族</h3><p>如果添加列族，可以使用 Admin 类的 <code>addColumnFamily()</code> 方法将列族添加到表中。<code>addColumnFamily()</code> 方法需要提供表名以及 <code>ColumnFamilyDescriptor</code> 类对象：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">addColumnFamily</span><span class="params">(String name, String cf)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    Connection connection = HBaseConn.create();</span><br><span class="line">    Admin admin = connection.getAdmin();</span><br><span class="line"></span><br><span class="line">    TableName tableName =  TableName.valueOf(name);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!admin.tableExists(tableName)) &#123;</span><br><span class="line">        System.out.println(<span class="string">"table "</span> + tableName + <span class="string">" not exists"</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ColumnFamilyDescriptor desc = ColumnFamilyDescriptorBuilder.of(cf);</span><br><span class="line">    admin.addColumnFamily(tableName, desc);</span><br><span class="line">    System.out.println(<span class="string">"add column family "</span> + cf);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="8-删除列族"><a href="#8-删除列族" class="headerlink" title="8. 删除列族"></a>8. 删除列族</h3><p>如果要删除列族，可以使用 Admin 类的 <code>deleteColumnFamily()</code> 方法将列族从表中删除。<code>deleteColumnFamily()</code> 方法需要提供表名以及 <code>ColumnFamilyDescriptor</code> 类对象：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">deleteColumnFamily</span><span class="params">(String name, String cf)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    Connection connection = HBaseConn.create();</span><br><span class="line">    Admin admin = connection.getAdmin();</span><br><span class="line"></span><br><span class="line">    TableName tableName =  TableName.valueOf(name);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!admin.tableExists(tableName)) &#123;</span><br><span class="line">        System.out.println(<span class="string">"table "</span> + tableName + <span class="string">" not exists"</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    admin.deleteColumnFamily(tableName, cf.getBytes());</span><br><span class="line">    System.out.println(<span class="string">"delete column family "</span> + cf);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="9-停止"><a href="#9-停止" class="headerlink" title="9. 停止"></a>9. 停止</h3><p>实例化 Admin 类并调用 <code>shutdown()</code> 方法来停止 HBase：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">shutdown</span> <span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    Connection connection = HBaseConn.create();</span><br><span class="line">    Admin admin = connection.getAdmin();</span><br><span class="line">    admin.shutdown();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>欢迎关注我的公众号和博客：</p>
-<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Other/smartsi.jpg?raw=true" alt=""></p>
+        <p>我们花了很多时间来思考流处理。更酷的是：我们也花了很多时间帮助其他人思考流处理以及如何使用流应用解决他们的数据问题。这个过程的第一步是纠正对现代流处理的误解（作为一个快速变化的领域，这里有很多误见值得我们思考）。在这篇文章中，我们选择了其中的 6 个进行讲解，由于 Apache Flink 是我们最熟悉的开源流处理框架，所以我们会基于 Flink 来讲解这些例子。</p>
+<ul>
+<li>误解1：如果不使用批处理就不能使用的流（Lambda架构）</li>
+<li>误解2：延迟和吞吐量：只能选择一个</li>
+<li>误解3：微批处理意味着更好的吞吐量</li>
+<li>误解4：Exactly-Once？完全不可能</li>
+<li>误解5：流处理只能被应用在’实时’场景里</li>
+<li>误解6：不管怎么样，流太复杂了</li>
+</ul>
+<h3 id="1-误解1：如果不使用批处理就不能使用的流（Lambda架构）"><a href="#1-误解1：如果不使用批处理就不能使用的流（Lambda架构）" class="headerlink" title="1. 误解1：如果不使用批处理就不能使用的流（Lambda架构）"></a>1. 误解1：如果不使用批处理就不能使用的流（Lambda架构）</h3><p>Lambda 架构 在 Apache Storm 和其它流处理项目的早期阶段是一个很有用并且出名的设计模式。这个架构包含了一个快速流层和一个批处理层。</p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Stream/stream-processing-myths-debunked-1.png?raw=true" alt=""></p>
+<p>之所以使用两层的原因是 Lambda 架构里的流处理只能计算出近似结果（例如，如果发生故障，结果是不可信的），而且只能处理相对少量的事件。虽然这些问题只存在于 Apache Storm 的早期版本中，与现今开源流处理不相关。现今的很多开源流处理框架都具有容错能力，即使出现故障也能产出准确的结果，而且具有高吞吐的计算能力。所以没有必要为了得到’快’而’准确’的结果维护多层架构。现今的流处理器（例如，Flink）可以满足你这两方面的需求。好在人们不再更多地讨论 Lambda 架构，这表明流处理正在走向成熟。</p>
+<h3 id="2-误解2：延迟和吞吐量：只能选择一个"><a href="#2-误解2：延迟和吞吐量：只能选择一个" class="headerlink" title="2. 误解2：延迟和吞吐量：只能选择一个"></a>2. 误解2：延迟和吞吐量：只能选择一个</h3><p>早期的开源流处理框架要么是高吞吐，要么是低延迟，因此开源流处理框架不是’海量数据、快速’场景的选择。但是 Flink（可能还有其他流流处理器）同时提供了高吞吐量和低延迟。这里有一个基准测试结果的<a href="https://data-artisans.com/blog/high-throughput-low-latency-and-exactly-once-stream-processing-with-apache-flink" target="_blank" rel="noopener">示例</a>。</p>
+<p>让我们从一个基本的角度来研究这一点，特别是从硬件层。让我们考虑一个存在网络瓶颈的流处理 Pipeline（至少我们看到的许多使用 Flink 的 Pipeline 存在这种情况）。在硬件层面，不需要存在这样的权衡。网络容量才是影响最大吞吐量和可达到的最低延迟的主要因素。</p>
+<p>一个设计良好的软件系统应可以达到网络上限而不会引入瓶颈问题。虽然 Flink 的性能还是有优化的空间，使其更接近硬件所能达到的水平。但在这一点上，Flink 已经证明可以在 10 节点的集群上每秒处理 1000 万个事件，如果扩展到 1000 个节点，可以同时实现几十毫秒的延迟。根据我们的经验，这种性能水平对于大多数实际部署来说绰绰有余。</p>
+<h3 id="误解3：微批处理意味着更好的吞吐量"><a href="#误解3：微批处理意味着更好的吞吐量" class="headerlink" title="误解3：微批处理意味着更好的吞吐量"></a>误解3：微批处理意味着更好的吞吐量</h3><p>我们可以从另一个角度来讨论性能，不过先让我们来澄清两个容易混淆的概念：</p>
+<ul>
+<li>微批处理(Micro-batching)：是建立在传统批处理模型之上的数据处理执行和编程模型。通过这项技术，进程或任务可以把一个流当作一系列小型的批次或数据块。</li>
+<li>缓冲(Buffering)：一种用于访问网络、磁盘、缓存等的优化技术。维基百科中是这样定义的：物理内存里的一块用于临时储存移动数据的区域。</li>
+</ul>
+<p>常见的误解是使用微批处理的数据处理框架会比每次处理一个事件的流处理框架有更高的吞吐量，因为微批处理在网络上传输的效率更高。该误解忽略了一个事实，流处理框架不会依赖任何处理和编程模型层面的批处理，但会在物理层面进行缓冲。Flink 确实也会对数据进行缓冲，这也就意味着 Flink 会通过网络一次发送一组处理过的记录，而不是一次只发送一条记录。从性能方面说，不对数据进行缓冲是不可取的，因为通过网络逐个发送记录不会带来任何性能上的好处。所以我们承认，在物理层面根本不存在一次发送一条记录的事情。但缓冲仅用作性能优化。因此，缓冲：</p>
+<ul>
+<li>对用户是不可见的</li>
+<li>不应该对系统造成任何影响</li>
+<li>不应该强加人为的限制</li>
+<li>不应该限制系统功能</li>
+</ul>
+<p>所以对 Flink 的用户来说，他们可以按照单独处理每个记录的方式开发程序，但 Flink 使用缓冲来实现其底层性能优化。事实上，微批处理会以调度任务的形式引入相当大的开销，而如果这样做是为了降低延迟，那么这种开销只会只增不减！流处理器知道该如何利用缓冲的优势而不会带来任务调度方面的开销。</p>
+<h3 id="4-误解4：Exactly-Once？完全不可能"><a href="#4-误解4：Exactly-Once？完全不可能" class="headerlink" title="4. 误解4：Exactly-Once？完全不可能"></a>4. 误解4：Exactly-Once？完全不可能</h3><p>这个误解包含了如下几个方面的内容：</p>
+<ul>
+<li>在现实中 Exactly-once 语义是不可能的</li>
+<li>Exactly-once 语义不可能是端到端的</li>
+<li>Exactly-once 语义从来都不是现实世界的需求</li>
+<li>Exactly-once 语义是以牺牲性能为代价的</li>
+</ul>
+<p>之前 Exactly-Once 仅指 Exactly-Once Delivery，而现在这个词被随意用在流处理里，使得这两个词比以前更容易混淆，也失去了它原本的意义。不过，相关概念仍然很重要，因此我们不会完全跳过它。为了尽可能准确，我们将 Exactly-Once 拆分为状态的 Exactly-Once 和传递的 Exactly-Once。</p>
+<p>由于之前人们对这两个词的错误使用导致了这两个不同概念的混淆。例如，Apache Storm 使用 At-Least-Once 来描述传递(Storm 不支持状态)，而 Apache Samza 使用 At-Least-Once 来描述应用状态。</p>
+<p>状态 Exactly-once 意味着发生故障后，应用程序状态就像没有发生故障一样。例如，我们在维护一个计数器应用程序，在发生故障后，既不会多计数也不能少计数。在这种情况下使用 Exactly-Once 这个词是因为应用程序状态中每条消息都只处理了一次。传递 Exactly-once 意味着发生故障后，接收方（应用程序之外的某个系统）接收到处理后的事件就好像没有发生故障一样。</p>
+<p>虽然流处理框架不可能在每个场景中保证传递的 Exactly-once，但可以做到状态的 Exactly-once。Flink 可以做到状态的 Exactly-once，并不会对性能造成显著影响。与 Flink 的 Checkpoint 配合，还能实现 Sink 上的传递 Exactly-once 语义保证。Flink Checkpoint 是应用程序状态的周期性、异步和一致的快照。这就是 Flink 在发生故障时仍然能保证状态 Exactly-once 的原因：Flink 会定时记录（快照）输入流的读取位置和每个算子的相关状态。如果发生故障，Flink 就会回滚到之前的状态，并重新开始计算。</p>
+<p>因此，即使重放记录，结果状态中记录也好像只处理了一次。那么端到端的 Exactly-once 处理呢？可以通过让 Checkpoint 兼具事务协调机制来实现，换句话说，就是让 Source 和 Sink 算子参与到 Checkpoint 里来。在框架内部，结果是 Exactly-once 的，从端到端来看，也是 Exactly-once 的，或者说接近一次性。例如，在使用 Kafka 作为 Source，滚动文件(HDFS)作为 Sink 时，从 Kafka 到 HDFS 可以实现端到端的 Exactly-once 处理。类似地，Kafka 作为 Source，Cassandra 作为 Sink 时，如果对 Cassandra 做幂等更新时，那么就可以实现端到端的 Exactly-once 处理。</p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Stream/stream-processing-myths-debunked-2.png?raw=true" alt=""></p>
+<h3 id="5-误解5：流处理只能被应用在’实时’场景里"><a href="#5-误解5：流处理只能被应用在’实时’场景里" class="headerlink" title="5. 误解5：流处理只能被应用在’实时’场景里"></a>5. 误解5：流处理只能被应用在’实时’场景里</h3><p>这个误解包括如下几个方面的内容：</p>
+<ul>
+<li>我没有低延迟的应用，所以我不需要流处理器</li>
+<li>流处理只跟那些持久化之前的过渡数据有关系</li>
+<li>我们需要批处理器来完成笨重的离线计算</li>
+</ul>
+<p>现在是时候思考一下数据集类型与执行模型类型之间的关系了。有两种数据集</p>
+<ul>
+<li>无限：连续产生的数据，没有终点</li>
+<li>有限：有限且完整的数据</li>
+</ul>
+<p>事实上，许多现实世界的数据集是无限数据集。无论数据存储在 HDFS 上的文件或者目录中，还是存储在 Apache Kafka 等基于日志的系统中，都是如此。有如下示例：</p>
+<ul>
+<li>用户与移动设备或网站的交互</li>
+<li>物理传感器提供的测量数据</li>
+<li>金融市场数据</li>
+<li>机器日志数据</li>
+</ul>
+<p>实际上，在现实世界中很难找到一个有限数据集，不过一个公司的大楼位置信息倒是有限的（不过它也会随着公司业务的增长而变化）。其次，有两种处理模型：</p>
+<ul>
+<li>流处理：只要有数据生成就会一直处理</li>
+<li>批处理：在有限的时间内运行完处理，并释放资源</li>
+</ul>
+<p>让我们再深入一点，有两种无限数据集：连续流(有连续到达数据的流)和间歇流(周期性到达数据的流)。</p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Stream/stream-processing-myths-debunked-4.png?raw=true" alt=""></p>
+<p>使用任意一种模型来处理任意一种数据集都是完全可能的，尽管不一定是最优的做法。例如，批处理模型一直被应用在无限数据集上，特别是间歇性的无限数据集。现实情况是，大多数批处理任务是通过调度来执行的，每次只处理无限数据集的一小部分。这意味着流的无限特性会给某些人带来麻烦。</p>
+<p>批处理给人的印象是无状态的，因为输出只取决于输入。现实情况是，批处理作业会在内部保留状态（比如 Reducer 经常会保留状态），但这些状态只局限在一个批次内，无法跨多个批次处理关联事件。一旦用户尝试实现事件时间窗口这样简单的东西时，’状态限制在一个批次内’就很重要了，这是处理无限数据集常用的方法。处理无限数据集的批处理器不可避免地遇到迟到事件(因为上游的延迟)，批次内的数据有可能因此变得不完整。需要注意的是，这里我们假设是基于事件时间生成窗口，因为事件时间是现实当中最为准确的模型。在执行批处理的时候，即使是简单的固定窗口(比如翻转或滑动窗口)在遇到迟到数据时也会出现问题，当使用会话窗口时更难以处理。如果完成一个计算所需要的数据不在一个批次里，那么在使用批次处理无限数据集时，就很难得到正确的结果。最起码，需要额外的开销来处理迟到的数据，还要维护批次之间的状态(要等到所有数据达到后才开始处理，或者重新处理批次)。Flink 内置了处理迟到数据的机制，在现实世界中处理无限数据时，迟到数据一种很正常的现象，因此，精心设计的流处理器将提供简单的工具来处理迟到数据。</p>
+<h3 id="6-误解6：不管怎么样，流太复杂了"><a href="#6-误解6：不管怎么样，流太复杂了" class="headerlink" title="6. 误解6：不管怎么样，流太复杂了"></a>6. 误解6：不管怎么样，流太复杂了</h3><p>我们到了最后阶段，在这个阶段你会想’这听起来很棒，但我仍然不会使用流处理，因为……’：</p>
+<ul>
+<li>流处理框架学习成本太高。</li>
+<li>流难以解决时间窗、事件时间、触发器的问题</li>
+<li>流需要结合批处理，而我已经知道如何使用批处理，那为什么还要使用流？</li>
+</ul>
+<p>我们永远不会仅仅因为我们认为流处理很酷就怂恿你使用流处理。相反，我们认为使用流处理的决定最终应该取决于你的数据的性质和代码的性质。在做决定之前问问自己：’我现在使用什么类型的数据集？’</p>
+<ul>
+<li>无限（用户活动数据、日志、传感器数据）</li>
+<li>有限</li>
+</ul>
+<p>然后再问另一个问题：”什么变更最频繁？”</p>
+<ul>
+<li>代码比数据变化更频繁</li>
+<li>数据比代码变化更频繁</li>
+</ul>
+<p>如果你的数据比代码变更更频繁，例如，在经常变化的数据集上执行一个相对固定的查询操作，我们认为你有流的问题。所以，在认定流是一个”复杂”的东西之前，你可能在不知不觉中已经解决过流方面的问题！你可能使用过基于小时的批次任务调度（在这种情况下，由于批次的时间问题和之前提过的状态问题，你得到的结果可能是不准确的，你可能都没意识到这点）。</p>
+<p>Flink 社区长期以来一直致力于提供更高级别的 API，以抽象出更多复杂的时间和状态。例如，在 Flink 中处理事件时间就像定义一个时间窗口和一个提取时间戳和 Watermark 的函数一样简单（每个流只需执行一次）。处理状态就像在 Java 程序中定义变量并将它们注册到 Flink 一样简单。Flink 的 StreamSQL 等努力可以让你在永无止境的流上运行 SQL 查询。</p>
+<p>完成思考练习：如果你的代码比数据变更更频繁怎么办？在这种情况下，我们认为你遇到了探索性问题。使用笔记本或其他类似的迭代工具可能非常适合解决探索问题。 但是，一旦你的代码稳定下来，你就会遇到流处理问题。我们建议你从一开始就开始思考流处理的长期解决方案。</p>
+<h3 id="7-流处理的未来"><a href="#7-流处理的未来" class="headerlink" title="7. 流处理的未来"></a>7. 流处理的未来</h3><p>随着流处理的日渐成熟，这些误解在日常讨论中也变得越来越少，我们发现流正朝着除分析应用之外的领域发展。正如我们所讨论的那样，真实世界正连续不断地生成数据。传统上，这种连续的数据流必须中断处理，数据要么集中收集在一个地方，要么分批次切割，以便应用程序与之交互。</p>
+<p>原文:<a href="https://www.ververica.com/blog/stream-processing-myths-debunked" target="_blank" rel="noopener">Stream Processing Myths Debunked</a></p>
 
       
     </div>
@@ -485,11 +554,11 @@
         <ul class="post-copyright">
   <li class="post-copyright-author">
     <strong>本文作者：</strong>
-    sjf0115
+    smartsi
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://smartsi.club/hbase-java-admin-api.html" title="HBase Java Admin API">http://smartsi.club/hbase-java-admin-api.html</a>
+    <a href="http://smartsi.club/stream-processing-myths-debunked.html" title="对流处理的误解">http://smartsi.club/stream-processing-myths-debunked.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -504,7 +573,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/HBase/" rel="tag"># HBase</a>
+            <a href="/tags/Stream/" rel="tag"># Stream</a>
           
         </div>
       
@@ -517,8 +586,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/hbase-shell-and-commands.html" rel="next" title="HBase Shell 命令">
-                <i class="fa fa-chevron-left"></i> HBase Shell 命令
+              <a href="/the-world-beyond-batch-streaming-102.html" rel="next" title="Streaming 102:批处理之外的流式世界第二部分">
+                <i class="fa fa-chevron-left"></i> Streaming 102:批处理之外的流式世界第二部分
               </a>
             
           </div>
@@ -526,10 +595,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/questioning-the-lambda-architecture.html" rel="prev" title="Lambda 架构的质疑">
-                Lambda 架构的质疑 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -745,7 +810,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-连接HBase"><span class="nav-number">1.</span> <span class="nav-text">1. 连接HBase</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-创建表"><span class="nav-number">2.</span> <span class="nav-text">2. 创建表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-判断表是否存在"><span class="nav-number">3.</span> <span class="nav-text">3. 判断表是否存在</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-禁用表"><span class="nav-number">4.</span> <span class="nav-text">4. 禁用表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-启用表"><span class="nav-number">5.</span> <span class="nav-text">5. 启用表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-删除表"><span class="nav-number">6.</span> <span class="nav-text">6. 删除表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-添加列族"><span class="nav-number">7.</span> <span class="nav-text">7. 添加列族</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-删除列族"><span class="nav-number">8.</span> <span class="nav-text">8. 删除列族</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-停止"><span class="nav-number">9.</span> <span class="nav-text">9. 停止</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-误解1：如果不使用批处理就不能使用的流（Lambda架构）"><span class="nav-number">1.</span> <span class="nav-text">1. 误解1：如果不使用批处理就不能使用的流（Lambda架构）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-误解2：延迟和吞吐量：只能选择一个"><span class="nav-number">2.</span> <span class="nav-text">2. 误解2：延迟和吞吐量：只能选择一个</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#误解3：微批处理意味着更好的吞吐量"><span class="nav-number">3.</span> <span class="nav-text">误解3：微批处理意味着更好的吞吐量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-误解4：Exactly-Once？完全不可能"><span class="nav-number">4.</span> <span class="nav-text">4. 误解4：Exactly-Once？完全不可能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-误解5：流处理只能被应用在’实时’场景里"><span class="nav-number">5.</span> <span class="nav-text">5. 误解5：流处理只能被应用在’实时’场景里</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-误解6：不管怎么样，流太复杂了"><span class="nav-number">6.</span> <span class="nav-text">6. 误解6：不管怎么样，流太复杂了</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-流处理的未来"><span class="nav-number">7.</span> <span class="nav-text">7. 流处理的未来</span></a></li></ol></div>
             
 
           </div>
