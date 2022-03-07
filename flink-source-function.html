@@ -97,47 +97,35 @@
 
 
   
-  <meta name="keywords" content="Hexo," />
+  <meta name="keywords" content="Flink," />
 
 
-<meta name="description" content="1.简介Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章（经常玩CSDN上的人都知道），在几秒内，即可利用靓丽的主题生成静态网页。通过Hexo我们可以快速创建自己的博客，仅需要几条命令就可以完成。发布时，Hexo可以部署在自己的Node服务器上面，也可以部署github上面。对于个人用户来说，部署在github上好处颇多，不仅可以省去服务器的成">
-<meta name="keywords" content="Hexo">
+<meta name="description" content="1. SourceFunction SourceFunction 是 Flink 中所有流数据 Source 的基本接口。SourceFunction 接口继承了 Function 接口，并在内部定义了数据读取使用的 run() 方法、取消运行的 cancel() 方法以及 SourceContext 内部接口：public interface SourceFunction&amp;lt;T&amp;gt; ex">
+<meta name="keywords" content="Flink">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo 搭建静态博客">
-<meta property="og:url" content="http://smartsi.club/hexo_generate_blog.html">
+<meta property="og:title" content="Flink SourceFunction 初了解">
+<meta property="og:url" content="http://smartsi.club/flink-source-function.html">
 <meta property="og:site_name" content="SmartSi">
-<meta property="og:description" content="1.简介Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章（经常玩CSDN上的人都知道），在几秒内，即可利用靓丽的主题生成静态网页。通过Hexo我们可以快速创建自己的博客，仅需要几条命令就可以完成。发布时，Hexo可以部署在自己的Node服务器上面，也可以部署github上面。对于个人用户来说，部署在github上好处颇多，不仅可以省去服务器的成">
+<meta property="og:description" content="1. SourceFunction SourceFunction 是 Flink 中所有流数据 Source 的基本接口。SourceFunction 接口继承了 Function 接口，并在内部定义了数据读取使用的 run() 方法、取消运行的 cancel() 方法以及 SourceContext 内部接口：public interface SourceFunction&amp;lt;T&amp;gt; ex">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hexo/Hexo+Github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2-1.png?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hexo/Hexo+Github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2-2.png?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hexo/Hexo+Github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2-3.png?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hexo/Hexo+Github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2-4.png?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hexo/Hexo+Github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2-5.png?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hexo/Hexo+Github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2-7.png?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hexo/Hexo+Github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2-8.png?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hexo/Hexo+Github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2-9.png?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hexo/Hexo+Github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2-10.png?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hexo/Hexo+Github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2-11.png?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hexo/Hexo+Github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2-12.png?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hexo/Hexo+Github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2-13.png?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hexo/Hexo+Github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2-14.png?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hexo/Hexo+Github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2-15.png?raw=true">
-<meta property="og:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hexo/Hexo+Github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2-16.png?raw=true">
-<meta property="og:updated_time" content="2019-10-26T03:57:13.000Z">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-source-function-1.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-source-function-2.png?raw=true">
+<meta property="og:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-source-function-3.png?raw=true">
+<meta property="og:updated_time" content="2022-03-07T13:32:06.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo 搭建静态博客">
-<meta name="twitter:description" content="1.简介Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章（经常玩CSDN上的人都知道），在几秒内，即可利用靓丽的主题生成静态网页。通过Hexo我们可以快速创建自己的博客，仅需要几条命令就可以完成。发布时，Hexo可以部署在自己的Node服务器上面，也可以部署github上面。对于个人用户来说，部署在github上好处颇多，不仅可以省去服务器的成">
-<meta name="twitter:image" content="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hexo/Hexo+Github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2-1.png?raw=true">
+<meta name="twitter:title" content="Flink SourceFunction 初了解">
+<meta name="twitter:description" content="1. SourceFunction SourceFunction 是 Flink 中所有流数据 Source 的基本接口。SourceFunction 接口继承了 Function 接口，并在内部定义了数据读取使用的 run() 方法、取消运行的 cancel() 方法以及 SourceContext 内部接口：public interface SourceFunction&amp;lt;T&amp;gt; ex">
+<meta name="twitter:image" content="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-source-function-1.png?raw=true">
 
 
 
 
 
 
-  <link rel="canonical" href="http://smartsi.club/hexo_generate_blog.html"/>
+  <link rel="canonical" href="http://smartsi.club/flink-source-function.html"/>
 
 
-  <title>Hexo 搭建静态博客 | SmartSi</title>
+  <title>Flink SourceFunction 初了解 | SmartSi</title>
   
 
 
@@ -318,7 +306,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://smartsi.club/hexo_generate_blog.html">
+    <link itemprop="mainEntityOfPage" href="http://smartsi.club/flink-source-function.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="sjf0115">
@@ -335,7 +323,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">Hexo 搭建静态博客</h2>
+          <h2 class="post-title" itemprop="name headline">Flink SourceFunction 初了解</h2>
         
 
         <div class="post-meta">
@@ -347,7 +335,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-01T18:17:23+08:00">2017-12-01</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-03-06T16:19:17+08:00">2022-03-06</time>
             
 
             
@@ -361,10 +349,28 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-10-26T11:57:13+08:00">2019-10-26</time>
+              <time title="更新于" itemprop="dateModified" datetime="2022-03-07T21:32:06+08:00">2022-03-07</time>
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Flink/" itemprop="url" rel="index"><span itemprop="name">Flink</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -374,8 +380,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/hexo_generate_blog.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/hexo_generate_blog.html" itemprop="commentCount"></span>
+                <a href="/flink-source-function.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/flink-source-function.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -383,7 +389,7 @@
 
           
           
-             <span id="/hexo_generate_blog.html" class="leancloud_visitors" data-flag-title="Hexo 搭建静态博客">
+             <span id="/flink-source-function.html" class="leancloud_visitors" data-flag-title="Flink SourceFunction 初了解">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -414,158 +420,45 @@
       
 
       
-        <h3 id="1-简介"><a href="#1-简介" class="headerlink" title="1.简介"></a>1.简介</h3><p>Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章（经常玩CSDN上的人都知道），在几秒内，即可利用靓丽的主题生成静态网页。通过Hexo我们可以快速创建自己的博客，仅需要几条命令就可以完成。发布时，Hexo可以部署在自己的Node服务器上面，也可以部署github上面。对于个人用户来说，部署在github上好处颇多，不仅可以省去服务器的成本，还可以减少各种系统运维的麻烦事(系统管理、备份、网络)。所以，在这里我是基于github搭建的个人博客站点。</p>
-<h3 id="2-环境配置"><a href="#2-环境配置" class="headerlink" title="2. 环境配置"></a>2. 环境配置</h3><p>安装 Hexo 相当简单。然而在安装前，您必须检查电脑中是否已安装下列应用程序：</p>
+        <h2 id="1-SourceFunction"><a href="#1-SourceFunction" class="headerlink" title="1. SourceFunction"></a>1. SourceFunction</h2><p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-source-function-1.png?raw=true" alt=""></p>
+<p>SourceFunction 是 Flink 中所有流数据 Source 的基本接口。SourceFunction 接口继承了 Function 接口，并在内部定义了数据读取使用的 run() 方法、取消运行的 cancel() 方法以及 SourceContext 内部接口：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">SourceFunction</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">Function</span>, <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">(SourceContext&lt;T&gt; ctx)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">cancel</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">interface</span> <span class="title">SourceContext</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">collect</span><span class="params">(T element)</span></span>;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">collectWithTimestamp</span><span class="params">(T element, <span class="keyword">long</span> timestamp)</span></span>;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">emitWatermark</span><span class="params">(Watermark mark)</span></span>;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">markAsTemporarilyIdle</span><span class="params">()</span></span>;</span><br><span class="line">        <span class="function">Object <span class="title">getCheckpointLock</span><span class="params">()</span></span>;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">close</span><span class="params">()</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当 Source 输出元素时，可以在 run 方法中调用 SourceContext 接口的 collect 或者 collectWithTimestamp 方法输出元素。run 方法需要尽可能的一直运行，因此大多数 Source 在 run 方法中都有一个 while 循环。Source 也必须具有响应 cancel 方法调用中断 while 循环的能力。比较通用的模式是添加 volatile 布尔类型变量 isRunning 来表示是否在运行中。在 cancel 方法中设置为 false，并在循环条件中检查该变量是否为 true：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">boolean</span> isRunning = <span class="keyword">true</span>;</span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">(SourceContext&lt;T&gt; ctx)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (isRunning &amp;&amp; otherCondition == <span class="keyword">true</span>) &#123;</span><br><span class="line">        ctx.collect(xxx);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cancel</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    isRunning = <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在默认情况下，SourceFunction 不支持并行读取数据，因此 SourceFunction 被 ParallelSourceFunction 接口继承，以支持对外部数据源中数据的并行读取操作：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ParallelSourceFunction</span>&lt;<span class="title">OUT</span>&gt; <span class="keyword">extends</span> <span class="title">SourceFunction</span>&lt;<span class="title">OUT</span>&gt; </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>ParallelSourceFunction 是并行 Source 的基本接口。在运行时，Runtime 会执行与 Source 配置的并行度一样多的此函数的并行实例。该接口是一个空接口，仅仅作为一个标记，告诉系统这个 Source 可以并行执行。</p>
+<p>在 SourceFunction 的基础上扩展了 RichSourceFunction 和 RichParallelSourceFunction 抽象实现类：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">RichSourceFunction</span>&lt;<span class="title">OUT</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractRichFunction</span></span></span><br><span class="line"><span class="class">        <span class="keyword">implements</span> <span class="title">SourceFunction</span>&lt;<span class="title">OUT</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">1L</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">RichParallelSourceFunction</span>&lt;<span class="title">OUT</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractRichFunction</span></span></span><br><span class="line"><span class="class">        <span class="keyword">implements</span> <span class="title">ParallelSourceFunction</span>&lt;<span class="title">OUT</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">1L</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>RichParallelSourceFunction 是用于实现并行 Source 的基类。Runtime 会执行与 Source 配置的并行度一样多的此函数的并行实例。Source 还可以通过 AbstractRichFunction.getRuntimeContext() 访问上下文信息，例如通过 getRuntimeContext().getNumberOfParallelSubtasks() 获取并行实例的数量，通过 getRuntimeContext().getIndexOfThisSubtask() 获取当前实例是哪个并行实例。此外还提供了额外的生命周期方法（AbstractRichFunction.open() 和 AbstractRichFunction.close()）。有了这些信息，从而实现更加复杂的操作，例如使用 OperatorState 保存 Kafka 中数据消费的偏移量，从而实现端到端当且仅被处理一次的语义保障。</p>
+<blockquote>
+<p>需要注意的是，由于未来社区会基于 DataStream API 实现流批一体，因此 SourceFunction 后期的变化会比较大，要及时关注 Flink 社区的最新动向，并及时跟进相关的设计和实现。</p>
+</blockquote>
+<h2 id="2-SourceContext"><a href="#2-SourceContext" class="headerlink" title="2. SourceContext"></a>2. SourceContext</h2><p>Flink 将 Source 的运行机制跟发送元素进行了分离。具体如何发送元素，取决于独立内部接口 SourceContext。SourceFunction 以内部接口的方式定义了该上下文接口对象：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">SourceFunction</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">Function</span>, <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="class"><span class="keyword">interface</span> <span class="title">SourceContext</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">collect</span><span class="params">(T element)</span></span>;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">collectWithTimestamp</span><span class="params">(T element, <span class="keyword">long</span> timestamp)</span></span>;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">emitWatermark</span><span class="params">(Watermark mark)</span></span>;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">markAsTemporarilyIdle</span><span class="params">()</span></span>;</span><br><span class="line">        <span class="function">Object <span class="title">getCheckpointLock</span><span class="params">()</span></span>;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">close</span><span class="params">()</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>SourceContext 定义了数据接入过程用到的上下文信息，包含如下方法：</p>
 <ul>
-<li><p>Node.js</p>
-</li>
-<li><p>Git</p>
-</li>
+<li>collect()：用于收集从外部数据源读取的数据并下发到下游算子中。</li>
+<li>collectWithTimestamp()：用于支持收集数据元素以及 EventTime 时间戳。</li>
+<li>emitWatermark()：用于在 SourceFunction 中生成 Watermark 并发送到下游算子进行处理。</li>
+<li>getCheckpointLock()：用于获取检查点锁（Checkpoint Lock），例如使用 KafkaConsumer 读取数据时，可以使用检查点锁，确保记录发出的原子性和偏移状态更新。</li>
 </ul>
-<h4 id="2-1-Git"><a href="#2-1-Git" class="headerlink" title="2.1 Git"></a>2.1 Git</h4><p>Git安装参考博文：<a href="http://blog.csdn.net/sunnyyoona/article/details/51453880" target="_blank" rel="noopener">http://blog.csdn.net/sunnyyoona/article/details/51453880</a></p>
-<h4 id="2-2-Node-js"><a href="#2-2-Node-js" class="headerlink" title="2.2 Node.js"></a>2.2 Node.js</h4><p>安装 Node.js 的最佳方式是使用 nvm:<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">wget -qO- https://raw.github.com/creationix/nvm/master/install.sh | sh</span><br></pre></td></tr></table></figure></p>
-<p>安装完成后，重启终端并执行下列命令即可安装 Node.js:<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">nvm install 4</span><br></pre></td></tr></table></figure></p>
-<h4 id="2-3-Hexo"><a href="#2-3-Hexo" class="headerlink" title="2.3 Hexo"></a>2.3 Hexo</h4><p>所有必备的应用程序安装完成后，即可使用 npm 安装 Hexo。一般情况下我们机器上没有安装npm，首先要安装npm：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get install npm</span><br></pre></td></tr></table></figure></p>
-<p>下面使用npm安装Hexo，安装过程中我们可能会遇到下面的问题:</p>
-<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hexo/Hexo+Github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2-1.png?raw=true" alt=""></p>
-<p>我们需要运行下面的命令，才能安装成功：</p>
-<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hexo/Hexo+Github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2-2.png?raw=true" alt=""></p>
-<p>再重新安装hexo:</p>
-<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hexo/Hexo+Github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2-3.png?raw=true" alt=""></p>
-<h3 id="3-建站"><a href="#3-建站" class="headerlink" title="3. 建站"></a>3. 建站</h3><h4 id="3-1-目录和文件"><a href="#3-1-目录和文件" class="headerlink" title="3.1 目录和文件"></a>3.1 目录和文件</h4><p>安装 Hexo 完成后，请执行下列命令，Hexo 将会在指定文件夹中新建所需要的文件。<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo init blog  </span><br><span class="line">cd blog</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hexo/Hexo+Github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2-4.png?raw=true" alt=""></p>
-<p>备注:<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">在我这我初始化的目录名称为blog</span><br></pre></td></tr></table></figure></p>
-<p>新建完成后，指定目录<code>blog</code>文件如下：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">xiaosi@yoona:~/blog$ tree -L 2</span><br><span class="line">.</span><br><span class="line">├── _config.yml</span><br><span class="line">├── package.json</span><br><span class="line">├── scaffolds</span><br><span class="line">│   ├── draft.md</span><br><span class="line">│   ├── page.md</span><br><span class="line">│   └── post.md</span><br><span class="line">├── source</span><br><span class="line">│   └── _posts</span><br><span class="line">└── themes</span><br><span class="line">    └── landscape</span><br><span class="line"></span><br><span class="line">5 directories, 5 files</span><br></pre></td></tr></table></figure></p>
-<table>
-<thead>
-<tr>
-<th>文件</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>scaffolds</td>
-<td>脚手架，也就是一个工具模板</td>
-</tr>
-<tr>
-<td>source</td>
-<td>存放博客正文内容</td>
-</tr>
-<tr>
-<td><code>_posts</code></td>
-<td>文件箱</td>
-</tr>
-<tr>
-<td>themes</td>
-<td>存放皮肤的目录  themes/landscape 默认的皮肤</td>
-</tr>
-<tr>
-<td><code>_config.yml</code></td>
-<td>全局的配置文件</td>
-</tr>
-</tbody>
-</table>
-<p>备注：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">我们每次用到的就是_posts目录里的文件，而_config.yml文件和themes目录是第一次配置好就行了。</span><br><span class="line"></span><br><span class="line">_posts目录：Hexo是一个静态博客框架，因此没有数据库。文章内容都是以文本文件方式进行存储的，直接存储在_posts的目录。Hexo天生集成了markdown，我们可以直接使用markdown语法格式写博客，例如:hello-world.md。新增加一篇文章，就在_posts目录，新建一个xxx.md的文件。</span><br></pre></td></tr></table></figure></p>
-<h4 id="3-2-全局配置"><a href="#3-2-全局配置" class="headerlink" title="3.2 全局配置"></a>3.2 全局配置</h4><p><code>_config.yml</code>配置信息：（网站的配置信息，可以在此配置大部分的参数）</p>
-<table>
-<thead>
-<tr>
-<th>配置</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>站点信息</td>
-<td>定义标题，作者，语言</td>
-</tr>
-<tr>
-<td>URL</td>
-<td>URL访问路径</td>
-</tr>
-<tr>
-<td>文件目录</td>
-<td>正文的存储目录</td>
-</tr>
-<tr>
-<td>写博客配置</td>
-<td>文章标题，文章类型，外部链接等</td>
-</tr>
-<tr>
-<td>目录和标签</td>
-<td>默认分类，分类图，标签图</td>
-</tr>
-<tr>
-<td>归档设置</td>
-<td>归档的类型</td>
-</tr>
-<tr>
-<td>服务器设置</td>
-<td>IP，访问端口，日志输出</td>
-</tr>
-<tr>
-<td>时间和日期格式</td>
-<td>时间显示格式，日期显示格式</td>
-</tr>
-<tr>
-<td>分页设置</td>
-<td>每页显示数量</td>
-</tr>
-<tr>
-<td>评论</td>
-<td>外挂的Disqus评论系统</td>
-</tr>
-<tr>
-<td>插件和皮肤</td>
-<td>换皮肤，安装插件</td>
-</tr>
-<tr>
-<td>Markdown语言</td>
-<td>markdown的标准</td>
-</tr>
-<tr>
-<td>CSS的stylus格式</td>
-<td>是否允许压缩</td>
-</tr>
-<tr>
-<td>部署配置</td>
-<td>github发布项目地址</td>
-</tr>
-</tbody>
-</table>
-<p>配置<code>_config.yml</code>：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Hexo Configuration</span><br><span class="line">## Docs: https://hexo.io/docs/configuration.html</span><br><span class="line">## Source: https://github.com/hexojs/hexo/</span><br><span class="line"></span><br><span class="line"># 站点信息</span><br><span class="line">title: Yoona</span><br><span class="line">subtitle:</span><br><span class="line">description: Stay Hungry Stay Foolish</span><br><span class="line">author: sjf0115</span><br><span class="line">language:</span><br><span class="line">timezone:</span><br><span class="line"></span><br><span class="line"># URL</span><br><span class="line">## If your site is put in a subdirectory, set url as &apos;http://yoursite.com/child&apos; and root as &apos;/child/&apos;</span><br><span class="line">url: http://sjf0115.club/</span><br><span class="line">root: /</span><br><span class="line">permalink: :year/:month/:day/:title/</span><br><span class="line">permalink_defaults:</span><br><span class="line"></span><br><span class="line"># Directory 文件目录</span><br><span class="line">source_dir: source</span><br><span class="line">public_dir: public</span><br><span class="line">tag_dir: tags</span><br><span class="line">archive_dir: archives</span><br><span class="line">category_dir: categories</span><br><span class="line">code_dir: downloads/code</span><br><span class="line">i18n_dir: :lang</span><br><span class="line">skip_render:</span><br><span class="line"></span><br><span class="line"># Writing 写博客配置</span><br><span class="line">new_post_name: :title.md # File name of new posts</span><br><span class="line">default_layout: post</span><br><span class="line">titlecase: false # Transform title into titlecase</span><br><span class="line">external_link: true # Open external links in new tab</span><br><span class="line">filename_case: 0</span><br><span class="line">render_drafts: false</span><br><span class="line">post_asset_folder: false</span><br><span class="line">relative_link: false</span><br><span class="line">future: true</span><br><span class="line">highlight:</span><br><span class="line">  enable: true</span><br><span class="line">  line_number: true</span><br><span class="line">  auto_detect: false</span><br><span class="line">  tab_replace:</span><br><span class="line"></span><br><span class="line"># Home page setting</span><br><span class="line"># path: Root path for your blogs index page. (default = &apos;&apos;)</span><br><span class="line"># per_page: Posts displayed per page. (0 = disable pagination)</span><br><span class="line"># order_by: Posts order. (Order by date descending by default)</span><br><span class="line">index_generator:</span><br><span class="line">  path: &apos;&apos;</span><br><span class="line">  per_page: 10</span><br><span class="line">  order_by: -date</span><br><span class="line"></span><br><span class="line"># Category &amp; Tag 目录和标签</span><br><span class="line">default_category: uncategorized</span><br><span class="line">category_map:</span><br><span class="line">tag_map:</span><br><span class="line"></span><br><span class="line"># Date / Time format 时间和日期格式</span><br><span class="line">## Hexo uses Moment.js to parse and display date</span><br><span class="line">## You can customize the date format as defined in</span><br><span class="line">## http://momentjs.com/docs/#/displaying/format/</span><br><span class="line">date_format: YYYY-MM-DD</span><br><span class="line">time_format: HH:mm:ss</span><br><span class="line"></span><br><span class="line"># Pagination 分页设置</span><br><span class="line">## Set per_page to 0 to disable pagination</span><br><span class="line">per_page: 10</span><br><span class="line">pagination_dir: page</span><br><span class="line"></span><br><span class="line"># Extensions 插件与皮肤</span><br><span class="line">## Plugins: https://hexo.io/plugins/</span><br><span class="line">## Themes: https://hexo.io/themes/</span><br><span class="line">theme: landscape</span><br><span class="line"></span><br><span class="line"># Deployment 部署配置</span><br><span class="line">## Docs: https://hexo.io/docs/deployment.html</span><br><span class="line">deploy:</span><br><span class="line">  type:git</span><br><span class="line">  repo:git@github.com:sjf0115/hexo-blog.git</span><br></pre></td></tr></table></figure></p>
-<h3 id="3-3-创建新文章"><a href="#3-3-创建新文章" class="headerlink" title="3.3 创建新文章"></a>3.3 创建新文章</h3><p>接下来，我们开始新博客了，创建第一博客文章。Hexo建议通过命令行操作，当然你也可以直接在_posts目录下创建文件。</p>
-<p>下面我们创建一篇名为hexo的文章：</p>
-<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hexo/Hexo+Github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2-5.png?raw=true" alt=""></p>
-<p>在_post目录下，就会生成文件：”hexo.md”:<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">xiaosi@yoona:~/blog/source/_posts$ ll</span><br><span class="line">总用量 5</span><br><span class="line">drwxrwxrwx 1 xiaosi xiaosi 256 12月  1 10:17 ./</span><br><span class="line">drwxrwxrwx 1 xiaosi xiaosi   0 12月  1 09:59 ../</span><br><span class="line">-rwxrwxrwx 1 xiaosi xiaosi 826 12月  1 09:59 hello-wor</span><br></pre></td></tr></table></figure></p>
-<p>然后，我们编辑文件：<code>hexo.md</code>，以markdown语法写文章，然后保存。在命令行，启动服务器进行保存:<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">xiaosi@yoona:~/blog/source/posts$ hexo s</span><br><span class="line">Native thread-sleep not available.</span><br><span class="line">This will result in much slower performance, but it will still work.</span><br><span class="line">You should re-install spawn-sync or upgrade to the lastest version of node if possible.</span><br><span class="line">Check /usr/local/lib/node_modules/hexo/node_modules/hexo-util/node_modules/cross-spawn/node_modules/spawn-sync/error.log for more details</span><br><span class="line">INFO  Start processing</span><br><span class="line">INFO  Hexo is running at http://localhost:4000/. Press Ctrl+C to stop.</span><br></pre></td></tr></table></figure></p>
-<p>通过浏览器打开， <a href="http://localhost:4000/" target="_blank" rel="noopener">http://localhost:4000/</a> ，就出现了我们新写的文章。</p>
-<h3 id="4-发布项目到github"><a href="#4-发布项目到github" class="headerlink" title="4. 发布项目到github"></a>4. 发布项目到github</h3><h4 id="4-1-静态化处理"><a href="#4-1-静态化处理" class="headerlink" title="4.1 静态化处理"></a>4.1 静态化处理</h4><p>写完文章之后，可以发布到github上面。hexo是一个静态博客框架。静态博客，是只包含html, javascript, css文件的网站，没有动态的脚本。虽然我们是用Node进行的开发，但博客的发布后就与Node无关了。在发布之前，我们要通过一条命令，把所有的文章都做静态化处理，就是生成对应的html, javascript, css，使得所有的文章都是由静态文件组成的：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">xiaosi@yoona:~/blog$ hexo generate</span><br><span class="line">Native thread-sleep not available.</span><br><span class="line">This will result in much slower performance, but it will still work.</span><br><span class="line">You should re-install spawn-sync or upgrade to the lastest version of node if possible.</span><br><span class="line">Check /usr/local/lib/node_modules/hexo/node_modules/hexo-util/node_modules/cross-spawn/node_modules/spawn-sync/error.log for more details</span><br><span class="line">INFO  Start processing</span><br><span class="line">INFO  Files loaded in 143 ms</span><br><span class="line">INFO  Generated: index.html</span><br><span class="line">INFO  Generated: archives/index.html</span><br><span class="line">INFO  Generated: archives/2016/index.html</span><br><span class="line">INFO  Generated: categories/diary/index.html</span><br><span class="line">INFO  Generated: archives/2016/05/index.html</span><br><span class="line">INFO  Generated: fancybox/blank.gif</span><br><span class="line">INFO  Generated: archives/2017/12/index.html</span><br><span class="line">INFO  Generated: fancybox/fancybox_loading.gif</span><br><span class="line">INFO  Generated: fancybox/fancybox_overlay.png</span><br><span class="line">INFO  Generated: fancybox/fancybox_sprite@2x.png</span><br><span class="line">INFO  Generated: archives/2017/index.html</span><br><span class="line">INFO  Generated: tags/hexo/index.html</span><br><span class="line">INFO  Generated: fancybox/fancybox_sprite.png</span><br><span class="line">INFO  Generated: js/script.js</span><br><span class="line">INFO  Generated: fancybox/jquery.fancybox.css</span><br><span class="line">INFO  Generated: css/style.css</span><br><span class="line">INFO  Generated: fancybox/jquery.fancybox.pack.js</span><br><span class="line">INFO  Generated: fancybox/helpers/jquery.fancybox-buttons.js</span><br><span class="line">INFO  Generated: fancybox/helpers/jquery.fancybox-media.js</span><br><span class="line">INFO  Generated: fancybox/helpers/jquery.fancybox-thumbs.css</span><br><span class="line">INFO  Generated: fancybox/helpers/jquery.fancybox-buttons.css</span><br><span class="line">INFO  Generated: fancybox/helpers/jquery.fancybox-thumbs.js</span><br><span class="line">INFO  Generated: css/fonts/fontawesome-webfont.woff</span><br><span class="line">INFO  Generated: css/fonts/fontawesome-webfont.eot</span><br><span class="line">INFO  Generated: css/fonts/FontAwesome.otf</span><br><span class="line">INFO  Generated: fancybox/helpers/fancybox_buttons.png</span><br><span class="line">INFO  Generated: fancybox/fancybox_loading@2x.gif</span><br><span class="line">INFO  Generated: fancybox/jquery.fancybox.js</span><br><span class="line">INFO  Generated: 2017/12/01/hello-world/index.html</span><br><span class="line">INFO  Generated: css/fonts/fontawesome-webfont.ttf</span><br><span class="line">INFO  Generated: 2016/05/17/hexo/index.html</span><br><span class="line">INFO  Generated: css/fonts/fontawesome-webfont.svg</span><br><span class="line">INFO  Generated: css/images/banner.jpg</span><br><span class="line">INFO  33 files generated in 1.19 s</span><br></pre></td></tr></table></figure></p>
-<p>在本地目录下，会生成一个public的目录，里面包括了所有静态化的文件：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">xiaosi@yoona:~/blog/public$ ll</span><br><span class="line">总用量 24</span><br><span class="line">drwxrwxrwx 1 xiaosi xiaosi 4096 12月  1 10:26 ./</span><br><span class="line">drwxrwxrwx 1 xiaosi xiaosi 4096 12月  1 10:24 ../</span><br><span class="line">drwxrwxrwx 1 xiaosi xiaosi    0 12月  1 10:24 2017/</span><br><span class="line">drwxrwxrwx 1 xiaosi xiaosi    0 12月  1 10:24 archives/</span><br><span class="line">drwxrwxrwx 1 xiaosi xiaosi    0 12月  1 10:24 categories/</span><br><span class="line">drwxrwxrwx 1 xiaosi xiaosi    0 12月  1 10:24 css/</span><br><span class="line">drwxrwxrwx 1 xiaosi xiaosi 4096 12月  1 10:24 fancybox/</span><br><span class="line">-rwxrwxrwx 1 xiaosi xiaosi 9841 12月  1 10:24 index.html*</span><br><span class="line">drwxrwxrwx 1 xiaosi xiaosi    0 12月  1 10:24 js/</span><br><span class="line">drwxrwxrwx 1 xiaosi xiaosi    0 12月  1 10:24 tags/</span><br></pre></td></tr></table></figure></p>
-<h4 id="4-2-发布到github"><a href="#4-2-发布到github" class="headerlink" title="4.2 发布到github"></a>4.2 发布到github</h4><p>接下来，我们把这个博客发布到github。</p>
-<p>在github中创建一个项目hexo-blog，项目地址：<a href="https://github.com/sjf0115/hexo-blog" target="_blank" rel="noopener">https://github.com/sjf0115/hexo-blog</a></p>
-<p>编辑全局配置文件：<code>_config.yml</code>，找到deploy的部分，设置github的项目地址：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Deployment</span><br><span class="line">## Docs: https://hexo.io/docs/deployment.html</span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: git@github.com:sjf0115/hexo-blog.git</span><br></pre></td></tr></table></figure></p>
-<p>然后，通过如下命令进行部署:</p>
-<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hexo/Hexo+Github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2-7.png?raw=true" alt=""></p>
-<p>出现上述问题，可以使用配置ssh秘钥解决。如果出现deployer找不到git: ERROR Deployer not found: git错误，使用下面方式解决：</p>
-<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hexo/Hexo+Github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2-8.png?raw=true" alt=""></p>
-<p>再来一次hexo deploy：</p>
-<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hexo/Hexo+Github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2-9.png?raw=true" alt=""></p>
-<p>到目前为止这个静态的web网站就被部署到了github，检查一下分支是gh-pages。gh-pages是github为了web项目特别设置的分支:</p>
-<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hexo/Hexo+Github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2-10.png?raw=true" alt=""></p>
-<p>然后，点击”Settings”，找到GitHub Pages，提示“Your site is published at <code>http://sjf0115.github.io/hexo-blog</code>:</p>
-<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hexo/Hexo+Github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2-11.png?raw=true" alt=""></p>
-<p>打开网页，就是我们刚刚发布站点：</p>
-<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hexo/Hexo+Github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2-12.png?raw=true" alt=""></p>
-<p>可以看到网页样式出现问题，不用担心，我们设置域名之后就OK了。</p>
-<h4 id="4-3-设置域名"><a href="#4-3-设置域名" class="headerlink" title="4.3 设置域名"></a>4.3 设置域名</h4><p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hexo/Hexo+Github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2-13.png?raw=true" alt=""></p>
-<p>在dnspod控制台，设置主机记录@，类型A，到IP 23.235.37.133（github地址）:</p>
-<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hexo/Hexo+Github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2-14.png?raw=true" alt=""></p>
-<p>对域名判断是否生效，对域名执行ping：</p>
-<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hexo/Hexo+Github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2-15.png?raw=true" alt=""></p>
-<p>在github项目中，新建一个文件CNAME，文件中写出你要绑定的域名sjf0115.club。通过浏览器，访问<a href="http://sjf0115.club" target="_blank" rel="noopener">http://sjf0115.club</a> ， 就打开了我们建好的博客站点:</p>
-<p><img src="https://github.com/sjf0115/PubLearnNotes/blob/master/image/Hexo/Hexo+Github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2-16.png?raw=true" alt=""></p>
+<p>SourceContext 主要有两种类型的实现子类，分别为 NonTimestampContext 和 WatermarkContext：</p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-source-function-2.png?raw=true" alt=""></p>
+<p>WatermarkContext 支持事件时间抽取和生成 Watermark，最终用于处理乱序事件。基于 WatermarkContext 抽象类扩展实现了 AutomaticWatermarkContext 和 ManualWatermarkContext，分别对应接入时间和事件时间。由此也可以看出，接入时间对应的 Timestamp 和 Watermark 都是通过 Source 算子自动生成的。事件时间的实现则相对复杂，需要用户自定义 SourceContext.emitWatermark() 方法来实现；NonTimestampContext 不支持基于事件时间的操作，仅实现了从外部数据源中读取数据并处理的逻辑，对应了处理时间。</p>
+<p>不同的 SourceContext 实现对应了不同的时间处理语义。根据 TimeCharacteristic 配置的不同，则会创建对应不同类型的 SourceContext：</p>
+<ul>
+<li>TimeCharacteristic.EventTime 时间语义对应创建 ManualWatermarkContext</li>
+<li>TimeCharacteristic.IngestionTime 时间语义对应创建 AutomaticWatermarkContext</li>
+<li>TimeCharacteristic.ProcessingTime 时间语义对应创建 NonTimestampContext</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">final</span> SourceFunction.SourceContext&lt;OUT&gt; ctx;</span><br><span class="line"><span class="keyword">switch</span> (timeCharacteristic) &#123;</span><br><span class="line">  <span class="comment">// 事件时间</span></span><br><span class="line">  <span class="keyword">case</span> EventTime:</span><br><span class="line">      ctx = <span class="keyword">new</span> ManualWatermarkContext&lt;&gt;(</span><br><span class="line">          output,</span><br><span class="line">          processingTimeService,</span><br><span class="line">          checkpointLock,</span><br><span class="line">          streamStatusMaintainer,</span><br><span class="line">          idleTimeout</span><br><span class="line">      );</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">  <span class="comment">// 接入时间</span></span><br><span class="line">  <span class="keyword">case</span> IngestionTime:</span><br><span class="line">      ctx = <span class="keyword">new</span> AutomaticWatermarkContext&lt;&gt;(</span><br><span class="line">          output,</span><br><span class="line">          watermarkInterval,</span><br><span class="line">          processingTimeService,</span><br><span class="line">          checkpointLock,</span><br><span class="line">          streamStatusMaintainer,</span><br><span class="line">          idleTimeout</span><br><span class="line">      );</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">  <span class="comment">// 处理时间</span></span><br><span class="line">  <span class="keyword">case</span> ProcessingTime:</span><br><span class="line">      ctx = <span class="keyword">new</span> NonTimestampContext&lt;&gt;(checkpointLock, output);</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">default</span>:</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(String.valueOf(timeCharacteristic));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="3-常见实现类"><a href="#3-常见实现类" class="headerlink" title="3. 常见实现类"></a>3. 常见实现类</h2><p>SourceFunction 接口的实现类主要通过 run() 方法完成与外部数据源的交互，以实现外部数据的读取，并将读取到的数据通过 SourceContext 提供的 collect() 方法发送给 DataStream 后续的算子进行处理。SourceFunction 常见实现类如下图所示：</p>
+<p><img src="https://github.com/sjf0115/ImageBucket/blob/main/Flink/flink-source-function-3.png?raw=true" alt=""></p>
+<h3 id="3-1-SourceFunction-常见实现类"><a href="#3-1-SourceFunction-常见实现类" class="headerlink" title="3.1 SourceFunction 常见实现类"></a>3.1 SourceFunction 常见实现类</h3><p>SourceFunction 是最顶层的 Source 方法，只是实现了 Source 的基本功能，既不支持并行读取数据，也不支持访问 RuntimeContext 获取其他信息。常见的实现有 SocketTextStreamFunction、FromElementsFunction、FromIteratorFunction 等。</p>
+<p>SocketTextStreamFunction 是从套接字读取字符串的 Source 函数，根据给定的 hostname 和 port，以 socket 的方式进行通信并读取字符串。该 Source 将从套接字流中读取字节并将它们单独转换为字符。当接收到 delimiter 指定的分隔符时，就会输出当前字符串：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">final</span> StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();</span><br><span class="line">DataStream&lt;String&gt; source = env.socketTextStream(<span class="string">"localhost"</span>, <span class="number">9000</span>, <span class="string">"\n"</span>);</span><br><span class="line">source.print(<span class="string">"1"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>FromElementsFunction 是一个非并行的 Source。该 Source 接收一个元素迭代器或者一组元素，使用 Flink 的类型序列化机制将其序列化为二进制数据，然后在输出元素的循环体中，先进行反序列化为初始类型，再输出数据：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">final</span> StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();</span><br><span class="line">env.setParallelism(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 方式1</span></span><br><span class="line">DataStreamSource&lt;String&gt; source = env.fromElements(<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>, <span class="string">"d"</span>);</span><br><span class="line">source.print(<span class="string">"1"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 方式2</span></span><br><span class="line">List&lt;String&gt; list = Lists.newArrayList(<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>, <span class="string">"d"</span>);</span><br><span class="line">DataStreamSource&lt;String&gt; source1 = env.fromCollection(list);</span><br><span class="line">source1.print(<span class="string">"2"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 方式3</span></span><br><span class="line">SourceFunction&lt;String&gt; function = <span class="keyword">new</span> FromElementsFunction&lt;&gt;(<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>, <span class="string">"d"</span>);</span><br><span class="line">SingleOutputStreamOperator&lt;String&gt; source2 = env.addSource(function, <span class="string">"FromElements"</span>)</span><br><span class="line">        .returns(String.class);</span><br><span class="line">source2.print(<span class="string">"3"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 执行</span></span><br><span class="line">env.execute(<span class="string">"FromElementsExample"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>FromIteratorFunction 也是一个非并行的 Source。该 Source 接收一个迭代器，然后在循环体中依次迭代输出数据：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">final</span> StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();</span><br><span class="line">env.setParallelism(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 方式1</span></span><br><span class="line">DataStreamSource&lt;Long&gt; source = env.fromCollection(<span class="keyword">new</span> NumberSequenceIterator(<span class="number">1L</span>, <span class="number">20L</span>), Long.class);</span><br><span class="line">source.print(<span class="string">"1"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 方式2</span></span><br><span class="line">SourceFunction&lt;Long&gt; function = <span class="keyword">new</span> FromIteratorFunction&lt;&gt;(<span class="keyword">new</span> NumberSequenceIterator(<span class="number">1L</span>, <span class="number">20L</span>));</span><br><span class="line">SingleOutputStreamOperator&lt;Long&gt; source1 = env.addSource(function, <span class="string">"FromIterator"</span>)</span><br><span class="line">        .returns(Long.class);</span><br><span class="line">source1.print(<span class="string">"2"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 执行</span></span><br><span class="line">env.execute(<span class="string">"FromIteratorExample"</span>);</span><br></pre></td></tr></table></figure></p>
+<h3 id="3-2-RichSourceFunction-常见实现类"><a href="#3-2-RichSourceFunction-常见实现类" class="headerlink" title="3.2 RichSourceFunction 常见实现类"></a>3.2 RichSourceFunction 常见实现类</h3><p>RichSourceFunction 在 SourceFunction 基础之上继承了 AbstractRichFunction，这使得 RichSourceFunction 可以在数据接入的过程中获取 RuntimeContext 信息，从而实现更加复杂的操作。常见的实现有 ContinuousFileMonitoringFunction、MessageAcknowledgingSourceBase 等。</p>
+<p>ContinuousFileMonitoringFunction 是一个非并行的 Source。该 Source 用来监控给定路径下文件的变化：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">final</span> StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();</span><br><span class="line">env.setParallelism(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">String path = <span class="string">"/Users/wy/test.txt"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 方式1</span></span><br><span class="line">DataStreamSource&lt;String&gt; source = env.readTextFile(path);</span><br><span class="line">source.print(<span class="string">"1"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 方式2</span></span><br><span class="line">TextInputFormat inputFormat = <span class="keyword">new</span> TextInputFormat(<span class="keyword">new</span> Path(path));</span><br><span class="line">inputFormat.setFilesFilter(FilePathFilter.createDefaultFilter());</span><br><span class="line">inputFormat.setCharsetName(<span class="string">"UTF-8"</span>);</span><br><span class="line">inputFormat.setFilePath(path);</span><br><span class="line">FileProcessingMode monitoringMode = FileProcessingMode.PROCESS_ONCE;</span><br><span class="line"></span><br><span class="line">ContinuousFileMonitoringFunction&lt;String&gt; function = <span class="keyword">new</span> ContinuousFileMonitoringFunction&lt;&gt;(</span><br><span class="line">        inputFormat,</span><br><span class="line">        monitoringMode,</span><br><span class="line">        env.getParallelism(),</span><br><span class="line">        -<span class="number">1</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">ContinuousFileReaderOperatorFactory&lt;String, TimestampedFileInputSplit&gt; factory =</span><br><span class="line">        <span class="keyword">new</span> ContinuousFileReaderOperatorFactory&lt;&gt;(inputFormat);</span><br><span class="line">String sourceName = <span class="string">"FileMonitoring"</span>;</span><br><span class="line">TypeInformation&lt;String&gt; typeInfo = BasicTypeInfo.STRING_TYPE_INFO;</span><br><span class="line"></span><br><span class="line">SingleOutputStreamOperator&lt;String&gt; source1 = env.addSource(function, sourceName)</span><br><span class="line">        .transform(<span class="string">"Split Reader: "</span> + sourceName, typeInfo, factory);</span><br><span class="line">source1.print(<span class="string">"2"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 执行</span></span><br><span class="line">env.execute(<span class="string">"FileMonitoringExample"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>MessageAcknowledgingSourceBase 针对数据源是消息队列的场景并提供了基于 ID 的应答机制，而 MultipleIdsMessageAcknowledgingSourceBase 是在 MessageAcknowledgingSourceBase 的基础上针对 ID 应答机制进行了更为细分的处理，支持两种 ID 应答模型：session id 和 unique message id。</p>
+<h3 id="3-3-RichParallelSourceFunction-常见实现类"><a href="#3-3-RichParallelSourceFunction-常见实现类" class="headerlink" title="3.3 RichParallelSourceFunction  常见实现类"></a>3.3 RichParallelSourceFunction  常见实现类</h3><p>RichParallelSourceFunction 实现了 ParallelSourceFunction 接口，从而可以支持对外部数据源中数据的并行读取。常见的实现有 DataGeneratorSource、 InputFormatSourceFunction、FromSplittableIteratorFunction、StatefulSequenceSource 等。</p>
+<p>DataGeneratorSource 是一个并行 Source。主要是用于生成一些随机数或者递增序列，用于在没有数据源的时候，进行流任务的测试以及性能测试：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">final</span> StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();</span><br><span class="line">env.setParallelism(<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 复杂随机生成器 自己实现Next逻辑</span></span><br><span class="line">RandomGenerator&lt;Order&gt; randomGenerator = <span class="keyword">new</span> RandomGenerator&lt;Order&gt;() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Order <span class="title">next</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Order(</span><br><span class="line">                StringUtils.upperCase(random.nextSecureHexString(<span class="number">8</span>)),</span><br><span class="line">                random.nextInt(<span class="number">10001</span>, <span class="number">99999</span>),</span><br><span class="line">                random.nextUniform(<span class="number">1</span>, <span class="number">1000</span>),</span><br><span class="line">                System.currentTimeMillis()</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">DataGeneratorSource&lt;Order&gt; generatorSource = <span class="keyword">new</span> DataGeneratorSource&lt;&gt;(randomGenerator, <span class="number">1L</span>, <span class="number">5L</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 执行</span></span><br><span class="line">SingleOutputStreamOperator&lt;Order&gt; source = env.addSource(generatorSource, <span class="string">"DataGeneratorSource"</span>)</span><br><span class="line">        .returns(Types.POJO(Order.class));</span><br><span class="line"><span class="comment">// 输出</span></span><br><span class="line">source.print(<span class="string">"task"</span>);</span><br><span class="line">env.execute(<span class="string">"RandomGeneratorExample"</span>);</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -615,7 +508,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://smartsi.club/hexo_generate_blog.html" title="Hexo 搭建静态博客">http://smartsi.club/hexo_generate_blog.html</a>
+    <a href="http://smartsi.club/flink-source-function.html" title="Flink SourceFunction 初了解">http://smartsi.club/flink-source-function.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -630,7 +523,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Hexo/" rel="tag"># Hexo</a>
+            <a href="/tags/Flink/" rel="tag"># Flink</a>
           
         </div>
       
@@ -643,8 +536,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/hive-optimization-how-to-use-map-join.html" rel="next" title="Hive Join 优化之 Map Join">
-                <i class="fa fa-chevron-left"></i> Hive Join 优化之 Map Join
+              <a href="/how-to-read-write-and-modify-the-state-of-flink.html" rel="next" title="State Processor API：如何读写和修改 Flink 应用程序的状态">
+                <i class="fa fa-chevron-left"></i> State Processor API：如何读写和修改 Flink 应用程序的状态
               </a>
             
           </div>
@@ -652,10 +545,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/Hexo/[Hexo]Hexo+Github配置与主题.html" rel="prev" title="Hexo+Github配置与主题">
-                Hexo+Github配置与主题 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -871,7 +760,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-简介"><span class="nav-number">1.</span> <span class="nav-text">1.简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-环境配置"><span class="nav-number">2.</span> <span class="nav-text">2. 环境配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-Git"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 Git</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-Node-js"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 Node.js</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-Hexo"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 Hexo</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-建站"><span class="nav-number">3.</span> <span class="nav-text">3. 建站</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-目录和文件"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 目录和文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-全局配置"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 全局配置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-创建新文章"><span class="nav-number">4.</span> <span class="nav-text">3.3 创建新文章</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-发布项目到github"><span class="nav-number">5.</span> <span class="nav-text">4. 发布项目到github</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-静态化处理"><span class="nav-number">5.1.</span> <span class="nav-text">4.1 静态化处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-发布到github"><span class="nav-number">5.2.</span> <span class="nav-text">4.2 发布到github</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-设置域名"><span class="nav-number">5.3.</span> <span class="nav-text">4.3 设置域名</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-SourceFunction"><span class="nav-number">1.</span> <span class="nav-text">1. SourceFunction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-SourceContext"><span class="nav-number">2.</span> <span class="nav-text">2. SourceContext</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-常见实现类"><span class="nav-number">3.</span> <span class="nav-text">3. 常见实现类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-SourceFunction-常见实现类"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 SourceFunction 常见实现类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-RichSourceFunction-常见实现类"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 RichSourceFunction 常见实现类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-RichParallelSourceFunction-常见实现类"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 RichParallelSourceFunction  常见实现类</span></a></li></ol></li></ol></div>
             
 
           </div>
